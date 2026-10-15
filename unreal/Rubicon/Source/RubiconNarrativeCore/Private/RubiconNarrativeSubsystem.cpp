@@ -65,6 +65,9 @@ bool URubiconNarrativeSubsystem::StartSession(URubiconEpisodeAsset* Episode, int
 	TickCount = 0;
 	PendingGaze = -1;
 	PendingBreath.Reset();
+	PendingHeadDeg.Reset();
+	PendingHeadCm.Reset();
+	PendingVoice.Reset();
 	PendingCommands.clear();
 	WarnedUnknownGaze.Reset();
 	Recorded.clear();
@@ -87,6 +90,9 @@ void URubiconNarrativeSubsystem::StepOnce()
 	RubiconCore::FTickInput Input;
 	Input.Gaze = PendingGaze;
 	if (PendingBreath.IsSet()) Input.Breath = PendingBreath.GetValue();
+	if (PendingHeadDeg.IsSet()) Input.HeadDegPerSec = PendingHeadDeg.GetValue();
+	if (PendingHeadCm.IsSet()) Input.HeadCmPerSec = PendingHeadCm.GetValue();
+	if (PendingVoice.IsSet()) Input.Voice = PendingVoice.GetValue();
 	Input.Commands.swap(PendingCommands);
 
 	RubiconCore::FStepResult R = RubiconCore::Step(Manifest, State, Input, RubiconCore::TickMs);
@@ -121,6 +127,7 @@ void URubiconNarrativeSubsystem::Broadcast(const std::vector<RubiconCore::FEvent
 			OnCommandRejected.Broadcast(E.T, ToFString(RubiconCore::ToString(E.Command)), ToFString(E.Reason));
 			break;
 		case EEventType::CueStart: OnDialogueCue.Broadcast(E.T, RubiconConvert::CueInfo(Manifest, Locale, E.Cue)); break;
+		case EEventType::ConsciousnessChange: OnConsciousnessChange.Broadcast(E.T, E.bConscious, ToFString(RubiconCore::ToString(E.Cause))); break;
 		}
 	}
 }
@@ -147,6 +154,25 @@ void URubiconNarrativeSubsystem::SetGazeTarget(FName TargetId)
 
 void URubiconNarrativeSubsystem::SetBreath(float Breath01) { PendingBreath = FMath::Clamp(static_cast<double>(Breath01), 0.0, 1.0); }
 void URubiconNarrativeSubsystem::ClearBreath() { PendingBreath.Reset(); }
+
+// Rounded so recorded replays stay short and readable; the core sees exactly the recorded value either way.
+void URubiconNarrativeSubsystem::SetHeadMotion(float DegPerSec, float CmPerSec)
+{
+	PendingHeadDeg = FMath::RoundToDouble(FMath::Max(0.0, static_cast<double>(DegPerSec)) * 10.0) / 10.0;
+	PendingHeadCm = FMath::RoundToDouble(FMath::Max(0.0, static_cast<double>(CmPerSec)) * 10.0) / 10.0;
+}
+
+void URubiconNarrativeSubsystem::SetVoiceActivity(float Voice01)
+{
+	PendingVoice = FMath::RoundToDouble(FMath::Clamp(static_cast<double>(Voice01), 0.0, 1.0) * 100.0) / 100.0;
+}
+
+void URubiconNarrativeSubsystem::ClearExertionInputs()
+{
+	PendingHeadDeg.Reset();
+	PendingHeadCm.Reset();
+	PendingVoice.Reset();
+}
 
 void URubiconNarrativeSubsystem::Enqueue(RubiconCore::FCommand Command)
 {
@@ -262,6 +288,13 @@ void URubiconNarrativeSubsystem::SetSeated(bool bSeated)
 	Enqueue(MoveTemp(C));
 }
 
+void URubiconNarrativeSubsystem::SetSwoonEnabled(bool bOn)
+{
+	RubiconCore::FCommand C = RubiconCore::FCommand::Make(RubiconCore::ECommandType::SetSettings);
+	C.Settings.Swoon = bOn;
+	Enqueue(MoveTemp(C));
+}
+
 FRubiconFragmentInfo URubiconNarrativeSubsystem::GetFragmentInfo(FName FragmentId) const
 {
 	if (!bActive) return FRubiconFragmentInfo();
@@ -296,6 +329,7 @@ bool URubiconNarrativeSubsystem::ExportReplay(const FString& FilePath) const
 	if (InitialSettings.ReducedEffects) Settings.Set("reducedEffects", FJson::MakeBool(*InitialSettings.ReducedEffects));
 	if (InitialSettings.Seated) Settings.Set("seated", FJson::MakeBool(*InitialSettings.Seated));
 	if (InitialSettings.HapticsEnabled) Settings.Set("hapticsEnabled", FJson::MakeBool(*InitialSettings.HapticsEnabled));
+	if (InitialSettings.Swoon) Settings.Set("swoon", FJson::MakeBool(*InitialSettings.Swoon));
 	Doc.Set("settings", MoveTemp(Settings));
 	FJson Inputs = FJson::MakeArray();
 	for (const RubiconCore::FTickInput& In : Recorded) Inputs.Push(RubiconCore::TickInputToJson(Manifest, In));

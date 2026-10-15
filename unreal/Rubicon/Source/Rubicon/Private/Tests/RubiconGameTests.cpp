@@ -54,6 +54,22 @@ bool FRubiconHeadClampTest::RunTest(const FString& Parameters)
 	return true;
 }
 
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FRubiconHeadSpeedTest, "Rubicon.Game.HeadSpeed",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::ClientContext | EAutomationTestFlags::ProductFilter)
+
+bool FRubiconHeadSpeedTest::RunTest(const FString& Parameters)
+{
+	// Exertion input: measured in tracking space, so it is the player's own motion only.
+	const FQuat A = FRotator(0, 0, 0).Quaternion();
+	const FQuat B = FRotator(0, 9, 0).Quaternion();
+	const FVector2D Turn = ARubiconEmbodiedPawn::HeadSpeed(A, FVector::ZeroVector, B, FVector::ZeroVector, 0.1);
+	TestTrue(TEXT("9 degrees in 0.1 s is 90 deg/s"), FMath::IsNearlyEqual(Turn.X, 90.0, 1e-6) && FMath::IsNearlyZero(Turn.Y));
+	const FVector2D Move = ARubiconEmbodiedPawn::HeadSpeed(A, FVector(1, 2, 3), A, FVector(1, 2, 3) + FVector(0, 3, 4), 0.5);
+	TestTrue(TEXT("5 cm in 0.5 s is 10 cm/s"), FMath::IsNearlyZero(Move.X, 1e-6) && FMath::IsNearlyEqual(Move.Y, 10.0, 1e-9));
+	TestTrue(TEXT("zero time step gives zero"), ARubiconEmbodiedPawn::HeadSpeed(A, FVector::ZeroVector, B, FVector(5, 0, 0), 0.0).IsZero());
+	return true;
+}
+
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FRubiconGazeLogicTest, "Rubicon.Game.GazeLogic",
 	EAutomationTestFlags::EditorContext | EAutomationTestFlags::ClientContext | EAutomationTestFlags::ProductFilter)
 
@@ -132,7 +148,17 @@ bool FRubiconLayoutCoverageTest::RunTest(const FString& Parameters)
 		return false;
 	}
 	TSet<FName> Placed;
-	for (const FRubiconGazePlacement& P : ARubiconGolgothaGreybox::DefaultLayout()) Placed.Add(P.TargetId);
+	for (const FRubiconGazePlacement& P : ARubiconGolgothaGreybox::DefaultLayout())
+	{
+		Placed.Add(P.TargetId);
+		if (P.TargetId == TEXT("cross"))
+		{
+			// The wood the player hangs on answers gaze directly and moves with the cross in Witness.
+			TestTrue(TEXT("cross is attached to the cross"), P.bAttachToCross);
+			TestTrue(TEXT("cross resolves by collision"), P.Resolution == ERubiconGazeResolution::Collision);
+			TestTrue(TEXT("cross proxy shape"), P.Shape == ERubiconProxyShape::Cross);
+		}
+	}
 	Placed.Add(TEXT("own_hands")); // ARubiconEmbodiedBody
 	for (const RubiconCore::FGazeTargetDef& G : M.GazeTargets)
 	{

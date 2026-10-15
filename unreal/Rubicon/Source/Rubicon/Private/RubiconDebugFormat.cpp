@@ -27,6 +27,9 @@ namespace RubiconDebugFormat
 			F.PhaseProgress * 100.0, F.bPaused ? TEXT("  PAUSED") : TEXT(""), F.bExited ? TEXT("  EXITED") : TEXT("")));
 		L.Add(FString::Printf(TEXT("mode %s (%s)  layer %s  comfort %s  elevation %s"), *EnumName(F.Mode), *EnumName(F.Vantage), *EnumName(F.Layer),
 			F.bComfort ? TEXT("ON") : TEXT("off"), *EnumName(F.ElevationTransition)));
+		// Debug only: exertion is never shown to the player.
+		L.Add(FString::Printf(TEXT("view %s (%s)  %s  exertion %.3f %s"), *EnumName(F.View), *EnumName(F.ViewVantage),
+			F.bConscious ? TEXT("conscious") : TEXT("UNCONSCIOUS"), F.Exertion, *Bar(F.Exertion, 20)));
 		L.Add(FString::Printf(TEXT("RT output    %.4f %s"), Rt.Output, *Bar(Rt.Output, 30)));
 		L.Add(FString::Printf(TEXT("RT intensity %.4f %s"), Rt.Intensity, *Bar(Rt.Intensity, 30)));
 		L.Add(FString::Printf(TEXT("voices %d/%d  world duck %.1f dB  breath %.2f%s"), Rt.ActiveVoices.Num(), Rt.MaxVoices, F.ExternalDuckDb, F.BreathFocus,
@@ -37,7 +40,7 @@ namespace RubiconDebugFormat
 		{
 			const FRubiconCueFrame& C = F.Cue;
 			// A paraphrase is never shown in quotation marks.
-			const bool bQuote = C.Kind == ERubiconCueKind::Spoken;
+			const bool bQuote = C.Kind == ERubiconCueKind::Spoken || C.Kind == ERubiconCueKind::Telling;
 			L.Add(FString::Printf(TEXT("%s %s%s: %s%s%s"), *EnumName(C.Kind).ToUpper(), *C.SpeakerLabel, C.Origin.IsNone() ? TEXT("") : *(TEXT(" @") + C.Origin.ToString()),
 				bQuote ? TEXT("\"") : TEXT(""), *C.Subtitle, bQuote ? TEXT("\"") : TEXT("")));
 			L.Add(FString::Printf(TEXT("  [%s | %s] %s  %.1f/%.1f s"), *EnumName(C.Evidence), *C.Rendering, *FString::Join(C.Citations, TEXT("; ")), C.ElapsedMs / 1000.0, C.DurationMs / 1000.0));

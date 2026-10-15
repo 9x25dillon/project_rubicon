@@ -66,6 +66,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Rubicon|Input")
 	void ClearBreath();
 
+	/** Measured head motion (angular deg/s, linear cm/s), smoothed by the caller. Sustained motion builds exertion. */
+	UFUNCTION(BlueprintCallable, Category = "Rubicon|Input")
+	void SetHeadMotion(float DegPerSec, float CmPerSec);
+
+	/** Voice activity [0,1] from the microphone (talking builds exertion; speaking the saying is never penalised by a swoon). */
+	UFUNCTION(BlueprintCallable, Category = "Rubicon|Input")
+	void SetVoiceActivity(float Voice01);
+
+	/** Stop feeding motion and voice (e.g. desktop debugging without an HMD). */
+	UFUNCTION(BlueprintCallable, Category = "Rubicon|Input")
+	void ClearExertionInputs();
+
 	/* Commands (delivered on the next 10 ms tick, in call order) */
 
 	UFUNCTION(BlueprintCallable, Category = "Rubicon|Commands") void AcknowledgeAdvisory();
@@ -86,6 +98,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Rubicon|Commands") void SetIntensityCeiling(float Ceiling01);
 	UFUNCTION(BlueprintCallable, Category = "Rubicon|Commands") void SetReducedEffects(bool bOn);
 	UFUNCTION(BlueprintCallable, Category = "Rubicon|Commands") void SetSeated(bool bSeated);
+	/** Off: exertion never takes consciousness (and wakes him at once if he is out). */
+	UFUNCTION(BlueprintCallable, Category = "Rubicon|Commands") void SetSwoonEnabled(bool bOn);
 
 	/** Write the recorded session as golden-format JSON (seed, settings, per-tick inputs, hashes) for QA and parity. */
 	UFUNCTION(BlueprintCallable, Category = "Rubicon|Replay")
@@ -121,6 +135,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Rubicon|Events") FRubiconCommandRejectedSignature OnCommandRejected;
 	/** A dialogue cue starts: play its VO or sound at Cue.Origin (narrator: head-locked), subtitle Cue.Text. */
 	UPROPERTY(BlueprintAssignable, Category = "Rubicon|Events") FRubiconCueSignature OnDialogueCue;
+	/** He loses consciousness (cause "exertion") or wakes ("recovered", "saying", "death", "setting"). Fade the view on it. */
+	UPROPERTY(BlueprintAssignable, Category = "Rubicon|Events") FRubiconConsciousnessSignature OnConsciousnessChange;
 
 	/** Maximum recorded ticks (about 2.8 hours at 100 Hz); recording stops beyond it, the session does not. */
 	static constexpr int32 MaxRecordedTicks = 1000000;
@@ -141,6 +157,9 @@ private:
 
 	int PendingGaze = -1;
 	TOptional<double> PendingBreath;
+	TOptional<double> PendingHeadDeg;
+	TOptional<double> PendingHeadCm;
+	TOptional<double> PendingVoice;
 	std::vector<RubiconCore::FCommand> PendingCommands;
 	TSet<FName> WarnedUnknownGaze;
 

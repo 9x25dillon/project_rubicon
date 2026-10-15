@@ -5,13 +5,14 @@
 static_assert(static_cast<int>(ERubiconTimelineState::Contemplation) + 1 == RubiconCore::TimelineLength, "timeline enum drift");
 static_assert(static_cast<int>(ERubiconTimelineState::Spear) == static_cast<int>(RubiconCore::EStateId::Spear), "timeline enum drift");
 static_assert(static_cast<int>(ERubiconPhase::Open) == static_cast<int>(RubiconCore::EPhase::Open), "phase enum drift");
-static_assert(static_cast<int>(ERubiconWitnessVantage::Mary) == static_cast<int>(RubiconCore::EVantage::Mary), "vantage enum drift");
+static_assert(static_cast<int>(ERubiconWitnessVantage::WomenAfar) == static_cast<int>(RubiconCore::EVantage::WomenAfar), "vantage enum drift");
+static_assert(static_cast<int>(ERubiconViewMode::Telling) == static_cast<int>(RubiconCore::EViewMode::Telling), "view enum drift");
 static_assert(static_cast<int>(ERubiconEvidence::ArtisticInterpretation) == static_cast<int>(RubiconCore::EEvidence::ArtisticInterpretation), "evidence enum drift");
 static_assert(static_cast<int>(ERubiconStress::Extreme) + 1 == RubiconCore::StressLevelCount, "stress enum drift");
 static_assert(static_cast<int>(ERubiconTriggerVia::Auto) == static_cast<int>(RubiconCore::ETriggerVia::Auto), "trigger enum drift");
 static_assert(static_cast<int>(ERubiconFragmentKind::Sonic) == static_cast<int>(RubiconCore::EFragmentKind::Sonic), "fragment enum drift");
-static_assert(static_cast<int>(ERubiconSourceType::Scholarship) == static_cast<int>(RubiconCore::ESourceType::Scholarship), "source type enum drift");
-static_assert(static_cast<int>(ERubiconCueKind::Sound) == static_cast<int>(RubiconCore::ECueKind::Sound), "cue kind enum drift");
+static_assert(static_cast<int>(ERubiconSourceType::Tradition) == static_cast<int>(RubiconCore::ESourceType::Tradition), "source type enum drift");
+static_assert(static_cast<int>(ERubiconCueKind::Telling) == static_cast<int>(RubiconCore::ECueKind::Telling), "cue kind enum drift");
 static_assert(static_cast<int>(ERubiconElevationTransition::FadeSettle) == static_cast<int>(RubiconCore::EElevationTransition::FadeSettle), "elevation enum drift");
 
 namespace RubiconConvert
@@ -35,6 +36,7 @@ namespace RubiconConvert
 		Out.bReducedEffects = S.bReducedEffects;
 		Out.bSeated = S.bSeated;
 		Out.bHapticsEnabled = S.bHapticsEnabled;
+		Out.bSwoon = S.bSwoon;
 		return Out;
 	}
 
@@ -45,6 +47,7 @@ namespace RubiconConvert
 		P.ReducedEffects = S.bReducedEffects;
 		P.Seated = S.bSeated;
 		P.HapticsEnabled = S.bHapticsEnabled;
+		P.Swoon = S.bSwoon;
 		return P;
 	}
 
@@ -85,7 +88,13 @@ namespace RubiconConvert
 		Info.Id = FName(*ToFString(C.Id));
 		Info.Kind = ToUE(C.Kind);
 		Info.Speaker = ToFString(C.Speaker);
-		if (C.Speaker == "narrator")
+		if (C.Kind == RubiconCore::ECueKind::Telling && C.Telling)
+		{
+			const std::string Key = std::string("ui.telling.") + RubiconCore::ToString(*C.Telling);
+			const auto It = L.find(Key);
+			Info.SpeakerLabel = It != L.end() ? ToFString(It->second) : ToFString(RubiconCore::ToString(*C.Telling));
+		}
+		else if (C.Speaker == "narrator")
 		{
 			const auto It = L.find("ui.narrator");
 			Info.SpeakerLabel = It != L.end() ? ToFString(It->second) : FString(TEXT("Narrator"));
@@ -145,6 +154,10 @@ namespace RubiconConvert
 		Out.Controls.bExit = In.bControlExit;
 		Out.Controls.bWitness = In.bControlWitness;
 		Out.Controls.bComfort = In.bControlComfort;
+		Out.View = ToUE(In.View);
+		Out.ViewVantage = ToUE(In.ViewVantage);
+		Out.bConscious = In.bConscious;
+		Out.Exertion = In.Exertion;
 
 		Out.ElevationTransition = ToUE(In.ElevationTransition);
 		Out.bHasAtmosphere = In.Atmosphere.has_value();
@@ -195,6 +208,7 @@ namespace RubiconConvert
 			Out.Cue.ElapsedMs = C.ElapsedMs;
 			Out.Cue.DurationMs = C.DurationMs;
 			Out.Cue.AudioCueId = C.CueId ? FName(*ToFString(*C.CueId)) : NAME_None;
+			Out.Cue.Telling = C.Telling ? ToFString(RubiconCore::ToString(*C.Telling)) : FString();
 		}
 
 		Out.bHasSaying = In.Saying.has_value();

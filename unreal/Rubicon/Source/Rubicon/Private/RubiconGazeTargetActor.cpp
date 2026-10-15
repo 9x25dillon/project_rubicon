@@ -113,6 +113,13 @@ void ARubiconGazeTargetActor::RebuildProxies()
 		}
 		break;
 	}
+	case ERubiconProxyShape::Cross:
+	{
+		const double T = ProxyExtent.X;
+		Add(RubiconGreyboxAssets::Cube(), FVector(0, 0, ProxyExtent.Z), FVector(T, T, ProxyExtent.Z));
+		Add(RubiconGreyboxAssets::Cube(), FVector(T * 0.45, 0, ProxyExtent.Z * 1.4), FVector(T * 0.78, ProxyExtent.Y, T * 0.78));
+		break;
+	}
 	default: break;
 	}
 }

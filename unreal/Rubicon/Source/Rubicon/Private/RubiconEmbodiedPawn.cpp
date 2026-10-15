@@ -84,29 +84,23 @@ void ARubiconEmbodiedPawn::BeginPlay()
 		// Desktop debugging only: mouse look through the controller. In a headset only the HMD orients the camera.
 		Camera->bUsePawnControlRotation = true;
 	}
-	if (URubiconNarrativeSubsystem* N = GetWorld()->GetSubsystem<URubiconNarrativeSubsystem>())
-	{
-		N->OnModeChange.AddDynamic(this, &ARubiconEmbodiedPawn::HandleModeChange);
-		N->OnSettingsChange.AddDynamic(this, &ARubiconEmbodiedPawn::HandleSettingsChange);
-	}
-	PlaceForMode(ERubiconExperienceMode::Embodiment, ERubiconWitnessVantage::BelovedDisciple);
+	PlaceForView(ERubiconViewMode::Embodiment, ERubiconWitnessVantage::BelovedDisciple);
 	AddMappingContext();
 }
 
 void ARubiconEmbodiedPawn::EndPlay(const EEndPlayReason::Type Reason)
 {
-	if (UWorld* World = GetWorld())
-	{
-		if (URubiconNarrativeSubsystem* N = World->GetSubsystem<URubiconNarrativeSubsystem>())
-		{
-			N->OnModeChange.RemoveAll(this);
-			N->OnSettingsChange.RemoveAll(this);
-		}
-	}
 	Super::EndPlay(Reason);
 }
 
-FVector ARubiconEmbodiedPawn::AnchorWorld(ERubiconExperienceMode Mode, ERubiconWitnessVantage Vantage, FRotator& OutYaw) const
+FVector2D ARubiconEmbodiedPawn::HeadSpeed(const FQuat& PrevRot, const FVector& PrevLoc, const FQuat& Rot, const FVector& Loc, double DeltaSeconds)
+{
+	if (DeltaSeconds <= 0.0) return FVector2D::ZeroVector;
+	const double Deg = FMath::RadiansToDegrees(PrevRot.AngularDistance(Rot));
+	return FVector2D(Deg / DeltaSeconds, FVector::Dist(PrevLoc, Loc) / DeltaSeconds);
+}
+
+FVector ARubiconEmbodiedPawn::AnchorWorld(ERubiconViewMode View, ERubiconWitnessVantage Vantage, FRotator& OutYaw) const
 {
 	const ARubiconGolgothaGreybox* G = RubiconPawnDetail::FindGreybox(GetWorld());
 	if (!G)
@@ -114,7 +108,7 @@ FVector ARubiconEmbodiedPawn::AnchorWorld(ERubiconExperienceMode Mode, ERubiconW
 		OutYaw = GetActorRotation();
 		return GetActorLocation();
 	}
-	if (Mode == ERubiconExperienceMode::Embodiment)
+	if (View == ERubiconViewMode::Embodiment)
 	{
 		const FTransform T = G->GetEmbodimentEyeTransform();
 		OutYaw = T.Rotator();
@@ -126,35 +120,69 @@ FVector ARubiconEmbodiedPawn::AnchorWorld(ERubiconExperienceMode Mode, ERubiconW
 	return Floor.GetLocation() + FVector(0, 0, bSeated ? WitnessEyeHeightSeated : WitnessEyeHeightStanding);
 }
 
-void ARubiconEmbodiedPawn::PlaceForMode(ERubiconExperienceMode Mode, ERubiconWitnessVantage Vantage)
+void ARubiconEmbodiedPawn::PlaceForView(ERubiconViewMode View, ERubiconWitnessVantage Vantage)
 {
 	FRotator Yaw;
-	const FVector Anchor = AnchorWorld(Mode, Vantage, Yaw);
+	const FVector Anchor = AnchorWorld(View, Vantage, Yaw);
 	SetActorLocation(Anchor);
-	const bool bAlign = Mode == ERubiconExperienceMode::Witness && URubiconSettings::Get()->bAlignYawOnWitness;
+	const bool bAlign = View != ERubiconViewMode::Embodiment && URubiconSettings::Get()->bAlignYawOnWitness;
 	if (bAlign)
 	{
 		// Opt-in witness snap, applied only while the view is fully black. Initial yaw comes from the spawn transform.
 		SetActorRotation(FRotator(0, Yaw.Yaw, 0));
 	}
-	PlacedMode = Mode;
+	PlacedView = View;
 	PlacedVantage = Vantage;
 	bNeedsCalibration = true; // the current head position becomes the new anchor
 }
 
-void ARubiconEmbodiedPawn::HandleModeChange(double TimeMs, ERubiconExperienceMode Mode, ERubiconWitnessVantage Vantage, bool bForced)
+void ARubiconEmbodiedPawn::UpdateViewPlacement(const FRubiconFrameOutputs& F, float DeltaSeconds)
 {
-	if (Mode == PlacedMode && Vantage == PlacedVantage) return;
-	MoveTimer = 0.f;
-	if (APlayerController* Pc = Cast<APlayerController>(GetController()))
+	APlayerCameraManager* Cam = nullptr;
+	if (APlayerController* Pc = Cast<APlayerController>(GetController())) Cam = Pc->PlayerCameraManager;
+
+	const bool bDiffers = F.View != PlacedView || (F.View != ERubiconViewMode::Embodiment && F.ViewVantage != PlacedVantage);
+	if (MoveTimer < 0.f)
 	{
-		if (Pc->PlayerCameraManager) Pc->PlayerCameraManager->StartCameraFade(0.f, 1.f, WitnessFadeSeconds, FLinearColor::Black, false, true);
+		if (!bDiffers) return;
+		// Losing or regaining consciousness fades slowly; Witness keeps its short fade.
+		const bool bSwoon = F.View == ERubiconViewMode::Telling || PlacedView == ERubiconViewMode::Telling;
+		MoveFade = bSwoon ? SwoonFadeSeconds : WitnessFadeSeconds;
+		MoveTimer = 0.f;
+		if (Cam) Cam->StartCameraFade(0.f, 1.f, MoveFade, FLinearColor::Black, false, true);
+		return;
 	}
+	// Moves happen only while the view is fully black, to wherever the core says the camera belongs now.
+	MoveTimer += DeltaSeconds;
+	if (MoveTimer < MoveFade) return;
+	PlaceForView(F.View, F.ViewVantage);
+	MoveTimer = -1.f;
+	if (Cam) Cam->StartCameraFade(1.f, 0.f, MoveFade, FLinearColor::Black, false, false);
 }
 
-void ARubiconEmbodiedPawn::HandleSettingsChange(double TimeMs, const FRubiconSettings& Settings)
+void ARubiconEmbodiedPawn::UpdateHeadMotion(URubiconNarrativeSubsystem* N, float DeltaSeconds)
 {
-	// Seated/standing affects the clamp radius on the next tick; nothing to do immediately.
+	if (!N) return;
+	if (!bHmd)
+	{
+		// Desktop mouse look is not a body; it never builds exertion.
+		N->ClearExertionInputs();
+		return;
+	}
+	// Tracking-space pose: independent of the clamp offset, the vantage and the elevation tilt, so only the
+	// player's own movement counts.
+	const FQuat Rot = Camera->GetRelativeRotation().Quaternion();
+	const FVector Loc = Camera->GetRelativeLocation();
+	if (bHasPrevHead && DeltaSeconds > 0.f)
+	{
+		const FVector2D Speed = HeadSpeed(PrevHeadRot, PrevHeadLoc, Rot, Loc, DeltaSeconds);
+		const double Alpha = 1.0 - FMath::Exp(-static_cast<double>(DeltaSeconds) / FMath::Max(0.01, static_cast<double>(HeadMotionTau)));
+		HeadMotion += (Speed - HeadMotion) * Alpha;
+	}
+	PrevHeadRot = Rot;
+	PrevHeadLoc = Loc;
+	bHasPrevHead = true;
+	N->SetHeadMotion(static_cast<float>(HeadMotion.X), static_cast<float>(HeadMotion.Y));
 }
 
 void ARubiconEmbodiedPawn::Recenter()
@@ -165,23 +193,11 @@ void ARubiconEmbodiedPawn::Recenter()
 void ARubiconEmbodiedPawn::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	const URubiconNarrativeSubsystem* N = GetWorld()->GetSubsystem<URubiconNarrativeSubsystem>();
+	URubiconNarrativeSubsystem* N = GetWorld()->GetSubsystem<URubiconNarrativeSubsystem>();
 	const FRubiconFrameOutputs* F = N ? &N->GetFrameOutputsRef() : nullptr;
 
-	// Witness / embodiment moves happen only while the view is fully black.
-	if (MoveTimer >= 0.f && F && F->bValid)
-	{
-		MoveTimer += DeltaSeconds;
-		if (MoveTimer >= WitnessFadeSeconds)
-		{
-			PlaceForMode(F->Mode, F->Vantage);
-			MoveTimer = -1.f;
-			if (APlayerController* Pc = Cast<APlayerController>(GetController()))
-			{
-				if (Pc->PlayerCameraManager) Pc->PlayerCameraManager->StartCameraFade(1.f, 0.f, WitnessFadeSeconds, FLinearColor::Black, false, false);
-			}
-		}
-	}
+	if (F && F->bValid) UpdateViewPlacement(*F, DeltaSeconds);
+	UpdateHeadMotion(N, DeltaSeconds);
 
 	if (!bHmd) return;
 	const FVector HeadLocal = Camera->GetRelativeLocation(); // HMD position in tracking space (bLockToHmd)
@@ -190,7 +206,7 @@ void ARubiconEmbodiedPawn::Tick(float DeltaSeconds)
 		HeadCenter = HeadLocal;
 		bNeedsCalibration = false;
 	}
-	const bool bEmbodied = !F || !F->bValid || F->Mode == ERubiconExperienceMode::Embodiment;
+	const bool bEmbodied = PlacedView == ERubiconViewMode::Embodiment;
 	const bool bSeated = RubiconPawnDetail::IsSeated(GetWorld());
 	const double Radius = bEmbodied ? (bSeated ? SeatedHeadClampRadius : HeadClampRadius) : WitnessRadius;
 	// Position only: the tracking origin's rotation is never touched.

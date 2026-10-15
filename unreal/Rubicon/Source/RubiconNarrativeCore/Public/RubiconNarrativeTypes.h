@@ -22,7 +22,11 @@ UENUM(BlueprintType)
 enum class ERubiconVisualLayer : uint8 { Historical, Theological };
 
 UENUM(BlueprintType)
-enum class ERubiconWitnessVantage : uint8 { Centurion, BelovedDisciple, Mary };
+enum class ERubiconWitnessVantage : uint8 { Centurion, BelovedDisciple, Mary, WomenAfar };
+
+/** Where the player is: embodied on the cross, a witness vantage, or inside a Gospel's telling while unconscious. */
+UENUM(BlueprintType)
+enum class ERubiconViewMode : uint8 { Embodiment, Witness, Telling };
 
 UENUM(BlueprintType)
 enum class ERubiconEvidence : uint8 { GospelText, TextualVariant, HistoricalInference, ArtisticInterpretation };
@@ -41,11 +45,12 @@ enum class ERubiconElevationTransition : uint8 { SlowTilt, FadeSettle };
 
 /** What kind of witness a source is: shown beside the evidence category. */
 UENUM(BlueprintType)
-enum class ERubiconSourceType : uint8 { Gospel, NewTestament, HebrewBible, AncientText, Archaeology, Scholarship };
+enum class ERubiconSourceType : uint8 { Gospel, NewTestament, HebrewBible, AncientText, Archaeology, Scholarship, Tradition };
 
-/** Spoken: a character's recorded words (KJV). Narration: a historical account read by a narrator. Sound: a recorded action. */
+/** Spoken: a character's recorded words (KJV). Narration: a historical account read by a narrator. Sound: a recorded action.
+ *  Telling: one Gospel's account of the current moment, read while the embodied player is unconscious. */
 UENUM(BlueprintType)
-enum class ERubiconCueKind : uint8 { Spoken, Narration, Sound };
+enum class ERubiconCueKind : uint8 { Spoken, Narration, Sound, Telling };
 
 USTRUCT(BlueprintType)
 struct RUBICONNARRATIVECORE_API FRubiconSettings
@@ -65,6 +70,10 @@ struct RUBICONNARRATIVECORE_API FRubiconSettings
 	/** Never used for pain; this experience has no pain haptics in any mode. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rubicon")
 	bool bHapticsEnabled = false;
+
+	/** Exertion (sustained head motion, talking) can cause loss of consciousness into the Gospels' tellings. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rubicon")
+	bool bSwoon = true;
 };
 
 USTRUCT(BlueprintType)
@@ -142,6 +151,8 @@ struct RUBICONNARRATIVECORE_API FRubiconCueFrame
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") double ElapsedMs = 0;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") double DurationMs = 0;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FName AudioCueId;
+	/** For a telling: the Gospel being read (matthew, mark, luke, john); empty otherwise. */
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString Telling;
 };
 
 USTRUCT(BlueprintType)
@@ -178,6 +189,12 @@ struct RUBICONNARRATIVECORE_API FRubiconFrameOutputs
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") bool bExited = false;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") bool bEmbodimentAvailable = true;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FRubiconControls Controls;
+	/** Where the camera belongs this tick. Telling places the player at ViewVantage (the Gospel's witnesses). */
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") ERubiconViewMode View = ERubiconViewMode::Embodiment;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") ERubiconWitnessVantage ViewVantage = ERubiconWitnessVantage::BelovedDisciple;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") bool bConscious = true;
+	/** Internal exertion [0,1]. Debug only: never shown to the player as a meter. */
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Debug") double Exertion = 0;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Visual") ERubiconElevationTransition ElevationTransition = ERubiconElevationTransition::SlowTilt;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Visual") bool bHasAtmosphere = false;
@@ -297,4 +314,5 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FRubiconEvidenceChangeSignature, do
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FRubiconSettingsChangeSignature, double, TimeMs, const FRubiconSettings&, Settings);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRubiconFragmentSignature, double, TimeMs, const FRubiconFragmentInfo&, Fragment, int32, Voice);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FRubiconCueSignature, double, TimeMs, const FRubiconCueInfo&, Cue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRubiconConsciousnessSignature, double, TimeMs, bool, bConscious, const FString&, Cause);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRubiconCommandRejectedSignature, double, TimeMs, const FString&, Command, const FString&, Reason);

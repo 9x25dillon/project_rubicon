@@ -8,7 +8,7 @@
 //    |- WorldRoot   everything in the world; the slow-tilt elevation rotates THIS about the cross base
 //    |    |- environment meshes (quarry pit and face, rock knoll)
 //    |    \- gaze target actors (attached at runtime or by Rubicon.CreateGolgothaMap)
-//    \- CrossRoot   the cross, the titulus and the embodied body; never moved while embodied, so the player's
+//    \- CrossRoot   the cross (a gaze target), the titulus and the embodied body; never moved while embodied, so the player's
 //                   camera is never moved or rotated by code. In Witness the cross itself leans and rises instead.
 //
 // Placement basis per target is recorded in Layout[].Basis (gospel text vs. tradition vs. greybox convenience).
@@ -67,7 +67,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Layout")
 	FVector EyePoint = FVector(12, 0, 210);
 
-	/** Witness vantages (cross frame, floor level). John 19:25-26 places Mary and the beloved disciple by the cross. */
+	/** Witness vantages (cross frame, floor level). John 19:25-26 places Mary and the beloved disciple by the cross;
+	 *  WomenAfar is with the women beholding afar off (Mark 15:40), where the synoptic tellings are seen from. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Layout")
 	TMap<ERubiconWitnessVantage, FVector> WitnessVantages;
 
@@ -105,8 +106,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> QuarryFloor;
 	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> QuarryFace;
 	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> Knoll;
-	UPROPERTY(VisibleAnywhere, Category = "Cross") TObjectPtr<UStaticMeshComponent> Upright;
-	UPROPERTY(VisibleAnywhere, Category = "Cross") TObjectPtr<UStaticMeshComponent> Crossbeam;
 
 	UPROPERTY(VisibleAnywhere, Category = "Sky") TObjectPtr<UDirectionalLightComponent> Sun;
 	UPROPERTY(VisibleAnywhere, Category = "Sky") TObjectPtr<USkyAtmosphereComponent> SkyAtmosphere;

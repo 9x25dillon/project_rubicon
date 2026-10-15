@@ -75,6 +75,9 @@ TArray<FRubiconGazePlacement> ARubiconGolgothaGreybox::DefaultLayout()
 		TEXT("Mark 15:39: stood over against him."), FLinearColor(0.45f, 0.18f, 0.15f)));
 	L.Add(Place(TEXT("titulus"), FVector(8, 0, 262), R::Cone, S::Box, FVector(2, 30, 10), 1,
 		TEXT("John 19:19-20 (Hebrew, Greek and Latin); Mark 15:26. On the cross above the head."), FLinearColor(0.6f, 0.55f, 0.45f), true));
+	L.Add(Place(TEXT("cross"), FVector(-18, 0, 0), R::Collision, S::Cross, FVector(9, 100, 140), 1,
+		TEXT("The wood itself: John 19:17 (bearing his cross), 19:19 (the title on the cross). A low cross is historical inference (the reed, Mark 15:36). Seen from the cross along the crossbeam and the upright above the head. The only gaze target that relieves."),
+		FLinearColor(0.42f, 0.3f, 0.2f), true));
 	L.Add(Place(TEXT("sky"), FVector(0, 0, 100000), R::SkyAbove, S::None, FVector::ZeroVector, 1,
 		TEXT("Directional: gaze above the horizon band with nothing hit.")));
 	L.Add(Place(TEXT("horizon"), FVector::ZeroVector, R::Horizon, S::HillRing, FVector(250000, 0, 6000), 24,
@@ -119,14 +122,7 @@ ARubiconGolgothaGreybox::ARubiconGolgothaGreybox()
 	QuarryFloor->ComponentTags.Add(GroundTag);
 	Knoll->ComponentTags.Add(GroundTag);
 
-	// A low cross (historical inference: the drink was offered on a reed, Mark 15:36; John 19:29 hyssop).
-	Upright = MakeBox(this, CrossRoot, TEXT("Upright"), Cube, FVector(-18, 0, 140), FVector(9, 9, 140));
-	Crossbeam = MakeBox(this, CrossRoot, TEXT("Crossbeam"), Cube, FVector(-14, 0, 196), FVector(7, 100, 7));
-	for (UStaticMeshComponent* C : { Upright.Get(), Crossbeam.Get() })
-	{
-		// The cross never occludes or answers gaze; the body and the titulus do.
-		C->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	}
+	// The cross itself is the `cross` gaze target in Layout (attached to CrossRoot), so gaze resolves on the wood.
 
 	Sun = CreateDefaultSubobject<UDirectionalLightComponent>(TEXT("Sun"));
 	Sun->SetupAttachment(Root);
@@ -162,6 +158,7 @@ ARubiconGolgothaGreybox::ARubiconGolgothaGreybox()
 	WitnessVantages.Add(ERubiconWitnessVantage::BelovedDisciple, FVector(150, 110, 0));
 	WitnessVantages.Add(ERubiconWitnessVantage::Mary, FVector(170, 165, 0));
 	WitnessVantages.Add(ERubiconWitnessVantage::Centurion, FVector(360, 45, 0));
+	WitnessVantages.Add(ERubiconWitnessVantage::WomenAfar, FVector(2450, -1250, 0));
 }
 
 FTransform ARubiconGolgothaGreybox::GetEmbodimentEyeTransform() const

@@ -20,7 +20,7 @@ UENUM(BlueprintType)
 enum class ERubiconGazeResolution : uint8 { Collision, Cone, SkyAbove, Horizon, GroundBelow };
 
 UENUM(BlueprintType)
-enum class ERubiconProxyShape : uint8 { None, Box, Cylinder, Sphere, Figures, HillRing };
+enum class ERubiconProxyShape : uint8 { None, Box, Cylinder, Sphere, Figures, HillRing, Cross };
 
 UCLASS()
 class RUBICON_API ARubiconGazeTargetActor : public AActor
@@ -40,6 +40,8 @@ public:
 	/**
 	 * Greybox stand-in. Figures: standing figures scattered inside ProxyExtent (crowds, groups).
 	 * HillRing: FigureCount low hills on a circle of radius ProxyExtent.X, height ProxyExtent.Z (the horizon).
+	 * Cross: an upright (half thickness ProxyExtent.X, half height ProxyExtent.Z) and a crossbeam (half length
+	 * ProxyExtent.Y) at 1.4 x ProxyExtent.Z, slightly forward of the upright.
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Greybox")
 	ERubiconProxyShape ProxyShape = ERubiconProxyShape::Box;

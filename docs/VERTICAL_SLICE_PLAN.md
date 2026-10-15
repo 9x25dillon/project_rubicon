@@ -38,7 +38,7 @@ Status: core parity met and exceeded outside the engine. Every event, the per-ti
 Exit: seated and standing both stable; no forced camera motion in Comfort.
 Status: code complete (`unreal/Rubicon/Source/Rubicon`); headset checklist in `unreal/README.md` pending.
 
-**M3. Gaze and Racing Thoughts audio.** HMD-forward line trace with a 3 to 5 degree cone and 150 ms hysteresis feeds `gaze`. MetaSounds graph driven by `output`, `maxVoices`, `externalDuckDb`; fragments trigger from `rt.fragment` events. Temp VO for all fragments in two or three takes each.
+**M3. Gaze and Racing Thoughts audio.** HMD-forward line trace with a 3 to 5 degree cone and 150 ms hysteresis feeds `gaze`. MetaSounds graph driven by `output`, `maxVoices`, `externalDuckDb`; fragments trigger from `rt.fragment` events. Temp VO for all fragments in two or three takes each. Microphone voice activity (an envelope follower on the capture bus) feeds `SetVoiceActivity`; temp VO for the 30 tellings and fades on `OnConsciousnessChange`.
 Exit: in playtest, crowd gaze is audibly escalating within 5 s, and looking away takes about 10 s to settle.
 
 **M4. Forgiveness.** Saying trigger by controller select, speech keyword, or the 45 s auto clock. Utterance through the dialogue bus with the partial duck, subtitles, then 12 s of resonance. Evidence overlay as a wrist panel and a world-locked plate showing Luke 23:34 with its manuscript notes.
@@ -52,6 +52,12 @@ Exit: all controls respond within one tick from every state (already proven in t
 ## Dialogue and history
 
 The world speaks only in recorded words. Spoken cues are verbatim KJV, voiced at their source in the scene and attributed to the specific group that said them. Some answer a held gaze; others follow the sayings in Gospel order (the condemned men's exchange before Paradise, Elias after the cry, the sponge after thirst, the centurion after death). Dwell tiers make looking costly in a second dimension: a glance gets a line, and a long stare gets harder ones (glance, sustained, long, extreme). Lesser-known history (Quintilian on crowded roads, Cicero on the cross, Josephus on Varus and on burial before sunset, Philo on Pilate, Thallus and the darkness, the Pilate Stone, the Yehohanan heel bone, the Alexamenos graffito) is narrated only from outside, in Witness and Contemplation. Each account names its source, rendering and any authenticity debate. See docs/SOURCES.md.
+
+## Exertion, loss of consciousness and the tellings
+
+Looking is always free: the player may look anywhere at any time, and gaze direction never builds exertion. What costs is moving much (sustained head rotation or translation above a dead zone) and talking much (voice activity above a dead zone). Exertion rises with a per-state fatigue factor (1.0 at Elevation to 1.7 at Surrender) and falls with stillness. At full exertion he loses consciousness: the storm lets go like the Witness echo, the view fades over 1.2 s, and the player hears the current moment as one Gospel tells it, verbatim KJV, from where that Gospel's witnesses stood (John's beloved disciple beside the cross; the women beholding afar off for Matthew, Mark and Luke). When the tellings for the moment are done and he has rested at least 15 s, he wakes on the cross. A saying that comes due wakes him to speak it. The timeline never waits for him (I8). Exertion is never displayed and never scored; `settings.swoon` turns the mechanic off. The device is disclosed as artistic interpretation: the Gospels do not say he lost consciousness.
+
+The wood is the one exception to "everything costs". Gazing at the cross itself (the crossbeam beside the arms, the upright above the head) is the only relief target in the episode; the penitent thief is gentle (low) but not relief. The cross carries the Dream of the Rood as a disclosed tradition source (artistic interpretation), heard only from outside.
 
 ## Racing Thoughts audio direction
 

@@ -77,7 +77,8 @@ void URubiconElevationDirectorComponent::TickComponent(float DeltaTime, ELevelTi
 	const URubiconNarrativeSubsystem* N = GetWorld() ? GetWorld()->GetSubsystem<URubiconNarrativeSubsystem>() : nullptr;
 	if (!N) return;
 	const FRubiconFrameOutputs& F = N->GetFrameOutputsRef();
-	const bool bWitness = F.bValid && F.Mode == ERubiconExperienceMode::Witness;
+	// Witness and a telling both put the player off the cross; the cross then rises instead of the world tilting.
+	const bool bWitness = F.bValid && F.View != ERubiconViewMode::Embodiment;
 	const FRubiconElevationPose Target = TargetPose(F, StartPose);
 	const bool bMoving = Target.LeanBackDeg != 0.0 || Target.LowerCm != 0.0;
 	const bool bRaising = F.bValid && F.State == ERubiconTimelineState::Elevation && F.Phase == ERubiconPhase::Raising;

@@ -8,6 +8,10 @@
 //   centre (the eye point on the cross); beyond that the tracking origin absorbs the excess.
 // Witness: the rig is moved, under a fade, to a vantage on the floor near the cross; head position is free
 //   within WitnessRadius. Yaw is never changed by code unless URubiconSettings::bAlignYawOnWitness.
+// Telling (unconscious): the same move, under a slower fade, to the vantage of the Gospel being read
+//   (FRubiconFrameOutputs.View / ViewVantage); waking brings the player back to the cross the same way.
+// Exertion: the pawn measures head motion in tracking space (angular deg/s, linear cm/s, smoothed) and feeds it
+//   to the core every frame. Nothing about exertion is ever displayed to the player.
 // Seated and standing: calibration maps wherever the head is at start (or on Recenter) to the eye point, so
 //   the same rig serves both; Seated also tightens the clamp. Recenter is position only.
 //
@@ -31,6 +35,7 @@ class UInputAction;
 class UInputMappingContext;
 class URubiconDebugPanelComponent;
 class URubiconGazeResolverComponent;
+class URubiconNarrativeSubsystem;
 
 UCLASS()
 class RUBICON_API ARubiconEmbodiedPawn : public APawn
@@ -52,6 +57,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Witness") float WitnessEyeHeightStanding = 165.f;
 	UPROPERTY(EditAnywhere, Category = "Witness") float WitnessEyeHeightSeated = 125.f;
 	UPROPERTY(EditAnywhere, Category = "Witness") float WitnessFadeSeconds = 0.3f;
+	/** Fade into and out of a telling (loss and return of consciousness). */
+	UPROPERTY(EditAnywhere, Category = "Witness") float SwoonFadeSeconds = 1.2f;
+	/** Smoothing time constant for measured head motion. */
+	UPROPERTY(EditAnywhere, Category = "Exertion") float HeadMotionTau = 0.25f;
 
 	/** Re-anchor the head position (not orientation) to the current eye point. */
 	UFUNCTION(BlueprintCallable, Category = "Rubicon")
@@ -59,6 +68,9 @@ public:
 
 	/** Pure: tracking-origin offset that keeps the eye within Radius of the anchor. Unit-tested. */
 	static FVector ClampCorrection(const FVector& HeadLocal, const FVector& CenterLocal, double Radius);
+
+	/** Pure: instantaneous head speed between two tracking-space poses (deg/s, cm/s). Unit-tested. */
+	static FVector2D HeadSpeed(const FQuat& PrevRot, const FVector& PrevLoc, const FQuat& Rot, const FVector& Loc, double DeltaSeconds);
 
 	UCameraComponent* GetCamera() const { return Camera; }
 
@@ -84,17 +96,22 @@ private:
 	bool bHmd = false;
 	bool bNeedsCalibration = true;
 	FVector HeadCenter = FVector::ZeroVector; // calibrated head position in tracking space
-	ERubiconExperienceMode PlacedMode = ERubiconExperienceMode::Embodiment;
+	ERubiconViewMode PlacedView = ERubiconViewMode::Embodiment;
 	ERubiconWitnessVantage PlacedVantage = ERubiconWitnessVantage::BelovedDisciple;
-	float MoveTimer = -1.f; // >= 0 while a witness/embodiment move is fading
+	float MoveTimer = -1.f; // >= 0 while a move between views is fading
+	float MoveFade = 0.3f;
+
+	bool bHasPrevHead = false;
+	FQuat PrevHeadRot = FQuat::Identity;
+	FVector PrevHeadLoc = FVector::ZeroVector;
+	FVector2D HeadMotion = FVector2D::ZeroVector; // smoothed (deg/s, cm/s)
 
 	void BuildInput();
 	void AddMappingContext();
-	void PlaceForMode(ERubiconExperienceMode Mode, ERubiconWitnessVantage Vantage);
-	FVector AnchorWorld(ERubiconExperienceMode Mode, ERubiconWitnessVantage Vantage, FRotator& OutYaw) const;
-
-	UFUNCTION() void HandleModeChange(double TimeMs, ERubiconExperienceMode Mode, ERubiconWitnessVantage Vantage, bool bForced);
-	UFUNCTION() void HandleSettingsChange(double TimeMs, const FRubiconSettings& Settings);
+	void PlaceForView(ERubiconViewMode View, ERubiconWitnessVantage Vantage);
+	FVector AnchorWorld(ERubiconViewMode View, ERubiconWitnessVantage Vantage, FRotator& OutYaw) const;
+	void UpdateViewPlacement(const FRubiconFrameOutputs& F, float DeltaSeconds);
+	void UpdateHeadMotion(URubiconNarrativeSubsystem* N, float DeltaSeconds);
 
 	void OnSelect();
 	void OnWitness();

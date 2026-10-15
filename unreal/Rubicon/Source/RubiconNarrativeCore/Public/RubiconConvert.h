@@ -26,6 +26,7 @@ namespace RubiconConvert
 	inline ERubiconElevationTransition ToUE(RubiconCore::EElevationTransition V) { return static_cast<ERubiconElevationTransition>(V); }
 	inline ERubiconSourceType ToUE(RubiconCore::ESourceType V) { return static_cast<ERubiconSourceType>(V); }
 	inline ERubiconCueKind ToUE(RubiconCore::ECueKind V) { return static_cast<ERubiconCueKind>(V); }
+	inline ERubiconViewMode ToUE(RubiconCore::EViewMode V) { return static_cast<ERubiconViewMode>(V); }
 
 	inline RubiconCore::EMode ToCore(ERubiconExperienceMode V) { return static_cast<RubiconCore::EMode>(V); }
 	inline RubiconCore::ELayer ToCore(ERubiconVisualLayer V) { return static_cast<RubiconCore::ELayer>(V); }

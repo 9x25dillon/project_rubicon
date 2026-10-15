@@ -8,11 +8,11 @@ This repo holds the engine-agnostic narrative core (TypeScript reference), the c
 
 ```bash
 npm install
-npm test            # build + 55 tests (node:test)
+npm test            # build + 66 tests (node:test)
 npm run validate    # manifest + locale validation
 npm run simulate    # headless slice trace: Threshold -> Elevation -> Forgiveness -> Witness (arg: seed)
 npm run golden      # golden/replay-*.json (+ RT trace), validator-cases.json, math-vectors.json (regenerable, not committed)
-npm run parity      # golden + CMake build of the C++ core (native/) + 12 C++ tests + bit-exact parity check
+npm run parity      # golden + CMake build of the C++ core (native/) + 14 C++ tests + bit-exact parity check
 npm run format:content   # canonical formatting of content/*.json (also: node scripts/format-json.mjs --check)
 npm run docs:sources     # regenerate docs/SOURCES.md (every source, rendering, debate, and what cites it)
 ```
@@ -26,7 +26,8 @@ src/types.ts                   type contract + invariants I1 to I6
 src/validate.ts                structural and semantic manifest validation
 src/session.ts                 pure reducer: step(manifest, state, input, dt) -> { state, events }
 src/racingThoughts.ts          continuous intensity model + deterministic fragment scheduler (incl. dwell tiers)
-src/cues.ts                    dialogue cues: the world speaking (spoken KJV, sounds, narrated history)
+src/cues.ts                    dialogue cues: the world speaking (spoken KJV, sounds, narrated history, Gospel tellings)
+src/consciousness.ts           exertion (head motion, talking) and loss of consciousness; pure, reads input, never the timeline
 src/frame.ts                   selectFrame(): the only view the engine adapter reads
 src/data.ts                    typed accessors (lastWords, maxAutoRunMs)
 src/replay.ts                  replay runner, state and event hashes
@@ -35,7 +36,7 @@ src/validatorCases.ts          validator parity cases (manifest mutations + expe
 src/prng.ts                    mulberry32, smoothing, stable hashing
 src/node/load.ts               Node-only IO boundary
 src/cli/                       validate, simulate, golden
-tests/                         manifest, timeline, racingThoughts, determinism, golden
+tests/                         manifest, timeline, racingThoughts, consciousness, dialogue, determinism, golden
 native/                        standalone CMake build of the C++ core: rubicon_parity, rubicon_core_tests
 unreal/Rubicon/                UE5 project (see unreal/README.md): RubiconNarrativeCore, Rubicon, RubiconEditor
 docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction, resolved conflicts, UE5 port map
@@ -51,6 +52,7 @@ docs/SOURCES.md                generated source catalogue for reviewers
 - **I5** Racing Thoughts read the timeline and never write it.
 - **I6** Same manifest, seed and input stream give identical state and event hashes, in TypeScript and in C++ (bit-exact; `npm run parity`).
 - **I7** Dialogue cues read timeline, gaze and mode; they never write the timeline or Racing Thoughts. No cue holds a phase open.
+- **I8** Looking is free: gaze direction never builds exertion. Consciousness never changes the timeline (same entries at the same times), and Comfort, Witness, Pause and Exit still work within one tick while unconscious.
 
 ## Content rules
 
@@ -66,11 +68,18 @@ docs/SOURCES.md                generated source catalogue for reviewers
 - Spoken cues are verbatim KJV from their cited passages (ellipses mark omissions), attributed to the group that said them. Narrations quote only what a cited non-paraphrase source contains. Both are checked mechanically by `tests/dialogue.test.ts`.
 - History is narrated from outside only (Witness and Contemplation); the embodied player hears the scene, never a lecture.
 - Dwell-tiered lines echo the specific taunts and words the Gospels attribute to specific groups, and the crowd tiers always include its non-mocking members (Luke 23:27, 48). The internal monologue never says "the Jews" (tested).
+- Only the wood of the cross relieves (`stress: relief`); every other target, the penitent included, costs something, and no state override may set relief (tested in `tests/racingThoughts.test.ts`).
+- Losing consciousness is artistic-interpretation and is disclosed (`exertion.disclosure`). What is heard while unconscious is a Gospel's own telling of the current moment, verbatim KJV, read by the narrator from that Gospel's vantage (John: beside the cross; the synoptics: the women afar off). Exertion is never shown as a meter, never scored, and never tied to pain or breath.
+- `tradition` sources (e.g. the Dream of the Rood, the legend of the wood) are always artistic-interpretation.
 - Sources whose framing assigns collective responsibility (Mara bar Serapion's "wise king" line, Melito's *On Pascha*) are not voiced or displayed.
 
 ## Racing Thoughts model (summary)
 
-`target = clamp(floor' + w*d*(1-floor'), 0, ceiling(t))` for stress weight w ≥ 0, or `floor' * (1 + w*d)` for relief (w < 0), where `d = 1 - exp(-dwell/3000ms)`. Asymmetric smoothing: fast rise, slow decay, so looking away helps only gradually. Witness entry multiplies intensity by 0.35 then decays over about 2.5 s (the echo). Comfort snaps output gain to 0.04 on the same tick and ramps back over about 4 s on release. The player's intensity ceiling is a hard cap. Fragment rate scales with output^1.6; voice cap is 1 + floor(output × 4); recent fragments are excluded so nothing loops. All parameters live in the manifest.
+`target = clamp(floor' + w*d*(1-floor'), 0, ceiling(t))` for stress weight w ≥ 0, or `floor' * (1 + w*d)` for relief (w < 0), where `d = 1 - exp(-dwell/3000ms)`. Asymmetric smoothing: fast rise, slow decay, so looking away helps only gradually. Witness entry multiplies intensity by 0.35 then decays over about 2.5 s (the echo). Comfort snaps output gain to 0.04 on the same tick and ramps back over about 4 s on release. The player's intensity ceiling is a hard cap. Fragment rate scales with output^1.6; voice cap is 1 + floor(output × 4); recent fragments are excluded so nothing loops. All parameters live in the manifest. While unconscious, the mind is away (target 0, Witness decay).
+
+## Exertion model (summary)
+
+`drive = clamp01(max(0, deg/s - 30)/150 + max(0, cm/s - 10)/60 + max(0, voice - 0.15))`; awake, `exertion += (drive * 0.14 * fatigue(state) - (1 - drive) * 0.04) * dt`; at 1 he loses consciousness (only in embodied, non-gate states, with `settings.swoon`, never mid-utterance) and the storm takes the Witness echo. Unconscious, exertion falls at 0.05/s and he wakes at 0.35 after at least 15 s, never mid-telling. A saying that comes due wakes him to speak it (`sayingCost` 0.12 × fatigue); a manual trigger while unconscious is rejected; death clears it. Fatigue rises from 1.0 (Elevation) to 1.7 (Surrender).
 
 ## Progress
 
@@ -99,6 +108,13 @@ docs/SOURCES.md                generated source catalogue for reviewers
 - New points of interest: road, city wall, garden (manifest, greybox, coverage test).
 - C++: bit-exact port (5 goldens incl. a dwell profile, 21 validator cases); UE: `OnDialogueCue`, `FRubiconFrameOutputs.Cue` and `GazeTier`, cue info on the episode asset, HUD lines.
 
+**Done (consciousness, tellings, the cross)**
+- Core: `src/consciousness.ts`, `ViewMode` (embodiment, witness, telling), frame `view`, `viewVantage`, `consciousness`; event `consciousness.change`; `Settings.swoon`; per-state `fatigue`; new vantage `women_afar`.
+- Content: 30 tellings (one per Gospel per embodied state where that Gospel tells the moment), the `cross` gaze target as the only relief, `n_cross_rood` / `c_rood` (tradition, disclosed), 107 sources, 92 fragments, 66 cues.
+- C++: bit-exact port; 6 goldens (new `exertion` profile, seed 77: two swoons, Luke's and Mark's tellings), 23 validator cases, 14 native tests.
+- UE: `SetHeadMotion`, `SetVoiceActivity`, `SetSwoonEnabled`, `OnConsciousnessChange`; `FRubiconFrameOutputs.View/ViewVantage/bConscious/Exertion` (exertion debug only); the pawn measures head motion in tracking space and follows `View` under a fade (1.2 s into and out of a telling); the cross is a tagged gaze actor (`ERubiconProxyShape::Cross`); HUD view line; `Rubicon.Game.HeadSpeed`.
+- Voice activity has an API but no microphone source yet (M3, alongside speech recognition for the sayings).
+
 **Not yet verified (needs a UE 5.4 machine and a headset)**: compiling the UE modules (written against the 5.4 API but never compiled here), running the automation tests in-editor, and the headset checklist in `unreal/README.md`.
 
 **Next (M3 onward, see docs/VERTICAL_SLICE_PLAN.md)**
@@ -115,6 +131,8 @@ docs/SOURCES.md                generated source catalogue for reviewers
 - Theological layer art direction beyond "vast and cold".
 - Fragment rate tuning after the first playtest.
 - Witness orientation: by default Witness moves the player by position only and they turn their own head toward the cross. `URubiconSettings::bAlignYawOnWitness` can snap yaw while the view is fully black. Which should be the default?
+- Exertion tuning after the first playtest (deadzones, rise rate, fatigue curve), and whether Comfort should also suspend exertion (today it does not; `settings.swoon` turns it off).
+- Whether a telling should also be offered from Witness on request, not only while unconscious.
 - Cue tuning after the first playtest: dwell thresholds (2.5 s for a cue, 3/9/18 s for tiers), whether narrations should also be offered as text-only in the evidence archive, and narrator voice casting.
 - Evidence label for Hebrew Bible and other New Testament sources: they use the `gospel-text` category (canonical text) and show their `sourceType` beside it. Rename the category to "scripture text"? That changes an invariant, so ask first.
 

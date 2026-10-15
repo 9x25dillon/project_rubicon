@@ -1,0 +1,36 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.4",
+	"Category": "",
+	"Description": "Project Rubicon, Prototype 01: The Passion. First-person VR vertical slice (Dark Psychological Edition).",
+	"Modules": [
+		{
+			"Name": "RubiconNarrativeCore",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "Rubicon",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [ "Engine", "RubiconNarrativeCore" ]
+		},
+		{
+			"Name": "RubiconEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit",
+			"AdditionalDependencies": [ "RubiconNarrativeCore", "Rubicon" ]
+		}
+	],
+	"Plugins": [
+		{ "Name": "OpenXR", "Enabled": true },
+		{ "Name": "OpenXREyeTracker", "Enabled": false },
+		{ "Name": "OpenXRHandTracking", "Enabled": false },
+		{ "Name": "XRBase", "Enabled": true },
+		{ "Name": "EnhancedInput", "Enabled": true },
+		{ "Name": "DataValidation", "Enabled": true },
+		{ "Name": "OculusVR", "Enabled": false },
+		{ "Name": "SteamVR", "Enabled": false }
+	],
+	"TargetPlatforms": [ "Windows", "Android", "Linux" ]
+}

@@ -32,9 +32,11 @@ Three orthogonal axes ride on one immutable timeline: ExperienceMode (embodiment
 
 **M1. Engine skeleton.** UE5.4+ project, OpenXR, `RubiconNarrativeCore` C++ module ported from `src/`. A `UTickableWorldSubsystem` runs `Step()` with a fixed-step accumulator at 100 Hz. Manifest imported to a `UDataAsset` by an editor script, validated with the same rules. Debug HUD prints `FrameOutputs`.
 Exit: golden replays (seed + input log exported from TS) produce identical `timeline.enter` sequences and Racing Thoughts output within 1e-6.
+Status: core parity met and exceeded outside the engine. Every event, the per-tick trace (error 0) and the final state hash are identical (`npm run parity`). UE modules are written; the in-editor automation run is pending a UE 5.4 build.
 
 **M2. Golgotha greybox and the embodied pawn.** Quarry-edge site, low cross, crowd volumes, horizon, sky. Every gaze target is an actor tagged `Gaze.Target.<id>`. Pawn: free head rotation, positional head motion clamped to a small radius, body and hands posed by fixed IK. Elevation in two variants: slow world tilt (default) and fade-settle (Comfort or Reduced Effects); the player's camera is never rotated by code.
 Exit: seated and standing both stable; no forced camera motion in Comfort.
+Status: code complete (`unreal/Rubicon/Source/Rubicon`); headset checklist in `unreal/README.md` pending.
 
 **M3. Gaze and Racing Thoughts audio.** HMD-forward line trace with a 3 to 5 degree cone and 150 ms hysteresis feeds `gaze`. MetaSounds graph driven by `output`, `maxVoices`, `externalDuckDb`; fragments trigger from `rt.fragment` events. Temp VO for all fragments in two or three takes each.
 Exit: in playtest, crowd gaze is audibly escalating within 5 s, and looking away takes about 10 s to settle.
@@ -71,4 +73,5 @@ The darkness from the sixth to the ninth hour is rendered as rising aerosol opti
 - `src/prng.ts` → `uint32` mulberry32, identical bit-for-bit.
 - `src/frame.ts` → `FFrameOutputs` exposed to Blueprint for audio, UI and lighting.
 - Events → a multicast delegate per event type.
-- Replays: TS writes `golden/*.json` (seed, inputs, expected events); a C++ automation test replays them.
+- Replays: TS writes `golden/*.json` (seed, inputs, expected events, per-tick RT trace); `native/` and the C++ automation test replay them and compare events, trace and hashes.
+- Numerics: `Math.exp` and `Math.pow` are V8's fdlibm ports, reproduced bit for bit in `RubiconMath.cpp` (V8's `pow` differs from stock fdlibm in one expression, reproduced). Host libm results differ from V8 on about 8% of inputs, so the core never calls them. FMA contraction is disabled per file, and a startup self-test detects builds that override that.

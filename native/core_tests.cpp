@@ -2,6 +2,7 @@
 //   rubicon_core_tests <content-dir>
 
 #include "NarrativeCore/RubiconContent.h"
+#include "NarrativeCore/RubiconFixedStep.h"
 #include "NarrativeCore/RubiconFrame.h"
 #include "NarrativeCore/RubiconMath.h"
 #include "NarrativeCore/RubiconRacingThoughts.h"
@@ -250,6 +251,37 @@ int main(int Argc, char** Argv)
 		const FReplayResult A = RunReplay(M, 77, In), B = RunReplay(M, 77, In), C = RunReplay(M, 78, In);
 		EXPECT(A.StateHashHex == B.StateHashHex && A.EventHashHex == B.EventHashHex, "same seed");
 		EXPECT(A.EventHashHex != C.EventHashHex, "different seed changes fragments");
+		return ok;
+	});
+
+	Test("fixed-step clock: frame chunking never changes the simulation (accumulator, hitch guard)", [&]
+	{
+		bool ok = true;
+		std::vector<FTickInput> In(3000);
+		In[0].Commands.push_back(Ack());
+		for (size_t I = 1; I < In.size(); ++I) In[I].Gaze = (I / 250) % 2 ? Crowd : Horizon;
+		const FReplayResult Ref = RunReplay(M, 11, In);
+		for (double FrameMs : { 7.0, 8.333333333333334, 11.1111, 13.9, 33.3, 90.0 })
+		{
+			FFixedStepClock Clock;
+			FSessionState S = CreateSession(M, 11);
+			std::vector<FEvent> Ev;
+			size_t Next = 0;
+			while (Next < In.size())
+			{
+				const int Steps = Clock.Advance(FrameMs, TickMs);
+				for (int K = 0; K < Steps && Next < In.size(); ++K)
+				{
+					FStepResult R = Step(M, S, In[Next++]);
+					S = std::move(R.State);
+					Ev.insert(Ev.end(), R.Events.begin(), R.Events.end());
+				}
+			}
+			EXPECT(StateHash(M, S) == Ref.StateHashHex && EventHash(M, Ev) == Ref.EventHashHex, "frame %.3f ms diverged", FrameMs);
+		}
+		FFixedStepClock Hitch;
+		EXPECT(Hitch.Advance(2000, TickMs) == 25 && Hitch.DroppedMs == 1750 && Hitch.AccumulatorMs == 0, "hitch guard");
+		EXPECT(Hitch.Advance(-5, TickMs) == 0 && Hitch.Advance(9.5, TickMs) == 0 && Hitch.Advance(0.5, TickMs) == 1, "accumulates sub-tick deltas");
 		return ok;
 	});
 

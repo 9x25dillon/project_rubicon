@@ -2,16 +2,17 @@
 
 First-person VR experience of the crucifixion at Golgotha, Dark Psychological Edition. The player embodies Jesus during the final hours. Emotional force comes from an invasive internal-monologue system (Racing Thoughts), attention, relationships, language and silence. Physical violence is suggested, never shown graphically, and never simulated through the body.
 
-This repo is the engine-agnostic narrative core plus content. UE5 is the target engine; nothing in `src/` may depend on an engine, a clock, IO or randomness outside the seeded PRNG.
+This repo holds the engine-agnostic narrative core (TypeScript reference), the content, and the UE5 project (`unreal/Rubicon`). The C++ core in `unreal/Rubicon/Source/RubiconNarrativeCore/*/NarrativeCore/` is a bit-exact port of `src/`; nothing in either may depend on an engine, a clock, IO or randomness outside the seeded PRNG.
 
 ## Commands
 
 ```bash
 npm install
-npm test            # build + 34 tests (node:test)
+npm test            # build + 41 tests (node:test)
 npm run validate    # manifest + locale validation
 npm run simulate    # headless slice trace: Threshold -> Elevation -> Forgiveness -> Witness (arg: seed)
-npm run golden      # export golden/replay-<seed>.json for C++ parity tests (regenerable, not committed)
+npm run golden      # golden/replay-*.json (+ RT trace), validator-cases.json, math-vectors.json (regenerable, not committed)
+npm run parity      # golden + CMake build of the C++ core (native/) + 10 C++ tests + bit-exact parity check
 ```
 
 ## Layout
@@ -26,10 +27,14 @@ src/racingThoughts.ts          continuous intensity model + deterministic fragme
 src/frame.ts                   selectFrame(): the only view the engine adapter reads
 src/data.ts                    typed accessors (lastWords, maxAutoRunMs)
 src/replay.ts                  replay runner, state and event hashes
+src/golden.ts                  golden replay builder (inputs, events, hashes, per-tick RT trace)
+src/validatorCases.ts          validator parity cases (manifest mutations + expected messages)
 src/prng.ts                    mulberry32, smoothing, stable hashing
 src/node/load.ts               Node-only IO boundary
 src/cli/                       validate, simulate, golden
-tests/                         manifest, timeline, racingThoughts, determinism
+tests/                         manifest, timeline, racingThoughts, determinism, golden
+native/                        standalone CMake build of the C++ core: rubicon_parity, rubicon_core_tests
+unreal/Rubicon/                UE5 project (see unreal/README.md): RubiconNarrativeCore, Rubicon, RubiconEditor
 docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction, resolved conflicts, UE5 port map
 ```
 
@@ -40,7 +45,7 @@ docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction
 - **I3** Exit and Witness Mode are accepted in every state, within one tick.
 - **I4** No soft-lock: after the consent gate every state auto-advances on a bounded clock.
 - **I5** Racing Thoughts read the timeline and never write it.
-- **I6** Same manifest, seed and input stream give identical state and event hashes.
+- **I6** Same manifest, seed and input stream give identical state and event hashes, in TypeScript and in C++ (bit-exact; `npm run parity`).
 
 ## Content rules
 
@@ -65,14 +70,26 @@ docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction
 - Deterministic reducer, Racing Thoughts system, frame selector, replay hashing, golden replay exporter.
 - 34 passing tests covering every acceptance criterion in the spec that the core can prove.
 
-**Next (M1 onward, see docs/VERTICAL_SLICE_PLAN.md)**
-1. UE5 project with OpenXR; port `src/` to a C++ module `RubiconNarrativeCore`; fixed-step `UTickableWorldSubsystem` at 100 Hz.
-2. C++ automation test that replays `golden/*.json` and matches events exactly.
-3. Golgotha greybox, tagged gaze actors, embodied pawn with both elevation variants.
-4. Gaze line trace with cone and hysteresis; MetaSounds Racing Thoughts graph; temp VO.
-5. Forgiveness end to end with subtitles and the evidence overlay.
-6. Witness transition, Comfort vignette, controller, voice and gesture bindings for all safeguards.
-7. Playtest protocol and reviewer sign-off.
+**Done (M1, verified outside the engine)**
+- `RubiconNarrativeCore`: std-only C++17 port of types, prng, racingThoughts, session, frame, validator and replay hashing, as pure functions over const structs. `Exp`/`Pow` are bit-exact ports of V8's fdlibm routines, so C++ equals Node bit for bit.
+- `npm run parity` (g++ 13, clang 18, with and without `<charconv>`): 4/4 golden replays with identical events, RT trace error 0, identical state and event hashes; validator 15/15 cases message-identical; 40000/40000 math vectors bit-exact; 10 C++ acceptance tests.
+- UE layer: Blueprint types, episode and locale data assets (canonical JSON stored and compiled at runtime through the tested path), `URubiconNarrativeSubsystem` (fixed 10 ms step with accumulator, one delegate per event type, `FRubiconFrameOutputs` to Blueprint, replay export), editor importer and validator, automation tests (`Rubicon.NarrativeCore.*`).
+- TS: golden export gains a per-tick RT trace, a coverage replay that exercises every command, validator cases and math vectors. The validator now bounds `fragmentRate`, `externalDuck`, `affinityMultiplier` and requires integer voice counts.
+
+**Done (M2, code complete, not yet built or run in the engine)**
+- Golgotha greybox (quarry edge, knoll, road, city wall, low cross, hill-ring horizon, sky atmosphere), one `Gaze.Target.<id>` actor per manifest target (own_hands on the embodied body), each placement annotated with its basis.
+- Embodied body posed by analytic two-bone IK; pawn with free head rotation, position clamp (12 cm, 8 cm seated), seated and standing calibration, position-only recenter; Witness moves under a fade.
+- Elevation: slow world tilt (default) and fade-settle (Comfort or Reduced Effects). The camera is never rotated by code.
+- Gaze resolver (trace, 4 degree cone, 150 ms hysteresis, sky, horizon and ground fallbacks); atmosphere driver (lux, CCT, AOD to sun, Mie and fog); debug HUD (world-space panel plus desktop canvas); `Rubicon.Game.*` tests.
+
+**Not yet verified (needs a UE 5.4 machine and a headset)**: compiling the UE modules (written against the 5.4 API but never compiled here), running the automation tests in-editor, and the headset checklist in `unreal/README.md`.
+
+**Next (M3 onward, see docs/VERTICAL_SLICE_PLAN.md)**
+1. Build in UE 5.4, fix any API drift, run `Automation RunTests Rubicon`, walk the headset checklist.
+2. MetaSounds Racing Thoughts graph driven by `output`, `maxVoices`, `externalDuckDb` and `OnRacingThoughtsFragment`; temp VO.
+3. Forgiveness end to end with subtitles and the evidence overlay.
+4. Witness vantage polish, Comfort vignette, voice and gesture bindings for all safeguards.
+5. Playtest protocol and reviewer sign-off.
 
 ## Open decisions (ask before changing)
 
@@ -80,10 +97,13 @@ docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction
 - Spoken language of the sayings: English KJV, Koine Greek, or reconstructed Aramaic for the cry only.
 - Theological layer art direction beyond "vast and cold".
 - Fragment rate tuning after the first playtest.
+- Witness orientation: by default Witness moves the player by position only and they turn their own head toward the cross. `URubiconSettings::bAlignYawOnWitness` can snap yaw while the view is fully black. Which should be the default?
+- Dwell-tiered gaze monologue (short, sustained, long and extreme lines per target, proposed 2026-10). The mechanism fits the model, but it needs a decision and new content. The drafts proposed so far were not added: their "your people" lines describe the crowd collectively in blood, debt and greed terms, which breaks the content rule above and echoes blood-libel imagery; other drafts recast him as a guerrilla killer or as having spent children, which goes beyond the current self-recrimination open decision.
 
 ## Working conventions
 
 - Content changes go in the JSON manifest, then `npm run validate`, then `npm test`.
 - New behavior lands with a test that names the invariant or acceptance criterion it protects.
 - Keep the core pure: no `Date`, no `Math.random`, no IO outside `src/node` and `src/cli`.
+- Any change to `src/` core behaviour lands with a test and the matching change in `NarrativeCore/`; `npm run parity` must pass. Use only `Math.exp` and `Math.pow` (ported); any new transcendental function needs a bit-exact C++ port first.
 - Prefer small, reviewable diffs.

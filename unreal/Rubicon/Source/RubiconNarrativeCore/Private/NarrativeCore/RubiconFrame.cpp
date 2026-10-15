@@ -101,6 +101,20 @@ namespace RubiconCore
 		return Names[static_cast<int>(V)];
 	}
 
+	void ViewOf(const FManifest& M, const FSessionState& S, EViewMode& OutView, EVantage& OutVantage)
+	{
+		OutVantage = S.Vantage;
+		if (S.Mode == EMode::Witness) { OutView = EViewMode::Witness; return; }
+		if (!S.Consciousness.bSwoon) { OutView = EViewMode::Embodiment; return; }
+		OutView = EViewMode::Telling;
+		for (auto It = S.Cues.Played.rbegin(); It != S.Cues.Played.rend(); ++It)
+		{
+			const FCue& C = M.Cues[static_cast<size_t>(*It)];
+			if (C.Kind == ECueKind::Telling && C.Vantage) { OutVantage = *C.Vantage; return; }
+		}
+		OutVantage = EVantage::BelovedDisciple;
+	}
+
 	std::optional<FCueFrame> CueFrame(const FManifest& M, const FSessionState& S, const FLocale* Locale)
 	{
 		if (!S.Cues.bActive || S.Cues.EndsAt <= S.T || S.Cues.Active < 0) return std::nullopt;
@@ -109,7 +123,13 @@ namespace RubiconCore
 		F.Cue = S.Cues.Active;
 		F.Kind = C.Kind;
 		F.Speaker = C.Speaker;
-		if (C.Speaker == "narrator")
+		if (C.Telling)
+		{
+			const std::string Key = std::string("ui.telling.") + ToString(*C.Telling);
+			const auto It = Locale ? Locale->find(Key) : FLocale::const_iterator();
+			F.SpeakerLabel = (Locale && It != Locale->end()) ? It->second : std::string(ToString(*C.Telling));
+		}
+		else if (C.Speaker == "narrator")
 		{
 			const auto It = Locale ? Locale->find("ui.narrator") : FLocale::const_iterator();
 			F.SpeakerLabel = (Locale && It != Locale->end()) ? It->second : std::string("Narrator");
@@ -137,7 +157,8 @@ namespace RubiconCore
 		}
 		F.Rendering = bMixed ? ECueRendering::Mixed : Common.value_or(ECueRendering::Description);
 		F.Evidence = C.Evidence;
-		F.Origin = C.Origin >= 0 ? C.Origin : (C.Trigger.bGaze && C.Kind != ECueKind::Narration ? C.Trigger.Target : -1);
+		F.Origin = C.Origin >= 0 ? C.Origin : (C.Trigger.Type == ECueTriggerType::Gaze && C.Kind != ECueKind::Narration ? C.Trigger.Target : -1);
+		F.Telling = C.Telling;
 		F.ElapsedMs = S.T - S.Cues.StartedAt;
 		F.DurationMs = C.DurationMs;
 		F.CueId = C.CueId;
@@ -163,6 +184,9 @@ namespace RubiconCore
 		F.bPaused = S.bPaused;
 		F.bExited = S.bExited;
 		F.bEmbodimentAvailable = Def.bAllowEmbodiment;
+		ViewOf(M, S, F.View, F.ViewVantage);
+		F.bConscious = !S.Consciousness.bSwoon;
+		F.Exertion = S.Consciousness.Exertion;
 		F.bControlPause = F.bControlExit = F.bControlWitness = F.bControlComfort = bLive;
 
 		F.ElevationTransition = (S.bComfort || S.Settings.bReducedEffects) ? EElevationTransition::FadeSettle : EElevationTransition::SlowTilt;

@@ -66,8 +66,13 @@ export function currentCeiling(def: TimelineStateDef, stateElapsedMs: number): n
   return lerp(r.ceiling, r.ceilingEnd, p);
 }
 
+/** Outside the body (Witness) or out of it (unconscious): the storm has nothing to hold on to. */
+function mindAway(s: SessionState): boolean {
+  return s.mode === "witness" || s.consciousness.swoon !== null;
+}
+
 export function intensityTarget(m: EpisodeManifest, def: TimelineStateDef, s: SessionState): number {
-  if (s.mode === "witness") return 0;
+  if (mindAway(s)) return 0;
   const model = m.racingThoughts;
   const lvl = effectiveStress(m, def, s.gaze.target);
   const w = model.stressWeights[lvl];
@@ -114,7 +119,7 @@ export function dwellTierId(m: EpisodeManifest, dwellMs: number): string {
 /** Dwell-tiered lines answer the embodied gaze only: the current target, in exactly the current tier. */
 function gazeEligible(m: EpisodeManifest, f: Fragment, s: SessionState): boolean {
   if (!f.gaze) return true;
-  return s.mode === "embodiment" && s.gaze.target === f.gaze.target && dwellTierId(m, s.gaze.dwellMs) === f.gaze.tier;
+  return s.mode === "embodiment" && s.consciousness.swoon === null && s.gaze.target === f.gaze.target && dwellTierId(m, s.gaze.dwellMs) === f.gaze.tier;
 }
 
 function eligible(m: EpisodeManifest, def: TimelineStateDef, s: SessionState, voices: Voice[], output: number): Fragment[] {
@@ -146,7 +151,7 @@ export function stepRacingThoughts(
   /* intensity */
   const target = intensityTarget(m, def, s);
   const tau =
-    s.mode === "witness" ? model.witnessEchoTauMs : target > s.rt.intensity ? def.rt.tauUpMs : def.rt.tauDownMs;
+    mindAway(s) ? model.witnessEchoTauMs : target > s.rt.intensity ? def.rt.tauUpMs : def.rt.tauDownMs;
   const intensity = clamp01(smoothToward(s.rt.intensity, target, dtMs, tau));
 
   /* comfort gain: snap down on enable (handled in command), ramp up on release */

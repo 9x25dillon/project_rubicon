@@ -102,13 +102,22 @@ namespace RubiconConvert
 			if (Idx >= 0) Info.Citations.Add(ToFString(M.Sources[static_cast<size_t>(Idx)].Citation));
 		}
 		Info.Evidence = ToUE(C.Evidence);
-		const int Origin = C.Origin >= 0 ? C.Origin : (C.Trigger.bGaze && C.Kind != RubiconCore::ECueKind::Narration ? C.Trigger.Target : -1);
+		const int Origin = C.Origin >= 0 ? C.Origin : (C.Trigger.Type == RubiconCore::ECueTriggerType::Gaze && C.Kind != RubiconCore::ECueKind::Narration ? C.Trigger.Target : -1);
 		Info.Origin = GazeTargetName(M, Origin);
 		if (C.CueId) Info.AudioCueId = FName(*ToFString(*C.CueId));
 		Info.DurationMs = C.DurationMs;
-		Info.Trigger = C.Trigger.bGaze
-			? FString::Printf(TEXT("gaze %s >= %.1f s (%s)"), *GazeTargetName(M, C.Trigger.Target).ToString(), C.Trigger.MinDwellMs / 1000.0, *ToFString(RubiconCore::ToString(C.Trigger.Mode)))
-			: FString::Printf(TEXT("%s/%s at %.1f s"), *ToFString(RubiconCore::ToString(C.Trigger.State)), *ToFString(RubiconCore::ToString(C.Trigger.Phase)), C.Trigger.AtMs / 1000.0);
+		switch (C.Trigger.Type)
+		{
+		case RubiconCore::ECueTriggerType::Gaze:
+			Info.Trigger = FString::Printf(TEXT("gaze %s >= %.1f s (%s)"), *GazeTargetName(M, C.Trigger.Target).ToString(), C.Trigger.MinDwellMs / 1000.0, *ToFString(RubiconCore::ToString(C.Trigger.Mode)));
+			break;
+		case RubiconCore::ECueTriggerType::Phase:
+			Info.Trigger = FString::Printf(TEXT("%s/%s at %.1f s"), *ToFString(RubiconCore::ToString(C.Trigger.State)), *ToFString(RubiconCore::ToString(C.Trigger.Phase)), C.Trigger.AtMs / 1000.0);
+			break;
+		case RubiconCore::ECueTriggerType::Telling:
+			Info.Trigger = FString::Printf(TEXT("unconscious in %s (%s's telling)"), *ToFString(RubiconCore::ToString(C.Trigger.State)), C.Telling ? *ToFString(RubiconCore::ToString(*C.Telling)) : TEXT("?"));
+			break;
+		}
 		return Info;
 	}
 

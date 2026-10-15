@@ -4,6 +4,8 @@
  */
 import {
   CUE_KINDS,
+  GOSPELS,
+  TRADITION_SOURCE_TYPES,
   CUE_MODES,
   EVIDENCE_CATEGORIES,
   NON_SCRIPTURAL_SOURCE_TYPES,
@@ -64,6 +66,8 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
     if (!SOURCE_TYPES.includes(s.sourceType)) err(`source ${s.id}: invalid sourceType "${String(s.sourceType)}"`);
     else if (NON_SCRIPTURAL_SOURCE_TYPES.includes(s.sourceType) && s.evidence !== "historical-inference") {
       err(`source ${s.id}: ${s.sourceType} sources must be historical-inference`);
+    } else if (TRADITION_SOURCE_TYPES.includes(s.sourceType) && s.evidence !== "artistic-interpretation") {
+      err(`source ${s.id}: tradition sources must be artistic-interpretation`);
     }
     if (s.excerpt !== undefined && !(isObj(s.excerpt) && isStr(s.excerpt.text) && RENDERINGS.includes(s.excerpt.rendering))) {
       err(`source ${s.id}: excerpt requires text and a valid rendering`);
@@ -155,6 +159,22 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
     if (!isStr(rt.disclosure)) err("racingThoughts.disclosure: required");
   }
 
+  /* exertion */
+  const ex = m.exertion as unknown;
+  if (!isObj(ex)) err("exertion: required");
+  else {
+    for (const k of ["angularDeadzoneDegPerSec", "linearDeadzoneCmPerSec", "recoveryPerSec", "swoonRecoveryPerSec", "minSwoonMs", "sayingCost"] as const) {
+      if (!(isNum(ex[k]) && ex[k] >= 0)) err(`exertion.${k}: number >= 0`);
+    }
+    for (const k of ["angularScaleDegPerSec", "linearScaleCmPerSec", "risePerSec"] as const) {
+      if (!(isNum(ex[k]) && ex[k] > 0)) err(`exertion.${k}: positive number`);
+    }
+    if (!(isNum(ex.voiceDeadzone) && ex.voiceDeadzone >= 0 && ex.voiceDeadzone < 1)) err("exertion.voiceDeadzone: [0,1)");
+    if (!(isNum(ex.wakeAt) && ex.wakeAt >= 0 && ex.wakeAt < 1)) err("exertion.wakeAt: [0,1)");
+    if (ex.evidence !== "artistic-interpretation") err("exertion.evidence must be artistic-interpretation");
+    if (!isStr(ex.disclosure)) err("exertion.disclosure: required");
+  }
+
   /* timeline */
   if (m.timeline.length !== TIMELINE.length) err(`timeline: expected ${TIMELINE.length} states, got ${m.timeline.length}`);
   const timelineIds = new Set<string>();
@@ -217,6 +237,7 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
         break;
     }
     if (s.kind !== "saying" && s.saying) err(`${ctx}: only saying states carry a saying`);
+    if (s.fatigue !== undefined && !(isNum(s.fatigue) && s.fatigue > 0)) err(`${ctx}.fatigue: positive number`);
     if (s.forcedMode === "witness" && s.allowEmbodiment) err(`${ctx}: forcedMode witness contradicts allowEmbodiment`);
   });
 
@@ -262,7 +283,12 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
     cueIds.add(c.id);
     if (!CUE_KINDS.includes(c.kind)) err(`${ctx}: invalid kind "${String(c.kind)}"`);
     if (c.speaker !== "narrator" && !castIds.has(c.speaker)) err(`${ctx}: unknown speaker "${String(c.speaker)}"`);
-    if (c.kind === "narration" && c.speaker !== "narrator") err(`${ctx}: narration is spoken by the narrator`);
+    if ((c.kind === "narration" || c.kind === "telling") && c.speaker !== "narrator") err(`${ctx}: ${c.kind} is spoken by the narrator`);
+    if (c.kind === "telling") {
+      if (!GOSPELS.includes(c.telling as never)) err(`${ctx}: telling must name a Gospel (mark, matthew, luke, john)`);
+      if (!WITNESS_VANTAGES.includes(c.vantage as never)) err(`${ctx}: telling needs a vantage`);
+      if ((c.trigger as { type?: unknown } | undefined)?.type !== "telling") err(`${ctx}: telling cues use a telling trigger`);
+    }
     if (c.kind === "spoken" && c.evidence !== "gospel-text" && c.evidence !== "textual-variant") {
       err(`${ctx}: spoken cues quote scripture (evidence gospel-text or textual-variant)`);
     }
@@ -279,6 +305,11 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
       if (!targetIds.has(tr.target as string)) err(`${ctx}: unknown trigger target "${String(tr.target)}"`);
       if (!(isNum(tr.minDwellMs) && tr.minDwellMs >= 0)) err(`${ctx}: trigger.minDwellMs must be >= 0`);
       if (!CUE_MODES.includes(tr.mode as never)) err(`${ctx}: invalid trigger.mode "${String(tr.mode)}"`);
+    } else if (tr?.type === "telling") {
+      const sd = m.timeline.find((x) => x.id === tr.state);
+      if (!sd) err(`${ctx}: unknown trigger state "${String(tr.state)}"`);
+      else if (!sd.allowEmbodiment || sd.kind === "gate") err(`${ctx}: tellings belong to embodied states`);
+      if (c.kind !== "telling") err(`${ctx}: telling trigger requires kind telling`);
     } else if (tr?.type === "phase") {
       const stateDef = m.timeline.find((x) => x.id === tr.state);
       if (!stateDef) err(`${ctx}: unknown trigger state "${String(tr.state)}"`);

@@ -11,7 +11,7 @@ namespace RubiconCore
 		static const char* const StressNames[] = { "relief", "low", "medium", "high", "extreme" };
 		static const char* const ModeNames[] = { "embodiment", "witness" };
 		static const char* const LayerNames[] = { "historical", "theological" };
-		static const char* const VantageNames[] = { "centurion", "beloved_disciple", "mary" };
+		static const char* const VantageNames[] = { "centurion", "beloved_disciple", "mary", "women_afar" };
 		static const char* const KindNames[] = { "gate", "elevation", "saying", "timed", "terminal" };
 		static const char* const PhaseNames[] = { "advisory", "raising", "settled", "approach", "utterance", "resonance", "running", "open" };
 		static const char* const ViaNames[] = { "select", "speech", "auto" };
@@ -19,10 +19,13 @@ namespace RubiconCore
 		static const char* const CategoryNames[] = { "scriptural-echo", "crowd-echo", "accusation", "memory-flash", "prayer-collapse", "dread", "sensory-intrusion" };
 		static const char* const StateNames[] = { "threshold", "elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender", "release", "spear", "contemplation" };
 		static const char* const CommandNames[] = { "acknowledgeAdvisory", "triggerSaying", "setMode", "setLayer", "setComfort", "pause", "resume", "exit", "openEvidence", "closeEvidence", "setSettings" };
-		static const char* const EventNames[] = { "timeline.enter", "timeline.phase", "saying.trigger", "mode.change", "layer.change", "comfort.change", "pause.change", "exit", "evidence.change", "settings.change", "rt.fragment", "command.rejected", "cue.start" };
-		static const char* const SourceTypeNames[] = { "gospel", "new-testament", "hebrew-bible", "ancient-text", "archaeology", "scholarship" };
+		static const char* const EventNames[] = { "timeline.enter", "timeline.phase", "saying.trigger", "mode.change", "layer.change", "comfort.change", "pause.change", "exit", "evidence.change", "settings.change", "rt.fragment", "command.rejected", "cue.start", "consciousness.change" };
+		static const char* const ViewNames[] = { "embodiment", "witness", "telling" };
+		static const char* const GospelNames[] = { "mark", "matthew", "luke", "john" };
+		static const char* const CauseNames[] = { "exertion", "recovered", "saying", "death", "setting" };
+		static const char* const SourceTypeNames[] = { "gospel", "new-testament", "hebrew-bible", "ancient-text", "archaeology", "scholarship", "tradition" };
 		static const char* const RenderingNames[] = { "public-domain-translation", "own-translation", "paraphrase", "description" };
-		static const char* const CueKindNames[] = { "spoken", "narration", "sound" };
+		static const char* const CueKindNames[] = { "spoken", "narration", "sound", "telling" };
 		static const char* const CueModeNames[] = { "embodiment", "witness", "any" };
 
 		template <typename E, size_t N>
@@ -53,6 +56,9 @@ namespace RubiconCore
 	const char* ToString(ERendering V) { return TypesDetail::RenderingNames[static_cast<int>(V)]; }
 	const char* ToString(ECueKind V) { return TypesDetail::CueKindNames[static_cast<int>(V)]; }
 	const char* ToString(ECueMode V) { return TypesDetail::CueModeNames[static_cast<int>(V)]; }
+	const char* ToString(EViewMode V) { return TypesDetail::ViewNames[static_cast<int>(V)]; }
+	const char* ToString(EGospel V) { return TypesDetail::GospelNames[static_cast<int>(V)]; }
+	const char* ToString(EConsciousnessCause V) { return TypesDetail::CauseNames[static_cast<int>(V)]; }
 
 	bool Parse(const std::string& S, EEvidence& Out) { return TypesDetail::ParseTable(S, TypesDetail::EvidenceNames, Out); }
 	bool Parse(const std::string& S, EStress& Out) { return TypesDetail::ParseTable(S, TypesDetail::StressNames, Out); }
@@ -70,6 +76,7 @@ namespace RubiconCore
 	bool Parse(const std::string& S, ERendering& Out) { return TypesDetail::ParseTable(S, TypesDetail::RenderingNames, Out); }
 	bool Parse(const std::string& S, ECueKind& Out) { return TypesDetail::ParseTable(S, TypesDetail::CueKindNames, Out); }
 	bool Parse(const std::string& S, ECueMode& Out) { return TypesDetail::ParseTable(S, TypesDetail::CueModeNames, Out); }
+	bool Parse(const std::string& S, EGospel& Out) { return TypesDetail::ParseTable(S, TypesDetail::GospelNames, Out); }
 
 	bool IsNonScriptural(ESourceType V)
 	{

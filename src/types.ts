@@ -44,8 +44,13 @@ export const STRESS_LEVELS: readonly StressLevel[] = ["relief", "low", "medium",
 
 export type ExperienceMode = "embodiment" | "witness";
 export type VisualLayer = "historical" | "theological";
-export type WitnessVantage = "centurion" | "beloved_disciple" | "mary";
-export const WITNESS_VANTAGES: readonly WitnessVantage[] = ["centurion", "beloved_disciple", "mary"] as const;
+export type WitnessVantage = "centurion" | "beloved_disciple" | "mary" | "women_afar";
+export const WITNESS_VANTAGES: readonly WitnessVantage[] = ["centurion", "beloved_disciple", "mary", "women_afar"] as const;
+
+/** What the player sees from: the body, a chosen Witness vantage, or (unconscious) a Gospel's telling. */
+export type ViewMode = "embodiment" | "witness" | "telling";
+export type Gospel = "mark" | "matthew" | "luke" | "john";
+export const GOSPELS: readonly Gospel[] = ["mark", "matthew", "luke", "john"] as const;
 
 /* ------------------------------------------------------------------ */
 /* Timeline                                                            */
@@ -108,8 +113,10 @@ export interface ScriptureText {
 }
 
 /** What kind of witness a source is. Shown in the evidence overlay next to the evidence category. */
-export type SourceType = "gospel" | "new-testament" | "hebrew-bible" | "ancient-text" | "archaeology" | "scholarship";
-export const SOURCE_TYPES: readonly SourceType[] = ["gospel", "new-testament", "hebrew-bible", "ancient-text", "archaeology", "scholarship"] as const;
+export type SourceType = "gospel" | "new-testament" | "hebrew-bible" | "ancient-text" | "archaeology" | "scholarship" | "tradition";
+export const SOURCE_TYPES: readonly SourceType[] = ["gospel", "new-testament", "hebrew-bible", "ancient-text", "archaeology", "scholarship", "tradition"] as const;
+/** Later devotional and literary tradition (e.g. The Dream of the Rood): never history, always artistic-interpretation. */
+export const TRADITION_SOURCE_TYPES: readonly SourceType[] = ["tradition"] as const;
 /** Sources that are not scripture describe the world around the scene; their bearing on it is inference. */
 export const NON_SCRIPTURAL_SOURCE_TYPES: readonly SourceType[] = ["ancient-text", "archaeology", "scholarship"] as const;
 
@@ -222,6 +229,8 @@ export interface TimelineStateDef {
   allowEmbodiment: boolean;
   forcedMode?: ExperienceMode;
   forcedVantage?: WitnessVantage;
+  /** Multiplier on exertion build-up in this state (the body tires as the hours pass). Default 1. */
+  fatigue?: number;
   atmosphere?: AtmosphereKey;
   saying?: Saying;
   notes?: string[];
@@ -268,15 +277,17 @@ export interface Fragment {
  * spoken     a character's recorded words (KJV), voiced at its origin in the scene
  * narration  a narrator reading a historical account or archaeological description (Witness and Contemplation)
  * sound      a recorded action heard in the scene (the sponge on a reed, breasts beaten), citing its passage
+ * telling    while unconscious: one Gospel's account of the current moment, read from a disciple's vantage
  */
-export type CueKind = "spoken" | "narration" | "sound";
-export const CUE_KINDS: readonly CueKind[] = ["spoken", "narration", "sound"] as const;
+export type CueKind = "spoken" | "narration" | "sound" | "telling";
+export const CUE_KINDS: readonly CueKind[] = ["spoken", "narration", "sound", "telling"] as const;
 export type CueMode = "embodiment" | "witness" | "any";
 export const CUE_MODES: readonly CueMode[] = ["embodiment", "witness", "any"] as const;
 
 export type CueTrigger =
   | { type: "gaze"; target: string; minDwellMs: number; mode: CueMode }
-  | { type: "phase"; state: TimelineStateId; phase: Phase; atMs: number };
+  | { type: "phase"; state: TimelineStateId; phase: Phase; atMs: number }
+  | { type: "telling"; state: TimelineStateId };
 
 export interface Cue {
   id: string;
@@ -292,6 +303,9 @@ export interface Cue {
   durationMs: number;
   /** Narrative order: must finish before the saying of its state can be triggered (validated). */
   beforeSaying?: boolean;
+  /** Telling cues: whose account, and where the unconscious player sees it from. */
+  telling?: Gospel;
+  vantage?: WitnessVantage;
   note?: string;
 }
 
@@ -313,6 +327,30 @@ export interface RacingThoughtsModel {
   disclosure: string;
 }
 
+/**
+ * Exertion: head movement and talking cost the body; rest recovers it. At 1 the player loses consciousness and
+ * the current moment is told, Gospel by Gospel, from the disciples' vantages. Never displayed as a meter.
+ *   drive = clamp01( max(0, deg/s - deadzone)/scale + max(0, cm/s - deadzone)/scale + max(0, voice - deadzone) )
+ *   conscious:   E += (drive * risePerSec * fatigue - (1 - drive) * recoveryPerSec) * dt
+ *   unconscious: E -= swoonRecoveryPerSec * dt; wake when E <= wakeAt after minSwoonMs (and no telling sounding)
+ *   a saying costs sayingCost * fatigue, and a saying that comes due wakes the player to speak it
+ */
+export interface ExertionModel {
+  angularDeadzoneDegPerSec: number;
+  angularScaleDegPerSec: number;
+  linearDeadzoneCmPerSec: number;
+  linearScaleCmPerSec: number;
+  voiceDeadzone: number;
+  risePerSec: number;
+  recoveryPerSec: number;
+  swoonRecoveryPerSec: number;
+  wakeAt: number;
+  minSwoonMs: number;
+  sayingCost: number;
+  evidence: Evidence;
+  disclosure: string;
+}
+
 export interface EpisodeManifest {
   schemaVersion: string;
   id: string;
@@ -330,6 +368,7 @@ export interface EpisodeManifest {
   gazeTargets: GazeTargetDef[];
   witnessVantages: { id: WitnessVantage; castId: string; sourceIds: string[]; evidence: Evidence }[];
   racingThoughts: RacingThoughtsModel;
+  exertion: ExertionModel;
   fragments: Fragment[];
   cues: Cue[];
   timeline: TimelineStateDef[];
@@ -347,6 +386,7 @@ export interface Settings {
   reducedEffects: boolean;
   seated: boolean;
   hapticsEnabled: boolean; // default false; this experience never uses pain haptics in any case
+  swoon: boolean; // default true; false: exertion never takes consciousness (accessibility, tremor, standing play)
   subtitles: true; // sayings are always captioned
 }
 
@@ -379,6 +419,11 @@ export interface CueRuntime {
   active: { id: string; startedAt: number; endsAt: number } | null;
 }
 
+export interface ConsciousnessRuntime {
+  exertion: number; // [0,1]
+  swoon: { since: number } | null; // unconscious since
+}
+
 export interface SessionState {
   t: number; // simulation ms since start
   seed: number;
@@ -396,6 +441,7 @@ export interface SessionState {
   breath: number; // smoothed [0,1]; audio focus only
   rt: RacingThoughtsRuntime;
   cues: CueRuntime;
+  consciousness: ConsciousnessRuntime;
 }
 
 /* ------------------------------------------------------------------ */
@@ -420,6 +466,11 @@ export interface TickInput {
   gaze: string | null;
   /** Optional breath signal [0,1]. Affects audio focus only. */
   breath?: number;
+  /** Head angular speed (deg/s) and positional speed (cm/s) measured by the engine; feeds exertion. */
+  headDegPerSec?: number;
+  headCmPerSec?: number;
+  /** Voice activity [0,1] (microphone envelope only; nothing is recorded). Feeds exertion. */
+  voice?: number;
   commands?: Command[];
 }
 
@@ -436,7 +487,10 @@ export type SessionEvent =
   | { t: number; type: "settings.change"; settings: Settings }
   | { t: number; type: "rt.fragment"; fragmentId: string; kind: FragmentKind; voice: number }
   | { t: number; type: "cue.start"; cueId: string; kind: CueKind; speaker: string }
+  | { t: number; type: "consciousness.change"; conscious: boolean; cause: ConsciousnessCause }
   | { t: number; type: "command.rejected"; command: Command["type"]; reason: string };
+
+export type ConsciousnessCause = "exertion" | "recovered" | "saying" | "death" | "setting";
 
 export interface StepResult {
   state: SessionState;

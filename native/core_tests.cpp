@@ -338,6 +338,60 @@ int main(int Argc, char** Argv)
 		return ok;
 	});
 
+	Test("consciousness: moving much swoons (storm lets go, tellings from the disciples' vantages); rest or a saying wakes", [&]
+	{
+		bool ok = true;
+		FDriver D(3);
+		D.Cmd(Ack()).Until(EStateId::Forgiveness, Horizon);
+		auto Move = [&](int Ms, double Deg, double Cm)
+		{
+			for (int T = 0; T < Ms; T += TickMs)
+			{
+				FTickInput In;
+				In.Gaze = Crowd;
+				In.HeadDegPerSec = Deg;
+				In.HeadCmPerSec = Cm;
+				FStepResult R = Step(M, D.S, In);
+				D.S = std::move(R.State);
+				D.Events.insert(D.Events.end(), R.Events.begin(), R.Events.end());
+			}
+		};
+		Move(60000, 45, 12);
+		EXPECT(!D.S.Consciousness.bSwoon, "gentle movement for a minute never swoons");
+		FDriver V(3);
+		V.Cmd(Ack()).Until(EStateId::Forgiveness, Horizon);
+		std::swap(D, V);
+		Move(12000, 200, 40);
+		EXPECT(D.S.Consciousness.bSwoon, "vigorous movement swoons");
+		const FFrameOutputs F0 = SelectFrame(M, D.S, &L);
+		EXPECT(F0.View == EViewMode::Telling && !F0.bConscious, "view: telling");
+		Move(8000, 0, 0);
+		EXPECT(D.S.Consciousness.bSwoon && SelectFrame(M, D.S, &L).RtOutput < 0.05, "the storm let go");
+		Move(17000, 0, 0);
+		int Tellings = 0;
+		for (const FEvent& E : D.Events) if (E.Type == EEventType::CueStart && M.Cues[static_cast<size_t>(E.Cue)].Kind == ECueKind::Telling) ++Tellings;
+		EXPECT(Tellings >= 2, "tellings %d", Tellings);
+		Move(60000, 0, 0);
+		EXPECT(!D.S.Consciousness.bSwoon, "rest brings him back (or the saying did)");
+		return ok;
+	});
+
+	Test("only the wood of the cross lowers the storm below the floor", [&]
+	{
+		bool ok = true;
+		const int Cross = M.FindGazeTarget("cross");
+		for (int Si = static_cast<int>(EStateId::Elevation); Si <= static_cast<int>(EStateId::Surrender); ++Si)
+		{
+			FDriver D(5);
+			D.Cmd(Ack()).Until(static_cast<EStateId>(Si), Horizon).Run(15000, Cross);
+			EXPECT(D.Out() < M.Timeline[static_cast<size_t>(Si)].Rt.Floor, "state %s: %f", ToString(static_cast<EStateId>(Si)), D.Out());
+		}
+		int Relief = 0;
+		for (const FGazeTargetDef& G : M.GazeTargets) if (G.Stress == EStress::Relief) ++Relief;
+		EXPECT(Relief == 1 && M.GazeTargets[static_cast<size_t>(Cross)].Stress == EStress::Relief, "the cross is the only relief");
+		return ok;
+	});
+
 	std::printf("\n%d passed, %d failed\n", Passed, Failures);
 	return Failures ? 1 : 0;
 }

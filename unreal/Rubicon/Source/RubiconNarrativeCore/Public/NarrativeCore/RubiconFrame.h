@@ -55,6 +55,7 @@ namespace RubiconCore
 		double ElapsedMs = 0;
 		double DurationMs = 0;
 		std::optional<std::string> CueId;
+		std::optional<EGospel> Telling;
 	};
 
 	struct FFrameOutputs
@@ -70,6 +71,10 @@ namespace RubiconCore
 		bool bPaused = false;
 		bool bExited = false;
 		bool bEmbodimentAvailable = true;
+		EViewMode View = EViewMode::Embodiment;
+		EVantage ViewVantage = EVantage::BelovedDisciple;
+		bool bConscious = true;
+		double Exertion = 0; // debugging only: never shown as a meter
 		bool bControlPause = true, bControlExit = true, bControlWitness = true, bControlComfort = true; // always true while not exited
 
 		EElevationTransition ElevationTransition = EElevationTransition::SlowTilt;
@@ -96,6 +101,8 @@ namespace RubiconCore
 	};
 
 	std::vector<FEvidenceItem> EvidenceForState(const FManifest& M, const FSessionState& S, const FLocale* Locale);
+	/** Unconscious: the vantage of the telling being read, else of the last telling heard, else beside the cross. */
+	void ViewOf(const FManifest& M, const FSessionState& S, EViewMode& OutView, EVantage& OutVantage);
 	std::optional<FCueFrame> CueFrame(const FManifest& M, const FSessionState& S, const FLocale* Locale);
 	FFrameOutputs SelectFrame(const FManifest& M, const FSessionState& S, const FLocale* Locale);
 }

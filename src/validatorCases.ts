@@ -195,6 +195,31 @@ export function validatorCases(m: EpisodeManifest, locale: Locale): ValidatorCas
       mutate: (x) => x,
     },
     {
+      name: "exertion and telling errors",
+      mutate: (x) => {
+        x.exertion.risePerSec = 0;
+        x.exertion.wakeAt = 1;
+        x.exertion.voiceDeadzone = -1;
+        delete x.exertion.minSwoonMs;
+        x.exertion.evidence = "gospel-text";
+        state(x, "mother").fatigue = -2;
+        const t = x.cues.filter((y: Mutable) => y.kind === "telling");
+        t[0].speaker = "soldiers";
+        t[1].telling = "thomas";
+        delete t[2].vantage;
+        t[3].trigger = { type: "telling", state: "spear" };
+        t[4].trigger = { type: "phase", state: "forgiveness", phase: "approach", atMs: 0 };
+        x.cues.find((y: Mutable) => y.kind === "sound").trigger = { type: "telling", state: "thirst" };
+        x.sources.find((y: Mutable) => y.sourceType === "tradition").evidence = "historical-inference";
+        x.witnessVantages = x.witnessVantages.filter((v: Mutable) => v.id !== "women_afar");
+        return x;
+      },
+    },
+    {
+      name: "missing exertion",
+      mutate: (x) => { delete x.exertion; return x; },
+    },
+    {
       name: "too few fragments (warnings only)",
       mutate: (x) => { x.fragments = x.fragments.filter((f: Mutable) => f.states === "*").slice(0, 1); return x; },
     },

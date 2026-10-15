@@ -34,9 +34,15 @@ namespace RubiconCore
 		return Lerp(Def.Rt.Ceiling, *Def.Rt.CeilingEnd, P);
 	}
 
+	namespace RtMind
+	{
+		/** Outside the body (Witness) or out of it (unconscious): the storm has nothing to hold on to. */
+		bool Away(const FSessionState& S) { return S.Mode == EMode::Witness || S.Consciousness.bSwoon; }
+	}
+
 	double IntensityTarget(const FManifest& M, const FTimelineStateDef& Def, const FSessionState& S)
 	{
-		if (S.Mode == EMode::Witness) return 0;
+		if (RtMind::Away(S)) return 0;
 		const FRacingThoughtsModel& Model = M.RacingThoughts;
 		const EStress Lvl = EffectiveStress(M, Def, S.GazeTarget);
 		const double W = Model.StressWeights[static_cast<size_t>(Lvl)];
@@ -86,7 +92,7 @@ namespace RubiconCore
 		bool GazeEligible(const FManifest& M, const FFragment& F, const FSessionState& S)
 		{
 			if (!F.bHasGaze) return true;
-			return S.Mode == EMode::Embodiment && S.GazeTarget == F.GazeTarget && DwellTierIndex(M, S.GazeDwellMs) == F.GazeTier;
+			return S.Mode == EMode::Embodiment && !S.Consciousness.bSwoon && S.GazeTarget == F.GazeTarget && DwellTierIndex(M, S.GazeDwellMs) == F.GazeTier;
 		}
 	}
 
@@ -99,7 +105,7 @@ namespace RubiconCore
 
 		/* intensity */
 		const double Target = IntensityTarget(M, Def, S);
-		const double Tau = S.Mode == EMode::Witness ? Model.WitnessEchoTauMs : (Target > S.Rt.Intensity ? Def.Rt.TauUpMs : Def.Rt.TauDownMs);
+		const double Tau = RtMind::Away(S) ? Model.WitnessEchoTauMs : (Target > S.Rt.Intensity ? Def.Rt.TauUpMs : Def.Rt.TauDownMs);
 		const double Intensity = Clamp01(SmoothToward(S.Rt.Intensity, Target, Dt, Tau));
 
 		/* comfort gain: snap down on enable (handled in command), ramp up on release */

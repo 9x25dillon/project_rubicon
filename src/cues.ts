@@ -5,16 +5,18 @@
  * Reads timeline, gaze and mode; never writes the timeline or Racing Thoughts state (I7). One cue sounds at a
  * time; each plays at most once per session. When several become eligible on the same tick, manifest order wins.
  *
- *   gaze trigger   the gaze has rested on `target` for at least minDwellMs, in the given mode
- *   phase trigger  the timeline is in `state` / `phase` and the phase has run at least atMs
+ *   gaze trigger    the gaze has rested on `target` for at least minDwellMs, in the given mode (embodied gaze cues
+ *                   need the player conscious)
+ *   phase trigger   the timeline is in `state` / `phase` and the phase has run at least atMs
+ *   telling trigger the player is unconscious (and embodied) in `state`: the Gospels' tellings, in manifest order
  *
  * Playback rules:
  *   fit     a cue starts only if it can finish before the nominal end of the current phase (phases with a fixed
  *           length), so a cue never spills into the next phase or state
  *   floor   during a saying's utterance the saying has the floor: any cue not triggered by that utterance is cut,
  *           and gaze cues do not start
- *   preempt the scene's recorded events outrank points of interest: an eligible phase cue cuts a sounding gaze
- *           cue (so a Witness narration can never delay the exchange Luke records before Paradise)
+ *   preempt the scene's recorded events outrank points of interest and tellings: an eligible phase cue cuts a
+ *           sounding gaze or telling cue (so nothing can delay the exchange Luke records before Paradise)
  *   once    a cue that plays is marked played; a phase cue whose phase ends before it fits is never heard
  *           (phases are never held open for dialogue: I4)
  */
@@ -23,6 +25,12 @@ import type { Cue, CueRuntime, EpisodeManifest, Phase, SessionEvent, SessionStat
 export const EMPTY_CUES: CueRuntime = { played: [], active: null };
 
 /** Nominal length of a phase, or undefined for open-ended phases (advisory, open). */
+/** The telling being read now, if any (used to hold waking until it finishes). */
+export function tellingSounding(m: EpisodeManifest, s: SessionState, now: number): boolean {
+  const a = s.cues.active;
+  return a !== null && a.endsAt > now && m.cues.find((c) => c.id === a.id)?.kind === "telling";
+}
+
 export function phaseDurationMs(def: TimelineStateDef, phase: Phase): number | undefined {
   const t = def.timing;
   switch (phase) {
@@ -47,10 +55,14 @@ function triggeredByThisUtterance(c: Cue, def: TimelineStateDef): boolean {
 export function cueEligible(c: Cue, def: TimelineStateDef, s: SessionState): boolean {
   if (!(c.states === "*" || c.states.includes(def.id))) return false;
   const tr = c.trigger;
+  const unconscious = s.consciousness.swoon !== null;
   if (tr.type === "gaze") {
     if (inUtterance(def, s)) return false;
     if (tr.mode !== "any" && tr.mode !== s.mode) return false;
+    if (tr.mode === "embodiment" && unconscious) return false;
     if (!(s.gaze.target === tr.target && s.gaze.dwellMs >= tr.minDwellMs)) return false;
+  } else if (tr.type === "telling") {
+    if (inUtterance(def, s) || !unconscious || s.mode !== "embodiment" || def.id !== tr.state) return false;
   } else if (!(def.id === tr.state && s.timeline.phase === tr.phase && s.timeline.phaseElapsedMs >= tr.atMs)) {
     return false;
   }
@@ -76,7 +88,7 @@ export function stepCues(
     cues: { played: [...s.cues.played, c.id], active: { id: c.id, startedAt: now, endsAt: now + c.durationMs } },
     events: [{ t: now, type: "cue.start", cueId: c.id, kind: c.kind, speaker: c.speaker } as SessionEvent],
   });
-  const activeIsGaze = active !== null && m.cues.find((x) => x.id === active!.id)?.trigger.type === "gaze";
+  const activeIsGaze = active !== null && m.cues.find((x) => x.id === active!.id)?.trigger.type !== "phase";
 
   /* pass 1: phase cues (recorded events), which may preempt a sounding gaze cue */
   if (active === null || activeIsGaze) {
@@ -86,9 +98,9 @@ export function stepCues(
   }
   if (active) return { cues: active === s.cues.active ? s.cues : { ...s.cues, active }, events: [] };
 
-  /* pass 2: gaze cues (points of interest) */
+  /* pass 2: gaze cues (points of interest) and tellings */
   for (const c of m.cues) {
-    if (c.trigger.type === "gaze" && !played.has(c.id) && cueEligible(c, def, s)) return start(c);
+    if (c.trigger.type !== "phase" && !played.has(c.id) && cueEligible(c, def, s)) return start(c);
   }
   return { cues: s.cues.active === null ? s.cues : { ...s.cues, active: null }, events: [] };
 }

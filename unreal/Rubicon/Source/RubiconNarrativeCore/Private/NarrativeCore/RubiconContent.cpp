@@ -126,7 +126,8 @@ namespace RubiconCore
 			"surrender", "release", "spear", "contemplation" };
 		static const char* const SayingIds[] = { "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender" };
 		static const char* const StressOrder[] = { "relief", "low", "medium", "high", "extreme" };
-		static const char* const VantageIds[] = { "centurion", "beloved_disciple", "mary" };
+		static const char* const VantageIds[] = { "centurion", "beloved_disciple", "mary", "women_afar" };
+		static const char* const GospelIds[] = { "mark", "matthew", "luke", "john" };
 
 		bool InTable(const FJson* P, const char* const* Table, size_t N)
 		{
@@ -203,6 +204,10 @@ namespace RubiconCore
 			else if (IsNonScriptural(SourceType) && !IsString(Get(&Src, "evidence"), "historical-inference"))
 			{
 				Err(Ctx + ": " + St->StringValue + " sources must be historical-inference");
+			}
+			else if (SourceType == ESourceType::Tradition && !IsString(Get(&Src, "evidence"), "artistic-interpretation"))
+			{
+				Err(Ctx + ": tradition sources must be artistic-interpretation");
 			}
 			const FJson* Ex = Get(&Src, "excerpt");
 			if (Ex && !(IsObj(Ex) && IsStr(Get(Ex, "text")) && EnumOk<ERendering>(Get(Ex, "rendering")))) Err(Ctx + ": excerpt requires text and a valid rendering");
@@ -346,6 +351,29 @@ namespace RubiconCore
 			if (!IsStr(Get(Rt, "disclosure"))) Err("racingThoughts.disclosure: required");
 		}
 
+		/* exertion */
+		const FJson* Ex = Get(M, "exertion");
+		if (!IsObj(Ex)) Err("exertion: required");
+		else
+		{
+			for (const char* K : { "angularDeadzoneDegPerSec", "linearDeadzoneCmPerSec", "recoveryPerSec", "swoonRecoveryPerSec", "minSwoonMs", "sayingCost" })
+			{
+				const FJson* V = Get(Ex, K);
+				if (!(IsNum(V) && V->NumberValue >= 0)) Err(std::string("exertion.") + K + ": number >= 0");
+			}
+			for (const char* K : { "angularScaleDegPerSec", "linearScaleCmPerSec", "risePerSec" })
+			{
+				const FJson* V = Get(Ex, K);
+				if (!(IsNum(V) && V->NumberValue > 0)) Err(std::string("exertion.") + K + ": positive number");
+			}
+			const FJson* Vd = Get(Ex, "voiceDeadzone");
+			if (!(IsNum(Vd) && Vd->NumberValue >= 0 && Vd->NumberValue < 1)) Err("exertion.voiceDeadzone: [0,1)");
+			const FJson* Wa = Get(Ex, "wakeAt");
+			if (!(IsNum(Wa) && Wa->NumberValue >= 0 && Wa->NumberValue < 1)) Err("exertion.wakeAt: [0,1)");
+			if (!IsString(Get(Ex, "evidence"), "artistic-interpretation")) Err("exertion.evidence must be artistic-interpretation");
+			if (!IsStr(Get(Ex, "disclosure"))) Err("exertion.disclosure: required");
+		}
+
 		/* timeline */
 		const auto& Timeline = Items(Get(M, "timeline"));
 		const auto& GazeTargets = Items(Get(M, "gazeTargets"));
@@ -460,6 +488,10 @@ namespace RubiconCore
 				if (!(TmN("runningMs") > 0)) Err(Ctx + ": timed requires runningMs");
 			}
 			if (KindS != "saying" && Truthy(Get(St, "saying"))) Err(Ctx + ": only saying states carry a saying");
+			if (const FJson* Fat = Get(St, "fatigue"))
+			{
+				if (!(IsNum(Fat) && Fat->NumberValue > 0)) Err(Ctx + ".fatigue: positive number");
+			}
 			if (IsString(Get(St, "forcedMode"), "witness") && Truthy(Get(St, "allowEmbodiment"))) Err(Ctx + ": forcedMode witness contradicts allowEmbodiment");
 		}
 
@@ -534,7 +566,13 @@ namespace RubiconCore
 			if (!EnumOk<ECueKind>(Kind)) Err(Ctx + ": invalid kind \"" + S(Kind) + "\"");
 			const FJson* Speaker = Get(&C, "speaker");
 			if (!IsString(Speaker, "narrator") && !CastIds.count(SetKey(Speaker))) Err(Ctx + ": unknown speaker \"" + S(Speaker) + "\"");
-			if (IsString(Kind, "narration") && !IsString(Speaker, "narrator")) Err(Ctx + ": narration is spoken by the narrator");
+			if ((IsString(Kind, "narration") || IsString(Kind, "telling")) && !IsString(Speaker, "narrator")) Err(Ctx + ": " + Kind->StringValue + " is spoken by the narrator");
+			if (IsString(Kind, "telling"))
+			{
+				if (!InTable(Get(&C, "telling"), GospelIds, 4)) Err(Ctx + ": telling must name a Gospel (mark, matthew, luke, john)");
+				if (!InTable(Get(&C, "vantage"), VantageIds, 4)) Err(Ctx + ": telling needs a vantage");
+				if (!IsString(Get(Get(&C, "trigger"), "type"), "telling")) Err(Ctx + ": telling cues use a telling trigger");
+			}
 			const FJson* Ev = Get(&C, "evidence");
 			if (IsString(Kind, "spoken") && !IsString(Ev, "gospel-text") && !IsString(Ev, "textual-variant"))
 			{
@@ -567,6 +605,15 @@ namespace RubiconCore
 				const FJson* Md = Get(Tr, "minDwellMs");
 				if (!(IsNum(Md) && Md->NumberValue >= 0)) Err(Ctx + ": trigger.minDwellMs must be >= 0");
 				if (!EnumOk<ECueMode>(Get(Tr, "mode"))) Err(Ctx + ": invalid trigger.mode \"" + S(Get(Tr, "mode")) + "\"");
+			}
+			else if (IsString(TrType, "telling"))
+			{
+				const FJson* TrState = Get(Tr, "state");
+				const FJson* Def = nullptr;
+				for (const FJson& St : Timeline) if (StrictEq(Get(&St, "id"), TrState)) { Def = &St; break; }
+				if (!Def) Err(Ctx + ": unknown trigger state \"" + S(TrState) + "\"");
+				else if (!Truthy(Get(Def, "allowEmbodiment")) || IsString(Get(Def, "kind"), "gate")) Err(Ctx + ": tellings belong to embodied states");
+				if (!IsString(Kind, "telling")) Err(Ctx + ": telling trigger requires kind telling");
 			}
 			else if (IsString(TrType, "phase"))
 			{
@@ -787,6 +834,23 @@ namespace RubiconCore
 			Rm.Evidence = B.Enum(Get(Rt, "evidence"), "racingThoughts.evidence", EEvidence::ArtisticInterpretation);
 			Rm.Disclosure = B.Str(Get(Rt, "disclosure"), "racingThoughts.disclosure");
 		}
+		{
+			const FJson* Ex = Get(M, "exertion");
+			FExertionModel& X = Out.Exertion;
+			X.AngularDeadzoneDegPerSec = B.Num(Get(Ex, "angularDeadzoneDegPerSec"), "exertion.angularDeadzoneDegPerSec");
+			X.AngularScaleDegPerSec = B.Num(Get(Ex, "angularScaleDegPerSec"), "exertion.angularScaleDegPerSec");
+			X.LinearDeadzoneCmPerSec = B.Num(Get(Ex, "linearDeadzoneCmPerSec"), "exertion.linearDeadzoneCmPerSec");
+			X.LinearScaleCmPerSec = B.Num(Get(Ex, "linearScaleCmPerSec"), "exertion.linearScaleCmPerSec");
+			X.VoiceDeadzone = B.Num(Get(Ex, "voiceDeadzone"), "exertion.voiceDeadzone");
+			X.RisePerSec = B.Num(Get(Ex, "risePerSec"), "exertion.risePerSec");
+			X.RecoveryPerSec = B.Num(Get(Ex, "recoveryPerSec"), "exertion.recoveryPerSec");
+			X.SwoonRecoveryPerSec = B.Num(Get(Ex, "swoonRecoveryPerSec"), "exertion.swoonRecoveryPerSec");
+			X.WakeAt = B.Num(Get(Ex, "wakeAt"), "exertion.wakeAt");
+			X.MinSwoonMs = B.Num(Get(Ex, "minSwoonMs"), "exertion.minSwoonMs");
+			X.SayingCost = B.Num(Get(Ex, "sayingCost"), "exertion.sayingCost");
+			X.Evidence = B.Enum(Get(Ex, "evidence"), "exertion.evidence", EEvidence::ArtisticInterpretation);
+			X.Disclosure = B.Str(Get(Ex, "disclosure"), "exertion.disclosure");
+		}
 
 		auto ResolveSources = [&](const std::vector<std::string>& Ids, const std::string& Ctx)
 		{
@@ -868,15 +932,20 @@ namespace RubiconCore
 			const FJson* Tr = Get(&C, "trigger");
 			if (IsString(Get(Tr, "type"), "gaze"))
 			{
-				Cu.Trigger.bGaze = true;
+				Cu.Trigger.Type = ECueTriggerType::Gaze;
 				Cu.Trigger.Target = Out.FindGazeTarget(B.Str(Get(Tr, "target"), Ctx + ".trigger.target"));
 				if (Cu.Trigger.Target < 0) OutErrors.push_back(Ctx + ": unknown trigger target");
 				Cu.Trigger.MinDwellMs = B.Num(Get(Tr, "minDwellMs"), Ctx + ".trigger.minDwellMs");
 				Cu.Trigger.Mode = B.Enum(Get(Tr, "mode"), Ctx + ".trigger.mode", ECueMode::Any);
 			}
+			else if (IsString(Get(Tr, "type"), "telling"))
+			{
+				Cu.Trigger.Type = ECueTriggerType::Telling;
+				Cu.Trigger.State = B.Enum(Get(Tr, "state"), Ctx + ".trigger.state", EStateId::Elevation);
+			}
 			else
 			{
-				Cu.Trigger.bGaze = false;
+				Cu.Trigger.Type = ECueTriggerType::Phase;
 				Cu.Trigger.State = B.Enum(Get(Tr, "state"), Ctx + ".trigger.state", EStateId::Threshold);
 				Cu.Trigger.Phase = B.Enum(Get(Tr, "phase"), Ctx + ".trigger.phase", EPhase::Advisory);
 				Cu.Trigger.AtMs = B.Num(Get(Tr, "atMs"), Ctx + ".trigger.atMs");
@@ -896,6 +965,8 @@ namespace RubiconCore
 			const FJson* Before = Get(&C, "beforeSaying");
 			Cu.bBeforeSaying = Before && Before->IsBool() && Before->BoolValue;
 			Cu.Note = B.OptStr(Get(&C, "note"));
+			if (const FJson* Tg = Get(&C, "telling")) Cu.Telling = B.Enum(Tg, Ctx + ".telling", EGospel::Mark);
+			if (const FJson* Va = Get(&C, "vantage")) Cu.Vantage = B.Enum(Va, Ctx + ".vantage", EVantage::BelovedDisciple);
 			Out.Cues.push_back(std::move(Cu));
 		}
 
@@ -984,6 +1055,7 @@ namespace RubiconCore
 				D.Saying = std::move(Sg);
 			}
 			D.Notes = B.StrList(Get(St, "notes"));
+			if (const FJson* Fat = Get(St, "fatigue")) D.Fatigue = B.Num(Fat, Ctx + ".fatigue");
 			Out.Timeline.push_back(std::move(D));
 		}
 

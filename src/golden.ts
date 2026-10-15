@@ -7,6 +7,7 @@
  *   "basic"     gaze changes plus setMode / setComfort / triggerSaying (the original M0 goldens)
  *   "coverage"  every command type, breath input, rejected commands, non-default settings and a final exit
  *   "dwell"     long gaze holds (mean 20 s per target) so every dwell tier and the gaze-triggered dialogue occur
+ *   "exertion"  the same holds with bursts of head movement and talking: exertion, loss of consciousness, tellings
  *
  * Expected results carry the full event log, the state and event hashes, and a per-tick Racing Thoughts
  * trace (internal intensity, mixer output, comfort gain) sampled after every step.
@@ -18,7 +19,7 @@ import { runReplay } from "./replay.js";
 import { createSession, stateDef, step, TICK_MS } from "./session.js";
 import type { Command, EpisodeManifest, SessionEvent, Settings, TickInput, WitnessVantage } from "./types.js";
 
-export type GoldenProfile = "basic" | "coverage" | "dwell";
+export type GoldenProfile = "basic" | "coverage" | "dwell" | "exertion";
 
 export interface RacingThoughtsTrace {
   intensity: number[];
@@ -43,6 +44,7 @@ export const GOLDEN_CASES: readonly { seed: number; profile: GoldenProfile }[] =
   { seed: 42, profile: "basic" },
   { seed: 1234, profile: "coverage" },
   { seed: 99, profile: "dwell" },
+  { seed: 77, profile: "exertion" },
 ];
 
 export function goldenTicks(m: EpisodeManifest): number {
@@ -92,6 +94,7 @@ function coverageInputs(m: EpisodeManifest, seed: number, ticks: number): TickIn
     () => ({ type: "closeEvidence" }),
     () => ({ type: "setSettings", settings: { intensityCeiling: rand() * 1.2 - 0.1 } }),
     () => ({ type: "setSettings", settings: { reducedEffects: rand() < 0.5, seated: rand() < 0.5, hapticsEnabled: false } }),
+    () => ({ type: "setSettings", settings: { swoon: rand() < 0.7 } }),
     () => ({ type: "triggerSaying", via: rand() < 0.5 ? "select" : "speech" }),
     () => ({ type: "acknowledgeAdvisory" }),
     () => ({ type: "pause" }),
@@ -122,24 +125,29 @@ function coverageInputs(m: EpisodeManifest, seed: number, ticks: number): TickIn
     }
     if (i === ticks - 2) commands = [...(commands ?? []), { type: "exit" }];
     if (i === ticks - 1) commands = [{ type: "setLayer", layer: "theological" }]; // rejected after exit
-    out.push({ gaze, ...(rand() < 0.9 ? { breath } : {}), ...(commands ? { commands } : {}) });
+    const motion = rand() < 0.15 ? { headDegPerSec: Math.round(rand() * 2400) / 10, headCmPerSec: Math.round(rand() * 600) / 10 } : {};
+    out.push({ gaze, ...(rand() < 0.9 ? { breath } : {}), ...motion, ...(commands ? { commands } : {}) });
   }
   return out;
 }
 
-function dwellInputs(m: EpisodeManifest, seed: number, ticks: number): TickInput[] {
+function dwellInputs(m: EpisodeManifest, seed: number, ticks: number, exertion = false): TickInput[] {
   const rand = seededRand(seed);
   const targets = m.gazeTargets.map((g) => g.id);
   const out: TickInput[] = [{ gaze: null, commands: [{ type: "acknowledgeAdvisory" }] }];
   let gaze: string | null = targets[0]!;
+  let burst = 0;
   for (let i = 1; i < ticks; i++) {
     if (rand() < 0.0005) gaze = targets[Math.floor(rand() * targets.length)]!;
+    if (burst > 0) burst--;
+    else if (exertion && rand() < 0.0004) burst = 600 + Math.floor(rand() * 900); // 6 to 15 s of movement or talking
     let commands: Command[] | undefined;
     const p = rand();
     if (p < 0.0002) commands = [{ type: "setMode", mode: rand() < 0.5 ? "witness" : "embodiment" }];
     else if (p < 0.0004) commands = [{ type: "setComfort", on: rand() < 0.3 }];
     else if (p < 0.0007) commands = [{ type: "triggerSaying", via: "speech" }];
-    out.push({ gaze, ...(commands ? { commands } : {}) });
+    const exert = burst > 0 ? { headDegPerSec: 120 + Math.round(rand() * 1200) / 10, headCmPerSec: Math.round(rand() * 500) / 10, voice: Math.round(rand() * 100) / 100 } : {};
+    out.push({ gaze, ...exert, ...(commands ? { commands } : {}) });
   }
   return out;
 }
@@ -148,6 +156,7 @@ export function goldenInputs(m: EpisodeManifest, seed: number, profile: GoldenPr
   const ticks = goldenTicks(m);
   if (profile === "basic") return basicInputs(m, seed, ticks);
   if (profile === "dwell") return dwellInputs(m, seed, ticks);
+  if (profile === "exertion") return dwellInputs(m, seed, ticks, true);
   return coverageInputs(m, seed, ticks);
 }
 

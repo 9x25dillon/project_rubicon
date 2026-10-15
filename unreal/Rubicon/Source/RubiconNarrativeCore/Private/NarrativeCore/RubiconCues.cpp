@@ -5,6 +5,11 @@
 
 namespace RubiconCore
 {
+	bool TellingSounding(const FManifest& M, const FSessionState& S, double Now)
+	{
+		return S.Cues.bActive && S.Cues.EndsAt > Now && S.Cues.Active >= 0 && M.Cues[static_cast<size_t>(S.Cues.Active)].Kind == ECueKind::Telling;
+	}
+
 	std::optional<double> PhaseDurationMs(const FTimelineStateDef& Def, EPhase Phase)
 	{
 		const FTiming& T = Def.Timing;
@@ -29,7 +34,7 @@ namespace RubiconCore
 
 		bool TriggeredByThisUtterance(const FCue& C, const FTimelineStateDef& Def)
 		{
-			return !C.Trigger.bGaze && C.Trigger.State == Def.Id && C.Trigger.Phase == EPhase::Utterance;
+			return C.Trigger.Type == ECueTriggerType::Phase && C.Trigger.State == Def.Id && C.Trigger.Phase == EPhase::Utterance;
 		}
 	}
 
@@ -37,12 +42,18 @@ namespace RubiconCore
 	{
 		if (!(C.bAllStates || C.States[static_cast<size_t>(Def.Id)])) return false;
 		const FCueTrigger& Tr = C.Trigger;
-		if (Tr.bGaze)
+		const bool bUnconscious = S.Consciousness.bSwoon;
+		if (Tr.Type == ECueTriggerType::Gaze)
 		{
 			if (CueDetail::InUtterance(Def, S)) return false;
 			if (Tr.Mode == ECueMode::Embodiment && S.Mode != EMode::Embodiment) return false;
 			if (Tr.Mode == ECueMode::Witness && S.Mode != EMode::Witness) return false;
+			if (Tr.Mode == ECueMode::Embodiment && bUnconscious) return false;
 			if (!(S.GazeTarget == Tr.Target && S.GazeDwellMs >= Tr.MinDwellMs)) return false;
+		}
+		else if (Tr.Type == ECueTriggerType::Telling)
+		{
+			if (CueDetail::InUtterance(Def, S) || !bUnconscious || S.Mode != EMode::Embodiment || Def.Id != Tr.State) return false;
 		}
 		else if (!(Def.Id == Tr.State && S.Timeline.Phase == Tr.Phase && S.Timeline.PhaseElapsedMs >= Tr.AtMs))
 		{
@@ -79,7 +90,7 @@ namespace RubiconCore
 			R.Events.push_back(E);
 			return R;
 		};
-		const bool bActiveIsGaze = bActive && M.Cues[static_cast<size_t>(S.Cues.Active)].Trigger.bGaze;
+		const bool bActiveIsGaze = bActive && M.Cues[static_cast<size_t>(S.Cues.Active)].Trigger.Type != ECueTriggerType::Phase;
 
 		/* pass 1: phase cues (recorded events), which may preempt a sounding gaze cue */
 		if (!bActive || bActiveIsGaze)
@@ -87,16 +98,16 @@ namespace RubiconCore
 			for (size_t I = 0; I < M.Cues.size(); ++I)
 			{
 				const FCue& C = M.Cues[I];
-				if (!C.Trigger.bGaze && !Played(static_cast<int>(I)) && CueEligible(C, Def, S)) return Start(static_cast<int>(I));
+				if (C.Trigger.Type == ECueTriggerType::Phase && !Played(static_cast<int>(I)) && CueEligible(C, Def, S)) return Start(static_cast<int>(I));
 			}
 		}
 		if (bActive) return R;
 
-		/* pass 2: gaze cues (points of interest) */
+		/* pass 2: gaze cues (points of interest) and tellings */
 		for (size_t I = 0; I < M.Cues.size(); ++I)
 		{
 			const FCue& C = M.Cues[I];
-			if (C.Trigger.bGaze && !Played(static_cast<int>(I)) && CueEligible(C, Def, S)) return Start(static_cast<int>(I));
+			if (C.Trigger.Type != ECueTriggerType::Phase && !Played(static_cast<int>(I)) && CueEligible(C, Def, S)) return Start(static_cast<int>(I));
 		}
 		R.Cues.bActive = false;
 		R.Cues.Active = -1;

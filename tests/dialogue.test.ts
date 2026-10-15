@@ -156,7 +156,7 @@ const citedTexts = (ids: string[], allowParaphrase: boolean) =>
   });
 
 test("every spoken or scripture-read cue is verbatim KJV from its cited passages (ellipses mark omissions)", () => {
-  for (const c of M.cues.filter((x) => x.kind !== "sound" && x.evidence === "gospel-text")) {
+  for (const c of M.cues.filter((x) => x.kind !== "sound" && (x.evidence === "gospel-text" || x.evidence === "textual-variant"))) {
     const corpus = norm(citedTexts(c.sourceIds, false).join(" "));
     for (const seg of L[c.textKey]!.split(" ... ")) {
       const s = norm(seg).replace(/[.?!,;:]+$/, "");
@@ -167,7 +167,7 @@ test("every spoken or scripture-read cue is verbatim KJV from its cited passages
 
 test("every quotation inside a narration appears in a cited source, and paraphrased sources are never quoted", () => {
   const quote = /(?:^|[\s(:])'(.+?)'(?=[\s.,;:)]|$)/g;
-  for (const c of M.cues.filter((x) => x.kind === "narration" && x.evidence === "historical-inference")) {
+  for (const c of M.cues.filter((x) => (x.kind === "narration" || x.kind === "telling") && x.evidence !== "gospel-text" && x.evidence !== "textual-variant")) {
     const corpus = norm(citedTexts(c.sourceIds, false).join(" "));
     const text = L[c.textKey]!;
     let n = 0;

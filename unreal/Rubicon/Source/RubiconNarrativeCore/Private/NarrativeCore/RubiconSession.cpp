@@ -1,6 +1,7 @@
 #include "RubiconFloatEnv.h"
 #include "NarrativeCore/RubiconSession.h"
 #include "NarrativeCore/RubiconCues.h"
+#include "NarrativeCore/RubiconConsciousness.h"
 #include "NarrativeCore/RubiconJson.h"
 #include "NarrativeCore/RubiconMath.h"
 #include "NarrativeCore/RubiconRacingThoughts.h"
@@ -22,6 +23,7 @@ namespace RubiconCore
 			if (P.ReducedEffects) S.bReducedEffects = *P.ReducedEffects;
 			if (P.Seated) S.bSeated = *P.Seated;
 			if (P.HapticsEnabled) S.bHapticsEnabled = *P.HapticsEnabled;
+			if (P.Swoon) S.bSwoon = *P.Swoon;
 			return S;
 		}
 
@@ -65,6 +67,7 @@ namespace RubiconCore
 			Ph.State = Def.Id;
 			Ph.Phase = Phase;
 			Events.push_back(Ph);
+			if (!Def.bAllowEmbodiment) Wake(S, S.T, EConsciousnessCause::Death, Events);
 
 			if (Def.ForcedMode && S.Mode != *Def.ForcedMode)
 			{
@@ -88,7 +91,7 @@ namespace RubiconCore
 				Events.push_back(E);
 			}
 
-			if (S.Mode == EMode::Embodiment && Def.Rt.EntryImpulse > 0)
+			if (S.Mode == EMode::Embodiment && !S.Consciousness.bSwoon && Def.Rt.EntryImpulse > 0)
 			{
 				S.Rt.Intensity = std::max(S.Rt.Intensity, Def.Rt.EntryImpulse);
 			}
@@ -109,6 +112,12 @@ namespace RubiconCore
 			E.Via = Via;
 			Events.push_back(E);
 			S.Timeline.TriggeredVia = Via;
+			// A saying that comes due wakes him to speak it; speaking costs the body.
+			Wake(S, S.T, EConsciousnessCause::Saying, Events);
+			if (S.Mode == EMode::Embodiment)
+			{
+				S.Consciousness.Exertion = Clamp01(S.Consciousness.Exertion + M.Exertion.SayingCost * Def.Fatigue);
+			}
 			SetPhase(S, EPhase::Utterance, Events, Def);
 		}
 
@@ -166,6 +175,7 @@ namespace RubiconCore
 			case ECommandType::TriggerSaying:
 			{
 				if (S.bPaused) { Reject(S, C, "paused", Events); return; }
+				if (S.Consciousness.bSwoon) { Reject(S, C, "unconscious", Events); return; }
 				if (Def.Kind != EStateKind::Saying || S.Timeline.Phase != EPhase::Approach) { Reject(S, C, "no saying available", Events); return; }
 				const double Min = Def.Timing.ApproachMinMs.value_or(0);
 				if (S.Timeline.PhaseElapsedMs < Min)
@@ -247,6 +257,7 @@ namespace RubiconCore
 				FEvent E = MakeEvent(S.T, EEventType::SettingsChange);
 				E.Settings = S.Settings;
 				Events.push_back(E);
+				if (!S.Settings.bSwoon) Wake(S, S.T, EConsciousnessCause::Setting, Events);
 				return;
 			}
 			}
@@ -327,6 +338,9 @@ namespace RubiconCore
 		S.GazeTarget = Input.Gaze;
 		S.GazeDwellMs = (bSameTarget ? S.GazeDwellMs : 0) + Dt;
 		S.Breath = Clamp01(SmoothToward(S.Breath, Input.Breath.value_or(S.Breath), Dt, SessionDetail::BreathTauMs));
+
+		/* exertion and consciousness (reads the cue runtime to let a telling finish before waking) */
+		StepConsciousness(M, StateDef(M, S), S, Input, DtMs, TellingSounding(M, S, S.T + Dt), Events);
 
 		/* timeline */
 		SessionDetail::AdvanceTimeline(M, S, Dt, Events);

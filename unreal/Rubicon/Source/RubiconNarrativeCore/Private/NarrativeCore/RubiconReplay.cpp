@@ -32,6 +32,7 @@ namespace RubiconCore
 		if (const FJson* V = J.Find("reducedEffects")) { if (!V->IsBool()) return false; Out.ReducedEffects = V->BoolValue; }
 		if (const FJson* V = J.Find("seated")) { if (!V->IsBool()) return false; Out.Seated = V->BoolValue; }
 		if (const FJson* V = J.Find("hapticsEnabled")) { if (!V->IsBool()) return false; Out.HapticsEnabled = V->BoolValue; }
+		if (const FJson* V = J.Find("swoon")) { if (!V->IsBool()) return false; Out.Swoon = V->BoolValue; }
 		return true;
 	}
 
@@ -96,10 +97,14 @@ namespace RubiconCore
 			if (Out.Gaze < 0) { if (OutError) *OutError = "input: unknown gaze target " + Gaze->StringValue; return false; }
 		}
 		else if (Gaze && !Gaze->IsNull()) { if (OutError) *OutError = "input: bad gaze"; return false; }
-		if (const FJson* B = J.Find("breath"))
+		for (const auto& [Key, Slot] : { std::pair<const char*, std::optional<double>*>{ "breath", &Out.Breath }, { "headDegPerSec", &Out.HeadDegPerSec },
+				 { "headCmPerSec", &Out.HeadCmPerSec }, { "voice", &Out.Voice } })
 		{
-			if (!B->IsNumber()) { if (OutError) *OutError = "input: bad breath"; return false; }
-			Out.Breath = B->NumberValue;
+			if (const FJson* V = J.Find(Key))
+			{
+				if (!V->IsNumber()) { if (OutError) *OutError = std::string("input: bad ") + Key; return false; }
+				*Slot = V->NumberValue;
+			}
 		}
 		if (const FJson* Cs = J.Find("commands"))
 		{
@@ -122,6 +127,7 @@ namespace RubiconCore
 		J.Set("reducedEffects", Bool(S.bReducedEffects));
 		J.Set("seated", Bool(S.bSeated));
 		J.Set("hapticsEnabled", Bool(S.bHapticsEnabled));
+		J.Set("swoon", Bool(S.bSwoon));
 		J.Set("subtitles", Bool(true));
 		return J;
 	}
@@ -148,6 +154,7 @@ namespace RubiconCore
 			if (C.Settings.ReducedEffects) P.Set("reducedEffects", Bool(*C.Settings.ReducedEffects));
 			if (C.Settings.Seated) P.Set("seated", Bool(*C.Settings.Seated));
 			if (C.Settings.HapticsEnabled) P.Set("hapticsEnabled", Bool(*C.Settings.HapticsEnabled));
+			if (C.Settings.Swoon) P.Set("swoon", Bool(*C.Settings.Swoon));
 			J.Set("settings", std::move(P));
 			break;
 		}
@@ -162,6 +169,9 @@ namespace RubiconCore
 		FJson J = FJson::MakeObject();
 		J.Set("gaze", In.Gaze >= 0 ? Str(M.GazeTargets[static_cast<size_t>(In.Gaze)].Id) : FJson::MakeNull());
 		if (In.Breath) J.Set("breath", Num(*In.Breath));
+		if (In.HeadDegPerSec) J.Set("headDegPerSec", Num(*In.HeadDegPerSec));
+		if (In.HeadCmPerSec) J.Set("headCmPerSec", Num(*In.HeadCmPerSec));
+		if (In.Voice) J.Set("voice", Num(*In.Voice));
 		if (!In.Commands.empty())
 		{
 			FJson Cs = FJson::MakeArray();
@@ -201,6 +211,10 @@ namespace RubiconCore
 			J.Set("voice", Num(E.Voice));
 			break;
 		case EEventType::CommandRejected: J.Set("command", Str(ToString(E.Command))); J.Set("reason", Str(E.Reason)); break;
+		case EEventType::ConsciousnessChange:
+			J.Set("conscious", Bool(E.bConscious));
+			J.Set("cause", Str(ToString(E.Cause)));
+			break;
 		case EEventType::CueStart:
 		{
 			const FCue& C = M.Cues[static_cast<size_t>(E.Cue)];
@@ -277,6 +291,19 @@ namespace RubiconCore
 			Cues.Set("active", FJson::MakeNull());
 		}
 		J.Set("cues", std::move(Cues));
+		FJson Cs = FJson::MakeObject();
+		Cs.Set("exertion", Num(S.Consciousness.Exertion));
+		if (S.Consciousness.bSwoon)
+		{
+			FJson Sw = FJson::MakeObject();
+			Sw.Set("since", Num(S.Consciousness.SwoonSince));
+			Cs.Set("swoon", std::move(Sw));
+		}
+		else
+		{
+			Cs.Set("swoon", FJson::MakeNull());
+		}
+		J.Set("consciousness", std::move(Cs));
 		return J;
 	}
 

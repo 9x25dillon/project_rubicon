@@ -65,7 +65,13 @@ test("witness mode drops intensity immediately, leaves a brief echo, then silenc
   assert.ok(out(d) < 0.01, `silence after echo: ${out(d)}`);
 });
 
-test("the penitent condemned man brings relief in Paradise; the railing man does not", () => {
+test("only the wood of the cross brings relief: below the floor in every embodied state; the penitent is gentle but not relief", () => {
+  for (const state of ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"]) {
+    const d = driver(M, 5).cmd({ type: "acknowledgeAdvisory" });
+    runUntilState(d, state, "horizon").run(15_000, "cross");
+    const def = M.timeline.find((s) => s.id === state)!;
+    assert.ok(out(d) < def.rt.floor, `${state}: cross ${out(d)} < floor ${def.rt.floor}`);
+  }
   const mk = (gaze: string) => {
     const d = driver(M, 5).cmd({ type: "acknowledgeAdvisory" });
     runUntilState(d, "paradise", "horizon");
@@ -74,8 +80,11 @@ test("the penitent condemned man brings relief in Paradise; the railing man does
   const penitent = mk("condemned_man");
   const railing = mk("other_condemned");
   const floor = M.timeline.find((s) => s.id === "paradise")!.rt.floor;
-  assert.ok(out(penitent) < floor, `relief below floor: ${out(penitent)} < ${floor}`);
-  assert.ok(out(railing) > out(penitent) + 0.3);
+  assert.ok(out(penitent) >= floor * 0.95, `penitent is not relief: ${out(penitent)} vs floor ${floor}`);
+  assert.ok(out(railing) > out(penitent) + 0.2, "but the railing man is far worse");
+  // content rule: the cross is the only relief target, and nothing is overridden to relief
+  assert.deepEqual(M.gazeTargets.filter((g) => g.stress === "relief").map((g) => g.id), ["cross"]);
+  assert.ok(M.timeline.every((s) => Object.values(s.stressOverrides).every((l) => l !== "relief")));
 });
 
 test("thirst: the bodily need cuts through during the line, then the noise returns louder", () => {

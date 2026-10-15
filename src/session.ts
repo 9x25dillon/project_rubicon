@@ -5,12 +5,14 @@
  *
  * Order within a tick:
  *   1. commands, in order, at time t (may change mode, comfort, layer, trigger a saying, acknowledge the gate)
- *   2. if running (not paused, not exited): gaze dwell, breath, timeline clock, dialogue cues, Racing Thoughts, t += dt
+ *   2. if running (not paused, not exited): gaze dwell, breath, exertion/consciousness, timeline clock, dialogue cues,
+ *      Racing Thoughts, t += dt
  *
  * The engine owns real time and calls step() at a fixed rate (accumulator pattern), so render frame rate
  * never affects simulation results.
  */
-import { EMPTY_CUES, stepCues } from "./cues.js";
+import { AWAKE, isUnconscious, stepConsciousness, wake } from "./consciousness.js";
+import { EMPTY_CUES, stepCues, tellingSounding } from "./cues.js";
 import { clamp01, seedToState, smoothToward } from "./prng.js";
 import { stepRacingThoughts } from "./racingThoughts.js";
 import {
@@ -37,6 +39,7 @@ export const DEFAULT_SETTINGS: Settings = {
   reducedEffects: false,
   seated: true,
   hapticsEnabled: false,
+  swoon: true,
   subtitles: true,
 };
 
@@ -75,6 +78,7 @@ export function createSession(
     breath: 0,
     rt: { intensity: 0, gain: 1, floorBoost: 0, spawnAccumulator: 0, voices: [], recent: [] },
     cues: EMPTY_CUES,
+    consciousness: AWAKE,
   };
 }
 
@@ -108,6 +112,7 @@ function enterState(m: EpisodeManifest, s: SessionState, index: number, events: 
   };
   events.push({ t: s.t, type: "timeline.enter", state: def.id });
   events.push({ t: s.t, type: "timeline.phase", state: def.id, phase });
+  if (!def.allowEmbodiment) next = wake(next, s.t, "death", events);
 
   if (def.forcedMode && next.mode !== def.forcedMode) {
     const vantage: WitnessVantage = def.forcedVantage ?? next.vantage;
@@ -119,7 +124,7 @@ function enterState(m: EpisodeManifest, s: SessionState, index: number, events: 
     events.push({ t: s.t, type: "mode.change", mode: next.mode, vantage: next.vantage, forced: true });
   }
 
-  if (next.mode === "embodiment" && def.rt.entryImpulse > 0) {
+  if (next.mode === "embodiment" && !isUnconscious(next) && def.rt.entryImpulse > 0) {
     next = { ...next, rt: { ...next.rt, intensity: Math.max(next.rt.intensity, def.rt.entryImpulse) } };
   }
   return next;
@@ -140,7 +145,12 @@ function triggerSaying(
   const def = stateDef(m, s);
   const saying = def.saying!;
   events.push({ t: s.t, type: "saying.trigger", saying: saying.id, via });
-  const next = { ...s, timeline: { ...s.timeline, triggeredVia: via } };
+  // A saying that comes due wakes him to speak it; speaking costs the body.
+  let next: SessionState = wake({ ...s, timeline: { ...s.timeline, triggeredVia: via } }, s.t, "saying", events);
+  if (next.mode === "embodiment") {
+    const cost = m.exertion.sayingCost * (def.fatigue ?? 1);
+    next = { ...next, consciousness: { ...next.consciousness, exertion: clamp01(next.consciousness.exertion + cost) } };
+  }
   return setPhase(next, "utterance", events, def);
 }
 
@@ -179,6 +189,7 @@ function applyCommand(m: EpisodeManifest, s: SessionState, c: Command, events: S
 
     case "triggerSaying": {
       if (s.paused) return reject(s, c, "paused", events);
+      if (isUnconscious(s)) return reject(s, c, "unconscious", events);
       if (def.kind !== "saying" || s.timeline.phase !== "approach") return reject(s, c, "no saying available", events);
       const min = def.timing.approachMinMs ?? 0;
       if (s.timeline.phaseElapsedMs < min) return reject(s, c, `too early (${s.timeline.phaseElapsedMs}ms < ${min}ms)`, events);
@@ -221,7 +232,8 @@ function applyCommand(m: EpisodeManifest, s: SessionState, c: Command, events: S
     case "setSettings": {
       const settings = { ...s.settings, ...sanitizeSettings(c.settings) };
       events.push({ t: s.t, type: "settings.change", settings });
-      return { ...s, settings };
+      const next = { ...s, settings };
+      return settings.swoon ? next : wake(next, s.t, "setting", events);
     }
   }
 }
@@ -287,6 +299,11 @@ export function step(m: EpisodeManifest, s0: SessionState, input: TickInput, dtM
     gaze: { target: input.gaze, dwellMs: (sameTarget ? s.gaze.dwellMs : 0) + dtMs },
     breath: clamp01(smoothToward(s.breath, input.breath ?? s.breath, dtMs, BREATH_TAU_MS)),
   };
+
+  /* exertion and consciousness (reads the cue runtime to let a telling finish before waking) */
+  const cs = stepConsciousness(m, stateDef(m, s), s, input, dtMs, tellingSounding(m, s, s.t + dtMs));
+  s = cs.state;
+  events.push(...cs.events);
 
   /* timeline */
   s = advanceTimeline(m, s, dtMs, events);

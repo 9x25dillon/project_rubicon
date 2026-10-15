@@ -13,6 +13,8 @@ namespace RubiconCore
 {
 	/** Nominal phase length; empty for open-ended phases (advisory, open). */
 	std::optional<double> PhaseDurationMs(const FTimelineStateDef& Def, EPhase Phase);
+	/** The telling being read now (holds waking until it finishes). */
+	bool TellingSounding(const FManifest& M, const FSessionState& S, double Now);
 	bool CueEligible(const FCue& C, const FTimelineStateDef& Def, const FSessionState& S);
 
 	struct FCueStepResult

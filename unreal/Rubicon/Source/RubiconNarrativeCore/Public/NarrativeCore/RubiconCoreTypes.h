@@ -27,7 +27,11 @@ namespace RubiconCore
 	enum class EStress : uint8_t { Relief, Low, Medium, High, Extreme };
 	enum class EMode : uint8_t { Embodiment, Witness };
 	enum class ELayer : uint8_t { Historical, Theological };
-	enum class EVantage : uint8_t { Centurion, BelovedDisciple, Mary };
+	enum class EVantage : uint8_t { Centurion, BelovedDisciple, Mary, WomenAfar };
+	/** Where the camera rig should be: the body, a chosen Witness vantage, or (unconscious) a telling's vantage. */
+	enum class EViewMode : uint8_t { Embodiment, Witness, Telling };
+	enum class EGospel : uint8_t { Mark, Matthew, Luke, John };
+	enum class EConsciousnessCause : uint8_t { Exertion, Recovered, Saying, Death, Setting };
 	enum class EStateKind : uint8_t { Gate, Elevation, Saying, Timed, Terminal };
 	enum class EPhase : uint8_t { Advisory, Raising, Settled, Approach, Utterance, Resonance, Running, Open };
 	enum class ETriggerVia : uint8_t { Select, Speech, Auto };
@@ -36,9 +40,10 @@ namespace RubiconCore
 	{
 		ScripturalEcho, CrowdEcho, Accusation, MemoryFlash, PrayerCollapse, Dread, SensoryIntrusion
 	};
-	enum class ESourceType : uint8_t { Gospel, NewTestament, HebrewBible, AncientText, Archaeology, Scholarship };
+	enum class ESourceType : uint8_t { Gospel, NewTestament, HebrewBible, AncientText, Archaeology, Scholarship, Tradition };
 	enum class ERendering : uint8_t { PublicDomainTranslation, OwnTranslation, Paraphrase, Description };
-	enum class ECueKind : uint8_t { Spoken, Narration, Sound };
+	enum class ECueKind : uint8_t { Spoken, Narration, Sound, Telling };
+	enum class ECueTriggerType : uint8_t { Gaze, Phase, Telling };
 	enum class ECueMode : uint8_t { Embodiment, Witness, Any };
 
 	/** Canonical, immutable order (I1). Index == position in the timeline. */
@@ -60,7 +65,7 @@ namespace RubiconCore
 	enum class EEventType : uint8_t
 	{
 		TimelineEnter, TimelinePhase, SayingTrigger, ModeChange, LayerChange, ComfortChange, PauseChange, Exit,
-		EvidenceChange, SettingsChange, RtFragment, CommandRejected, CueStart
+		EvidenceChange, SettingsChange, RtFragment, CommandRejected, CueStart, ConsciousnessChange
 	};
 
 	const char* ToString(EEvidence V);
@@ -80,6 +85,9 @@ namespace RubiconCore
 	const char* ToString(ERendering V);
 	const char* ToString(ECueKind V);
 	const char* ToString(ECueMode V);
+	const char* ToString(EViewMode V);
+	const char* ToString(EGospel V);
+	const char* ToString(EConsciousnessCause V);
 
 	bool Parse(const std::string& S, EEvidence& Out);
 	bool Parse(const std::string& S, EStress& Out);
@@ -97,6 +105,7 @@ namespace RubiconCore
 	bool Parse(const std::string& S, ERendering& Out);
 	bool Parse(const std::string& S, ECueKind& Out);
 	bool Parse(const std::string& S, ECueMode& Out);
+	bool Parse(const std::string& S, EGospel& Out);
 	/** Ancient texts, archaeology and scholarship describe the world around the scene (historical-inference). */
 	bool IsNonScriptural(ESourceType V);
 
@@ -237,6 +246,7 @@ namespace RubiconCore
 		std::optional<FAtmosphereKey> Atmosphere;
 		std::optional<FSaying> Saying;
 		std::vector<std::string> Notes;
+		double Fatigue = 1; // multiplier on exertion build-up
 	};
 
 	struct FFragment
@@ -269,11 +279,11 @@ namespace RubiconCore
 
 	struct FCueTrigger
 	{
-		bool bGaze = true;
+		ECueTriggerType Type = ECueTriggerType::Gaze;
 		int Target = -1;                     // gaze
 		double MinDwellMs = 0;               // gaze
 		ECueMode Mode = ECueMode::Any;       // gaze
-		EStateId State = EStateId::Threshold; // phase
+		EStateId State = EStateId::Threshold; // phase, telling
 		EPhase Phase = EPhase::Advisory;     // phase
 		double AtMs = 0;                     // phase
 	};
@@ -295,6 +305,26 @@ namespace RubiconCore
 		double DurationMs = 1;
 		bool bBeforeSaying = false;
 		std::optional<std::string> Note;
+		std::optional<EGospel> Telling;   // telling cues
+		std::optional<EVantage> Vantage;  // telling cues
+	};
+
+	/** Exertion model (see src/types.ts ExertionModel). */
+	struct FExertionModel
+	{
+		double AngularDeadzoneDegPerSec = 30;
+		double AngularScaleDegPerSec = 150;
+		double LinearDeadzoneCmPerSec = 10;
+		double LinearScaleCmPerSec = 60;
+		double VoiceDeadzone = 0.15;
+		double RisePerSec = 0.1;
+		double RecoveryPerSec = 0.04;
+		double SwoonRecoveryPerSec = 0.05;
+		double WakeAt = 0.35;
+		double MinSwoonMs = 15000;
+		double SayingCost = 0.1;
+		EEvidence Evidence = EEvidence::ArtisticInterpretation;
+		std::string Disclosure;
 	};
 
 	struct FRacingThoughtsModel
@@ -331,6 +361,7 @@ namespace RubiconCore
 		std::vector<FGazeTargetDef> GazeTargets;
 		std::vector<FWitnessVantageDef> WitnessVantages;
 		FRacingThoughtsModel RacingThoughts;
+		FExertionModel Exertion;
 		std::vector<FFragment> Fragments;
 		std::vector<FCue> Cues;
 		std::vector<FTimelineStateDef> Timeline; // exactly TimelineLength, canonical order
@@ -356,6 +387,7 @@ namespace RubiconCore
 		bool bReducedEffects = false;
 		bool bSeated = true;
 		bool bHapticsEnabled = false; // this experience never uses pain haptics in any case
+		bool bSwoon = true;           // false: exertion never takes consciousness
 		// subtitles: always true (sayings are always captioned)
 	};
 
@@ -365,6 +397,7 @@ namespace RubiconCore
 		std::optional<bool> ReducedEffects;
 		std::optional<bool> Seated;
 		std::optional<bool> HapticsEnabled;
+		std::optional<bool> Swoon;
 	};
 
 	struct FVoice
@@ -403,6 +436,13 @@ namespace RubiconCore
 		double EndsAt = 0;
 	};
 
+	struct FConsciousnessRuntime
+	{
+		double Exertion = 0;
+		bool bSwoon = false;
+		double SwoonSince = 0;
+	};
+
 	struct FSessionState
 	{
 		double T = 0;
@@ -422,6 +462,7 @@ namespace RubiconCore
 		double Breath = 0;
 		FRacingThoughtsRuntime Rt;
 		FCueRuntime Cues;
+		FConsciousnessRuntime Consciousness;
 	};
 
 	/* ------------------------------------------------------------------ */
@@ -446,6 +487,9 @@ namespace RubiconCore
 	{
 		int Gaze = -1; // gaze target index, -1 = null
 		std::optional<double> Breath;
+		std::optional<double> HeadDegPerSec;
+		std::optional<double> HeadCmPerSec;
+		std::optional<double> Voice;
 		std::vector<FCommand> Commands;
 	};
 
@@ -471,6 +515,8 @@ namespace RubiconCore
 		ECommandType Command = ECommandType::Pause; // CommandRejected
 		std::string Reason;
 		int Cue = -1;                            // CueStart
+		bool bConscious = true;                  // ConsciousnessChange
+		EConsciousnessCause Cause = EConsciousnessCause::Exertion;
 	};
 
 	struct FStepResult

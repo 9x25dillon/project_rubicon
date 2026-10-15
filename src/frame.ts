@@ -7,7 +7,9 @@ import { stateDef } from "./session.js";
 import type {
   AtmosphereKey,
   CueKind,
+  Gospel,
   Rendering,
+  ViewMode,
   SourceType,
   EpisodeManifest,
   Evidence,
@@ -43,6 +45,7 @@ export interface CueFrame {
   evidence: Evidence;
   /** How the words were rendered, when every cited source shares one (e.g. "paraphrase" is never shown in quotes). */
   rendering: Rendering | "kjv" | "mixed";
+  telling: Gospel | null;
   origin: string | null; // gaze target to spatialize from; null for the narrator
   elapsedMs: number;
   durationMs: number;
@@ -61,6 +64,10 @@ export interface FrameOutputs {
   paused: boolean;
   exited: boolean;
   embodimentAvailable: boolean;
+  /** Where the camera rig should be: the body, the chosen Witness vantage, or (unconscious) a telling's vantage. */
+  view: ViewMode;
+  viewVantage: WitnessVantage;
+  consciousness: { conscious: boolean; exertion: number }; // exertion is for debugging only: never shown as a meter
   controls: { pause: boolean; exit: boolean; witness: boolean; comfort: boolean }; // always true while not exited
   visual: {
     elevationTransition: "slow-tilt" | "fade-settle";
@@ -170,7 +177,11 @@ export function cueFrame(m: EpisodeManifest, s: SessionState, locale?: Locale): 
   const c = activeCue(m, s);
   const a = s.cues.active;
   if (!c || !a) return null;
-  const speakerLabel = c.speaker === "narrator" ? locale?.["ui.narrator"] ?? "Narrator" : m.cast.find((x) => x.id === c.speaker)?.name ?? c.speaker;
+  const speakerLabel = c.telling
+    ? locale?.[`ui.telling.${c.telling}`] ?? c.telling
+    : c.speaker === "narrator"
+      ? locale?.["ui.narrator"] ?? "Narrator"
+      : m.cast.find((x) => x.id === c.speaker)?.name ?? c.speaker;
   return {
     id: c.id,
     kind: c.kind,
@@ -184,7 +195,19 @@ export function cueFrame(m: EpisodeManifest, s: SessionState, locale?: Locale): 
     elapsedMs: s.t - a.startedAt,
     durationMs: c.durationMs,
     cueId: c.cueId ?? null,
+    telling: c.telling ?? null,
   };
+}
+
+/** Unconscious: the vantage of the telling being read, else of the last telling heard, else beside the cross. */
+export function viewOf(m: EpisodeManifest, s: SessionState): { view: ViewMode; viewVantage: WitnessVantage } {
+  if (s.mode === "witness") return { view: "witness", viewVantage: s.vantage };
+  if (s.consciousness.swoon === null) return { view: "embodiment", viewVantage: s.vantage };
+  for (let i = s.cues.played.length - 1; i >= 0; i--) {
+    const c = m.cues.find((x) => x.id === s.cues.played[i]);
+    if (c?.kind === "telling" && c.vantage) return { view: "telling", viewVantage: c.vantage };
+  }
+  return { view: "telling", viewVantage: "beloved_disciple" };
 }
 
 export function selectFrame(m: EpisodeManifest, s: SessionState, locale?: Locale): FrameOutputs {
@@ -208,6 +231,8 @@ export function selectFrame(m: EpisodeManifest, s: SessionState, locale?: Locale
     paused: s.paused,
     exited: s.exited,
     embodimentAvailable: def.allowEmbodiment,
+    ...viewOf(m, s),
+    consciousness: { conscious: s.consciousness.swoon === null, exertion: s.consciousness.exertion },
     controls: { pause: live, exit: live, witness: live, comfort: live },
     visual: {
       elevationTransition: s.comfort || s.settings.reducedEffects ? "fade-settle" : "slow-tilt",

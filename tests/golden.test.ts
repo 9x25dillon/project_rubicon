@@ -86,3 +86,11 @@ test("the dwell golden reaches every dwell tier and triggers gaze dialogue, so C
   const gazeCues = g.expected.events.filter((e) => e.type === "cue.start" && M.cues.find((c) => c.id === e.cueId)!.trigger.type === "gaze");
   assert.ok(gazeCues.length >= 3, `gaze cues: ${gazeCues.length}`);
 });
+
+test("the exertion golden loses and regains consciousness and hears tellings, so C++ parity covers them", () => {
+  const g = buildGolden(M, 77, "exertion");
+  const ev = g.expected.events;
+  assert.ok(ev.some((e) => e.type === "consciousness.change" && !e.conscious), "swoons");
+  assert.ok(ev.some((e) => e.type === "consciousness.change" && e.conscious), "wakes");
+  assert.ok(ev.some((e) => e.type === "cue.start" && e.kind === "telling"), "hears a telling");
+});

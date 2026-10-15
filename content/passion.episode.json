@@ -983,6 +983,117 @@
       "evidence": "historical-inference",
       "sourceType": "scholarship",
       "note": "Quoting the first line of a psalm could call the whole psalm to mind. Psalm 22 turns from lament (verses 1-21) to deliverance and praise (verses 22-31). Widely held, but the speaker's intent cannot be proved."
+    },
+    {
+      "id": "mark-15-24",
+      "citation": "Mark 15:24",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And when they had crucified him, they parted his garments, casting lots upon them, what every man should take." }
+    },
+    {
+      "id": "matt-27-35-36",
+      "citation": "Matthew 27:35-36",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And they crucified him, and parted his garments, casting lots: that it might be fulfilled which was spoken by the prophet, They parted my garments among them, and upon my vesture did they cast lots. And sitting down they watched him there;"
+      }
+    },
+    {
+      "id": "luke-23-33",
+      "citation": "Luke 23:33",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And when they were come to the place, which is called Calvary, there they crucified him, and the malefactors, one on the right hand, and the other on the left."
+      }
+    },
+    {
+      "id": "john-19-17-18",
+      "citation": "John 19:17-18",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And he bearing his cross went forth into a place called the place of a skull, which is called in the Hebrew Golgotha: Where they crucified him, and two other with him, on either side one, and Jesus in the midst."
+      }
+    },
+    {
+      "id": "matt-27-39",
+      "citation": "Matthew 27:39",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And they that passed by reviled him, wagging their heads," }
+    },
+    {
+      "id": "matt-27-44",
+      "citation": "Matthew 27:44",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "The thieves also, which were crucified with him, cast the same in his teeth." }
+    },
+    {
+      "id": "matt-27-45",
+      "citation": "Matthew 27:45",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "Now from the sixth hour there was darkness over all the land unto the ninth hour." }
+    },
+    {
+      "id": "matt-27-50",
+      "citation": "Matthew 27:50",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "Jesus, when he had cried again with a loud voice, yielded up the ghost." }
+    },
+    {
+      "id": "matt-27-55-56",
+      "citation": "Matthew 27:55-56",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And many women were there beholding afar off, which followed Jesus from Galilee, ministering unto him: Among which was Mary Magdalene, and Mary the mother of James and Joses, and the mother of Zebedee's children."
+      }
+    },
+    {
+      "id": "mark-15-37",
+      "citation": "Mark 15:37",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And Jesus cried with a loud voice, and gave up the ghost." }
+    },
+    {
+      "id": "luke-23-49",
+      "citation": "Luke 23:49",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And all his acquaintance, and the women that followed him from Galilee, stood afar off, beholding these things." }
+    },
+    {
+      "id": "1-peter-2-24",
+      "citation": "1 Peter 2:24",
+      "evidence": "gospel-text",
+      "sourceType": "new-testament",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Who his own self bare our sins in his own body on the tree, that we, being dead to sins, should live unto righteousness: by whose stripes ye were healed."
+      }
+    },
+    {
+      "id": "dream-of-the-rood",
+      "citation": "The Dream of the Rood, lines 28-33, 39-45 (Old English)",
+      "evidence": "artistic-interpretation",
+      "sourceType": "tradition",
+      "excerpt": {
+        "text": "It was long ago (I remember it still) that I was hewn down at the edge of the forest, cut from my roots. Strong enemies took me there, made me a spectacle for themselves, commanded me to lift up their criminals. Then I saw the Lord of mankind hasten with great courage, for he meant to climb upon me. There I did not dare, against the Lord's word, bow or break. I trembled when the warrior embraced me. As a rood I was raised; I lifted up a mighty king, the lord of heaven; I dared not bend.",
+        "rendering": "own-translation"
+      },
+      "note": "Old English: Þæt wæs geara iu, (ic þæt gyta geman), þæt ic wæs aheawen holtes on ende, astyred of stefne minum ... Þær ic þa ne dorste ofer dryhtnes word bugan oððe berstan ... Bifode ic þa me se beorn ymbclypte ... Rod wæs ic aræred. Ahof ic ricne cyning, heofona hlaford, hyldan me ne dorste.",
+      "debate": "A devotional poem, not a historical account. Preserved in the Vercelli Book (late tenth century); some of its lines were carved in runes on the Ruthwell Cross in the eighth century. Its cross speaks as a willing participant."
     }
   ],
   "gazeTargets": [
@@ -1108,12 +1219,22 @@
       "sources": ["john-19-41"],
       "evidence": "gospel-text",
       "note": "John 19:41: in the place where he was crucified there was a garden."
+    },
+    {
+      "id": "cross",
+      "label": "The wood of the cross",
+      "stress": "relief",
+      "actors": [],
+      "sources": ["john-19-17-18", "1-peter-2-24"],
+      "evidence": "gospel-text",
+      "note": "The upright and the crossbeam he hangs on. The only target that lowers the storm: everything else costs something."
     }
   ],
   "witnessVantages": [
     { "id": "centurion", "castId": "centurion", "sourceIds": ["mark-15-39"], "evidence": "gospel-text" },
     { "id": "beloved_disciple", "castId": "beloved_disciple", "sourceIds": ["john-19-26-27", "john-19-35"], "evidence": "gospel-text" },
-    { "id": "mary", "castId": "mary_mother", "sourceIds": ["john-19-25"], "evidence": "gospel-text" }
+    { "id": "mary", "castId": "mary_mother", "sourceIds": ["john-19-25"], "evidence": "gospel-text" },
+    { "id": "women_afar", "castId": "women_galilee", "sourceIds": ["mark-15-40-41", "luke-23-49"], "evidence": "gospel-text" }
   ],
   "racingThoughts": {
     "stressWeights": { "relief": -0.6, "low": 0.15, "medium": 0.45, "high": 0.75, "extreme": 0.95 },
@@ -2330,6 +2451,76 @@
       "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
       "targetAffinity": ["garden"],
       "gaze": { "target": "garden", "tier": "extreme" }
+    },
+    {
+      "id": "g_cross_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.cross.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["cross"],
+      "gaze": { "target": "cross", "tier": "glance" }
+    },
+    {
+      "id": "g_cross_sustained",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.cross.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-6-3"],
+      "minIntensity": 0,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["cross"],
+      "gaze": { "target": "cross", "tier": "sustained" }
+    },
+    {
+      "id": "g_cross_long",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.g.cross.long",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 5200,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["cross"],
+      "gaze": { "target": "cross", "tier": "long" }
+    },
+    {
+      "id": "g_cross_extreme",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.g.cross.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 7700,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["cross"],
+      "gaze": { "target": "cross", "tier": "extreme" }
+    },
+    {
+      "id": "g_cross_extreme_2",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.cross.extreme.2",
+      "evidence": "artistic-interpretation",
+      "anchors": ["1-peter-2-24"],
+      "minIntensity": 0,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["cross"],
+      "gaze": { "target": "cross", "tier": "extreme" }
     }
   ],
   "timeline": [
@@ -2367,7 +2558,8 @@
       "notes": [
         "The raising itself is not narrated in the Gospels; staging is historical inference.",
         "Camera never rotates the player's view in Comfort or Reduced Effects; the world tilt is replaced by a fade-through and settle."
-      ]
+      ],
+      "fatigue": 1
     },
     {
       "id": "forgiveness",
@@ -2400,7 +2592,8 @@
           "note": "Luke preserves Greek. Jesus most likely spoke Aramaic; no Aramaic form is recorded for this saying."
         },
         "attestation": "Luke only."
-      }
+      },
+      "fatigue": 1.1
     },
     {
       "id": "paradise",
@@ -2410,7 +2603,7 @@
       "evidence": "gospel-text",
       "timing": { "approachMinMs": 15000, "approachAutoMs": 45000, "utteranceMs": 6000, "resonanceMs": 12000 },
       "rt": { "floor": 0.28, "ceiling": 0.85, "tauUpMs": 1500, "tauDownMs": 7000, "utteranceDuck": 0.6, "postUtteranceFloorBoost": 0.05, "entryImpulse": 0 },
-      "stressOverrides": { "condemned_man": "relief" },
+      "stressOverrides": { "condemned_man": "low" },
       "allowEmbodiment": true,
       "atmosphere": {
         "sunIlluminanceLux": 80000,
@@ -2427,11 +2620,11 @@
         "evidence": "gospel-text",
         "dialogueKey": "passion.paradise",
         "gazeTarget": "condemned_man",
-        "stressLevel": "relief",
+        "stressLevel": "low",
         "historicalCue": "Two condemned men, one railing (23:39), one asking to be remembered (23:42)",
         "theologicalCue": "A single thread of light between two crosses",
         "sourceNote": "Unpunctuated manuscripts: the placement of 'today' is editorial",
-        "psychologicalNote": "Sustained gaze on the penitent condemned man lowers the storm: a fragile moment of shared fate. Looking at the railing man raises it.",
+        "psychologicalNote": "Sustained gaze on the penitent condemned man is the gentlest of the faces (low stress): a fragile moment of shared fate. Looking at the railing man raises the storm. Only the wood of the cross lowers it.",
         "pronunciation": {
           "greek": "Ἀμήν σοι λέγω, σήμερον μετ᾽ ἐμοῦ ἔσῃ ἐν τῷ παραδείσῳ.",
           "greekTranslit": "Amḗn soi légō, sḗmeron met' emoû ésē en tō paradeísō.",
@@ -2441,7 +2634,8 @@
       },
       "notes": [
         "approachMinMs is 15 s so the exchange Luke records (23:39-42: railing, rebuke, request) is heard before the saying can answer it; the paradise_* cues are validated against it (beforeSaying)."
-      ]
+      ],
+      "fatigue": 1.15
     },
     {
       "id": "mother",
@@ -2479,7 +2673,8 @@
           "evidence": "historical-inference"
         },
         "attestation": "John only."
-      }
+      },
+      "fatigue": 1.2
     },
     {
       "id": "abandonment",
@@ -2520,7 +2715,8 @@
           "note": "The only saying the Gospels preserve in Aramaic. Mark's Greek transliterates Aramaic; Matthew's 'Eli' is closer to Hebrew. Vowel reconstruction is approximate."
         },
         "attestation": "Mark and Matthew (their only recorded saying from the cross)."
-      }
+      },
+      "fatigue": 1.35
     },
     {
       "id": "thirst",
@@ -2548,7 +2744,8 @@
         "psychologicalNote": "Bodily need cuts through the noise (deep duck during the line), then the noise returns louder (floor boost).",
         "pronunciation": { "greek": "Διψῶ.", "greekTranslit": "Dipsō.", "evidence": "historical-inference" },
         "attestation": "John only."
-      }
+      },
+      "fatigue": 1.5
     },
     {
       "id": "completion",
@@ -2576,7 +2773,8 @@
         "psychologicalNote": "The storm reaches a strange, exhausted clarity: low ceiling, slow rise.",
         "pronunciation": { "greek": "Τετέλεσται.", "greekTranslit": "Tetélestai.", "evidence": "historical-inference" },
         "attestation": "John only."
-      }
+      },
+      "fatigue": 1.6
     },
     {
       "id": "surrender",
@@ -2617,7 +2815,8 @@
           "evidence": "historical-inference"
         },
         "attestation": "Luke only."
-      }
+      },
+      "fatigue": 1.7
     },
     {
       "id": "release",
@@ -3069,6 +3268,433 @@
       "trigger": { "type": "phase", "state": "contemplation", "phase": "open", "atMs": 86000 },
       "states": ["contemplation"],
       "durationMs": 21200
+    },
+    {
+      "id": "t_elevation_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_elevation_mark",
+      "sourceIds": ["mark-15-24", "mark-15-25"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "elevation" },
+      "states": ["elevation"],
+      "durationMs": 13500,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_elevation_matthew",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_elevation_matthew",
+      "sourceIds": ["matt-27-35-36"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "elevation" },
+      "states": ["elevation"],
+      "durationMs": 8700,
+      "telling": "matthew",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_elevation_luke",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_elevation_luke",
+      "sourceIds": ["luke-23-33"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "elevation" },
+      "states": ["elevation"],
+      "durationMs": 13900,
+      "telling": "luke",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_elevation_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_elevation_john",
+      "sourceIds": ["john-19-17-18"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "elevation" },
+      "states": ["elevation"],
+      "durationMs": 18700,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "t_forgiveness_luke",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_forgiveness_luke",
+      "sourceIds": ["luke-23-34"],
+      "evidence": "textual-variant",
+      "trigger": { "type": "telling", "state": "forgiveness" },
+      "states": ["forgiveness"],
+      "durationMs": 10000,
+      "telling": "luke",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_forgiveness_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_forgiveness_mark",
+      "sourceIds": ["mark-15-29-30"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "forgiveness" },
+      "states": ["forgiveness"],
+      "durationMs": 15200,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_forgiveness_matthew",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_forgiveness_matthew",
+      "sourceIds": ["matt-27-39", "matt-27-40"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "forgiveness" },
+      "states": ["forgiveness"],
+      "durationMs": 17000,
+      "telling": "matthew",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_forgiveness_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_forgiveness_john",
+      "sourceIds": ["john-19-19-20"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "forgiveness" },
+      "states": ["forgiveness"],
+      "durationMs": 10900,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "t_paradise_luke",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_paradise_luke",
+      "sourceIds": ["luke-23-39", "luke-23-42-43"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "paradise" },
+      "states": ["paradise"],
+      "durationMs": 24400,
+      "telling": "luke",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_paradise_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_paradise_mark",
+      "sourceIds": ["mark-15-32"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "paradise" },
+      "states": ["paradise"],
+      "durationMs": 4800,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_paradise_matthew",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_paradise_matthew",
+      "sourceIds": ["matt-27-44"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "paradise" },
+      "states": ["paradise"],
+      "durationMs": 7000,
+      "telling": "matthew",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_paradise_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_paradise_john",
+      "sourceIds": ["john-19-17-18"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "telling", "state": "paradise" },
+      "states": ["paradise"],
+      "durationMs": 10000,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "t_mother_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_mother_john",
+      "sourceIds": ["john-19-25", "john-19-26-27"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "mother" },
+      "states": ["mother"],
+      "durationMs": 29600,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "t_mother_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_mother_mark",
+      "sourceIds": ["mark-15-40-41"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "mother" },
+      "states": ["mother"],
+      "durationMs": 12200,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_mother_matthew",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_mother_matthew",
+      "sourceIds": ["matt-27-55-56"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "mother" },
+      "states": ["mother"],
+      "durationMs": 16100,
+      "telling": "matthew",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_mother_luke",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_mother_luke",
+      "sourceIds": ["luke-23-49"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "mother" },
+      "states": ["mother"],
+      "durationMs": 8700,
+      "telling": "luke",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_abandonment_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_abandonment_mark",
+      "sourceIds": ["mark-15-33", "mark-15-34"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "abandonment" },
+      "states": ["abandonment"],
+      "durationMs": 21300,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_abandonment_matthew",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_abandonment_matthew",
+      "sourceIds": ["matt-27-45", "matt-27-46"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "abandonment" },
+      "states": ["abandonment"],
+      "durationMs": 20500,
+      "telling": "matthew",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_abandonment_luke",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_abandonment_luke",
+      "sourceIds": ["luke-23-44-45"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "abandonment" },
+      "states": ["abandonment"],
+      "durationMs": 16600,
+      "telling": "luke",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_abandonment_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_abandonment_john",
+      "sourceIds": ["john-19-28"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "telling", "state": "abandonment" },
+      "states": ["abandonment"],
+      "durationMs": 4400,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "t_thirst_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_thirst_john",
+      "sourceIds": ["john-19-28", "john-19-29"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "thirst" },
+      "states": ["thirst"],
+      "durationMs": 20900,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "t_thirst_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_thirst_mark",
+      "sourceIds": ["mark-15-36"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "thirst" },
+      "states": ["thirst"],
+      "durationMs": 16100,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_thirst_matthew",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_thirst_matthew",
+      "sourceIds": ["matt-27-47-49"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "thirst" },
+      "states": ["thirst"],
+      "durationMs": 12200,
+      "telling": "matthew",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_thirst_luke",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_thirst_luke",
+      "sourceIds": ["luke-23-36"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "thirst" },
+      "states": ["thirst"],
+      "durationMs": 6600,
+      "telling": "luke",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_completion_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_completion_john",
+      "sourceIds": ["john-19-30"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "completion" },
+      "states": ["completion"],
+      "durationMs": 10500,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "t_completion_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_completion_mark",
+      "sourceIds": ["mark-15-37", "matt-27-50", "luke-23-46"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "telling", "state": "completion" },
+      "states": ["completion"],
+      "durationMs": 10900,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_surrender_luke",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_surrender_luke",
+      "sourceIds": ["luke-23-46"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "surrender" },
+      "states": ["surrender"],
+      "durationMs": 13100,
+      "telling": "luke",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_surrender_mark",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_surrender_mark",
+      "sourceIds": ["mark-15-37"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "surrender" },
+      "states": ["surrender"],
+      "durationMs": 6100,
+      "telling": "mark",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_surrender_matthew",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_surrender_matthew",
+      "sourceIds": ["matt-27-50"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "telling", "state": "surrender" },
+      "states": ["surrender"],
+      "durationMs": 7000,
+      "telling": "matthew",
+      "vantage": "women_afar"
+    },
+    {
+      "id": "t_surrender_john",
+      "kind": "telling",
+      "speaker": "narrator",
+      "textKey": "cue.t_surrender_john",
+      "sourceIds": ["john-19-30"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "telling", "state": "surrender" },
+      "states": ["surrender"],
+      "durationMs": 4800,
+      "telling": "john",
+      "vantage": "beloved_disciple"
+    },
+    {
+      "id": "n_cross_rood",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_cross_rood",
+      "sourceIds": ["dream-of-the-rood"],
+      "evidence": "artistic-interpretation",
+      "trigger": { "type": "gaze", "target": "cross", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 39100
+    },
+    {
+      "id": "c_rood",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.c_rood",
+      "sourceIds": ["dream-of-the-rood"],
+      "evidence": "artistic-interpretation",
+      "trigger": { "type": "phase", "state": "contemplation", "phase": "open", "atMs": 116000 },
+      "states": ["contemplation"],
+      "durationMs": 17900
     }
-  ]
+  ],
+  "exertion": {
+    "angularDeadzoneDegPerSec": 30,
+    "angularScaleDegPerSec": 150,
+    "linearDeadzoneCmPerSec": 10,
+    "linearScaleCmPerSec": 60,
+    "voiceDeadzone": 0.15,
+    "risePerSec": 0.14,
+    "recoveryPerSec": 0.04,
+    "swoonRecoveryPerSec": 0.05,
+    "wakeAt": 0.35,
+    "minSwoonMs": 15000,
+    "sayingCost": 0.12,
+    "evidence": "artistic-interpretation",
+    "disclosure": "Losing consciousness is an artistic device. The Gospels do not say he lost consciousness; what is heard while he is unconscious is the Gospels' own tellings of that moment, from the places where his followers stood."
+  }
 }

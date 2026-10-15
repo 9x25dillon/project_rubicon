@@ -36,6 +36,10 @@ namespace RubiconCore
 	{
 		ScripturalEcho, CrowdEcho, Accusation, MemoryFlash, PrayerCollapse, Dread, SensoryIntrusion
 	};
+	enum class ESourceType : uint8_t { Gospel, NewTestament, HebrewBible, AncientText, Archaeology, Scholarship };
+	enum class ERendering : uint8_t { PublicDomainTranslation, OwnTranslation, Paraphrase, Description };
+	enum class ECueKind : uint8_t { Spoken, Narration, Sound };
+	enum class ECueMode : uint8_t { Embodiment, Witness, Any };
 
 	/** Canonical, immutable order (I1). Index == position in the timeline. */
 	enum class EStateId : uint8_t
@@ -56,7 +60,7 @@ namespace RubiconCore
 	enum class EEventType : uint8_t
 	{
 		TimelineEnter, TimelinePhase, SayingTrigger, ModeChange, LayerChange, ComfortChange, PauseChange, Exit,
-		EvidenceChange, SettingsChange, RtFragment, CommandRejected
+		EvidenceChange, SettingsChange, RtFragment, CommandRejected, CueStart
 	};
 
 	const char* ToString(EEvidence V);
@@ -72,6 +76,10 @@ namespace RubiconCore
 	const char* ToString(EStateId V);
 	const char* ToString(ECommandType V);
 	const char* ToString(EEventType V);
+	const char* ToString(ESourceType V);
+	const char* ToString(ERendering V);
+	const char* ToString(ECueKind V);
+	const char* ToString(ECueMode V);
 
 	bool Parse(const std::string& S, EEvidence& Out);
 	bool Parse(const std::string& S, EStress& Out);
@@ -85,6 +93,12 @@ namespace RubiconCore
 	bool Parse(const std::string& S, EFragmentCategory& Out);
 	bool Parse(const std::string& S, EStateId& Out);
 	bool Parse(const std::string& S, ECommandType& Out);
+	bool Parse(const std::string& S, ESourceType& Out);
+	bool Parse(const std::string& S, ERendering& Out);
+	bool Parse(const std::string& S, ECueKind& Out);
+	bool Parse(const std::string& S, ECueMode& Out);
+	/** Ancient texts, archaeology and scholarship describe the world around the scene (historical-inference). */
+	bool IsNonScriptural(ESourceType V);
 
 	/** First phase of each state kind (PHASES_BY_KIND[kind][0]). */
 	EPhase FirstPhase(EStateKind Kind);
@@ -93,12 +107,22 @@ namespace RubiconCore
 	/* Manifest                                                            */
 	/* ------------------------------------------------------------------ */
 
+	struct FExcerpt
+	{
+		std::string Text;
+		ERendering Rendering = ERendering::Description;
+		std::optional<std::string> Translator;
+	};
+
 	struct FSourceRef
 	{
 		std::string Id;
 		std::string Citation;
 		EEvidence Evidence = EEvidence::GospelText;
+		ESourceType SourceType = ESourceType::Gospel;
 		std::optional<std::string> KjvText;
+		std::optional<FExcerpt> Excerpt;
+		std::optional<std::string> Debate;
 		std::optional<std::string> Greek;
 		std::optional<std::string> Note;
 		std::vector<std::string> ManuscriptNotes; // empty == absent
@@ -231,6 +255,46 @@ namespace RubiconCore
 		bool bAllStates = false;
 		std::array<bool, TimelineLength> States{}; // membership by EStateId
 		std::vector<int> TargetAffinity;          // gaze target indices
+		/** Dwell-tiered line: eligible only embodied, gazing at GazeTarget, in exactly tier GazeTier. */
+		bool bHasGaze = false;
+		int GazeTarget = -1;
+		int GazeTier = 0; // index into FRacingThoughtsModel::DwellTiers
+	};
+
+	struct FDwellTier
+	{
+		std::string Id;
+		double MinDwellMs = 0;
+	};
+
+	struct FCueTrigger
+	{
+		bool bGaze = true;
+		int Target = -1;                     // gaze
+		double MinDwellMs = 0;               // gaze
+		ECueMode Mode = ECueMode::Any;       // gaze
+		EStateId State = EStateId::Threshold; // phase
+		EPhase Phase = EPhase::Advisory;     // phase
+		double AtMs = 0;                     // phase
+	};
+
+	struct FCue
+	{
+		std::string Id;
+		ECueKind Kind = ECueKind::Spoken;
+		std::string Speaker; // cast id or "narrator"
+		std::string TextKey;
+		std::optional<std::string> CueId;
+		int Origin = -1; // gaze target index
+		std::vector<std::string> SourceIds;
+		std::vector<int> SourceIndices;
+		EEvidence Evidence = EEvidence::GospelText;
+		FCueTrigger Trigger;
+		bool bAllStates = false;
+		std::array<bool, TimelineLength> States{};
+		double DurationMs = 1;
+		bool bBeforeSaying = false;
+		std::optional<std::string> Note;
 	};
 
 	struct FRacingThoughtsModel
@@ -243,6 +307,7 @@ namespace RubiconCore
 		double ComfortGain = 0.04;
 		double ComfortReleaseTauMs = 4000;
 		double AffinityMultiplier = 1;
+		std::vector<FDwellTier> DwellTiers;
 		double RateMinPerSec = 0;
 		double RateMaxPerSec = 0;
 		double RateGamma = 1;
@@ -267,6 +332,7 @@ namespace RubiconCore
 		std::vector<FWitnessVantageDef> WitnessVantages;
 		FRacingThoughtsModel RacingThoughts;
 		std::vector<FFragment> Fragments;
+		std::vector<FCue> Cues;
 		std::vector<FTimelineStateDef> Timeline; // exactly TimelineLength, canonical order
 		std::string AdvisoryTitleKey;
 		std::string AdvisoryBodyKey;
@@ -274,6 +340,8 @@ namespace RubiconCore
 		int FindGazeTarget(const std::string& Id) const;
 		int FindSource(const std::string& Id) const;
 		int FindFragment(const std::string& Id) const;
+		int FindCue(const std::string& Id) const;
+		int FindCast(const std::string& Id) const;
 	};
 
 	using FLocale = std::map<std::string, std::string>;
@@ -326,6 +394,15 @@ namespace RubiconCore
 		std::vector<int> Recent; // fragment indices, oldest first
 	};
 
+	struct FCueRuntime
+	{
+		std::vector<int> Played; // cue indices in the order they started
+		bool bActive = false;
+		int Active = -1;
+		double StartedAt = 0;
+		double EndsAt = 0;
+	};
+
 	struct FSessionState
 	{
 		double T = 0;
@@ -344,6 +421,7 @@ namespace RubiconCore
 		double GazeDwellMs = 0;
 		double Breath = 0;
 		FRacingThoughtsRuntime Rt;
+		FCueRuntime Cues;
 	};
 
 	/* ------------------------------------------------------------------ */
@@ -392,6 +470,7 @@ namespace RubiconCore
 		int Voice = 0;
 		ECommandType Command = ECommandType::Pause; // CommandRejected
 		std::string Reason;
+		int Cue = -1;                            // CueStart
 	};
 
 	struct FStepResult

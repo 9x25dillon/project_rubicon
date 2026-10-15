@@ -3,7 +3,12 @@
  * Dependency-free so the same rules can be ported to a UE5 editor validator (UEditorValidatorBase).
  */
 import {
+  CUE_KINDS,
+  CUE_MODES,
   EVIDENCE_CATEGORIES,
+  NON_SCRIPTURAL_SOURCE_TYPES,
+  RENDERINGS,
+  SOURCE_TYPES,
   PHASES_BY_KIND,
   SAYING_IDS,
   STRESS_LEVELS,
@@ -36,7 +41,7 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
   for (const k of ["schemaVersion", "id", "title", "edition", "harmonizationNote"] as const) {
     if (!isStr(m[k])) err(`manifest.${k}: required string`);
   }
-  for (const k of ["cast", "sources", "gazeTargets", "fragments", "timeline", "witnessVantages"] as const) {
+  for (const k of ["cast", "sources", "gazeTargets", "fragments", "cues", "timeline", "witnessVantages"] as const) {
     if (!Array.isArray(m[k])) err(`manifest.${k}: required array`);
   }
   if (errors.length) return { ok: false, errors, warnings };
@@ -56,6 +61,14 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
       err(`source ${s.id}: textual-variant requires manuscriptNotes`);
     }
     if (s.kjv && !isStr(s.kjv.text)) err(`source ${s.id}: kjv.text empty`);
+    if (!SOURCE_TYPES.includes(s.sourceType)) err(`source ${s.id}: invalid sourceType "${String(s.sourceType)}"`);
+    else if (NON_SCRIPTURAL_SOURCE_TYPES.includes(s.sourceType) && s.evidence !== "historical-inference") {
+      err(`source ${s.id}: ${s.sourceType} sources must be historical-inference`);
+    }
+    if (s.excerpt !== undefined && !(isObj(s.excerpt) && isStr(s.excerpt.text) && RENDERINGS.includes(s.excerpt.rendering))) {
+      err(`source ${s.id}: excerpt requires text and a valid rendering`);
+    }
+    if (!s.kjv && !s.excerpt && !isStr(s.note)) err(`source ${s.id}: needs kjv text, an excerpt, or a note`);
   }
   const refOk = (ctx: string, ids: unknown) => {
     if (!Array.isArray(ids)) { err(`${ctx}: sourceIds must be an array`); return; }
@@ -125,6 +138,19 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
       err("racingThoughts.externalDuck: requires 0 <= startAt < 1 and maxDb <= 0");
     }
     if (!(isNum(rt.affinityMultiplier) && rt.affinityMultiplier >= 1)) err("racingThoughts.affinityMultiplier: must be >= 1");
+    const tiers = rt.dwellTiers as unknown;
+    if (!(Array.isArray(tiers) && tiers.length > 0)) err("racingThoughts.dwellTiers: required non-empty array");
+    else {
+      const tierIds = new Set<unknown>();
+      tiers.forEach((t: Record<string, unknown>, i: number) => {
+        if (!isStr(t?.id)) err(`racingThoughts.dwellTiers[${i}]: id required`);
+        else if (tierIds.has(t.id)) err(`racingThoughts.dwellTiers: duplicate id "${t.id}"`);
+        tierIds.add(t?.id);
+        if (!isNum(t?.minDwellMs)) err(`racingThoughts.dwellTiers[${i}].minDwellMs: number required`);
+        else if (i === 0 && t.minDwellMs !== 0) err("racingThoughts.dwellTiers[0].minDwellMs must be 0");
+        else if (i > 0 && !(t.minDwellMs > Number((tiers[i - 1] as Record<string, unknown> | undefined)?.minDwellMs))) err(`racingThoughts.dwellTiers[${i}].minDwellMs must increase`);
+      });
+    }
     if (rt.evidence !== "artistic-interpretation") err("racingThoughts.evidence must be artistic-interpretation");
     if (!isStr(rt.disclosure)) err("racingThoughts.disclosure: required");
   }
@@ -221,6 +247,55 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
     refOk(ctx, f.anchors);
     if (f.states !== "*") for (const s of f.states) if (!TIMELINE.includes(s)) err(`${ctx}: unknown state "${s}"`);
     for (const t of f.targetAffinity) if (!targetIds.has(t)) err(`${ctx}: unknown affinity target "${t}"`);
+    if (f.gaze !== undefined) {
+      if (!targetIds.has(f.gaze?.target)) err(`${ctx}: gaze.target unknown "${String(f.gaze?.target)}"`);
+      const tierList = Array.isArray(m.racingThoughts?.dwellTiers) ? m.racingThoughts.dwellTiers : [];
+      if (!tierList.some((t) => t?.id === f.gaze?.tier)) err(`${ctx}: gaze.tier unknown "${String(f.gaze?.tier)}"`);
+    }
+  }
+
+  /* dialogue cues */
+  const cueIds = new Set<string>();
+  for (const c of m.cues) {
+    const ctx = `cue ${c.id}`;
+    if (cueIds.has(c.id)) err(`${ctx}: duplicate`);
+    cueIds.add(c.id);
+    if (!CUE_KINDS.includes(c.kind)) err(`${ctx}: invalid kind "${String(c.kind)}"`);
+    if (c.speaker !== "narrator" && !castIds.has(c.speaker)) err(`${ctx}: unknown speaker "${String(c.speaker)}"`);
+    if (c.kind === "narration" && c.speaker !== "narrator") err(`${ctx}: narration is spoken by the narrator`);
+    if (c.kind === "spoken" && c.evidence !== "gospel-text" && c.evidence !== "textual-variant") {
+      err(`${ctx}: spoken cues quote scripture (evidence gospel-text or textual-variant)`);
+    }
+    if (!evidenceOk(c.evidence)) err(`${ctx}: invalid evidence`);
+    if (!isStr(c.textKey)) err(`${ctx}: textKey required`);
+    else if (locale && !locale[c.textKey]) err(`${ctx}: locale missing "${c.textKey}"`);
+    if (!(Array.isArray(c.sourceIds) && c.sourceIds.length > 0)) err(`${ctx}: at least one source`);
+    refOk(ctx, c.sourceIds);
+    if (c.origin !== undefined && !targetIds.has(c.origin)) err(`${ctx}: unknown origin "${String(c.origin)}"`);
+    if (!(isNum(c.durationMs) && c.durationMs > 0)) err(`${ctx}: durationMs must be positive`);
+    if (c.states !== "*") for (const st of Array.isArray(c.states) ? c.states : []) if (!TIMELINE.includes(st)) err(`${ctx}: unknown state "${String(st)}"`);
+    const tr = c.trigger as Record<string, unknown> | undefined;
+    if (tr?.type === "gaze") {
+      if (!targetIds.has(tr.target as string)) err(`${ctx}: unknown trigger target "${String(tr.target)}"`);
+      if (!(isNum(tr.minDwellMs) && tr.minDwellMs >= 0)) err(`${ctx}: trigger.minDwellMs must be >= 0`);
+      if (!CUE_MODES.includes(tr.mode as never)) err(`${ctx}: invalid trigger.mode "${String(tr.mode)}"`);
+    } else if (tr?.type === "phase") {
+      const stateDef = m.timeline.find((x) => x.id === tr.state);
+      if (!stateDef) err(`${ctx}: unknown trigger state "${String(tr.state)}"`);
+      else if (!(PHASES_BY_KIND[stateDef.kind] ?? []).includes(tr.phase as never)) err(`${ctx}: phase "${String(tr.phase)}" does not occur in state "${String(tr.state)}"`);
+      if (!(isNum(tr.atMs) && tr.atMs >= 0)) err(`${ctx}: trigger.atMs must be >= 0`);
+    } else {
+      err(`${ctx}: invalid trigger type "${String(tr?.type)}"`);
+    }
+    if (c.beforeSaying === true) {
+      const sd = tr?.type === "phase" ? m.timeline.find((x) => x.id === tr.state) : undefined;
+      if (!sd || sd.kind !== "saying" || tr?.phase !== "approach") err(`${ctx}: beforeSaying requires a phase trigger in a saying's approach`);
+      else {
+        const end = (tr.atMs as number) + c.durationMs;
+        const min = sd.timing?.approachMinMs ?? 0;
+        if (end > min) err(`${ctx}: beforeSaying cue must end by approachMinMs (${end}ms > ${min}ms)`);
+      }
+    }
   }
 
   /* every RT-active state needs eligible fragments, or the monologue would be silent where it should not be */

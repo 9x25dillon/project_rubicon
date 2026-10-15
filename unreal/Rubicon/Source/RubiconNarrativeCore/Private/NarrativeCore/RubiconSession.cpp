@@ -1,5 +1,6 @@
 #include "RubiconFloatEnv.h"
 #include "NarrativeCore/RubiconSession.h"
+#include "NarrativeCore/RubiconCues.h"
 #include "NarrativeCore/RubiconJson.h"
 #include "NarrativeCore/RubiconMath.h"
 #include "NarrativeCore/RubiconRacingThoughts.h"
@@ -130,6 +131,10 @@ namespace RubiconCore
 				Events.push_back(MakeEvent(S.T, EEventType::Exit));
 				S.bExited = true;
 				S.Rt.Voices.clear();
+				S.Cues.bActive = false;
+				S.Cues.Active = -1;
+				S.Cues.StartedAt = 0;
+				S.Cues.EndsAt = 0;
 				return;
 
 			case ECommandType::Pause:
@@ -326,11 +331,15 @@ namespace RubiconCore
 		/* timeline */
 		SessionDetail::AdvanceTimeline(M, S, Dt, Events);
 
-		/* racing thoughts, against the (possibly new) current state */
-		FRtStepResult Rt = StepRacingThoughts(M, StateDef(M, S), S, DtMs);
+		/* dialogue cues and racing thoughts, against the (possibly new) current state; neither writes the timeline */
+		const FTimelineStateDef& Def = StateDef(M, S);
+		FCueStepResult Cues = StepCues(M, Def, S, DtMs);
+		FRtStepResult Rt = StepRacingThoughts(M, Def, S, DtMs);
+		S.Cues = std::move(Cues.Cues);
 		S.Rt = std::move(Rt.Rt);
 		S.Rng = Rt.Rng;
 		S.T = S.T + Dt;
+		Events.insert(Events.end(), Cues.Events.begin(), Cues.Events.end());
 		Events.insert(Events.end(), Rt.Events.begin(), Rt.Events.end());
 		return R;
 	}

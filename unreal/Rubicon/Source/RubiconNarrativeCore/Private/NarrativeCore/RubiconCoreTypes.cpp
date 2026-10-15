@@ -19,7 +19,11 @@ namespace RubiconCore
 		static const char* const CategoryNames[] = { "scriptural-echo", "crowd-echo", "accusation", "memory-flash", "prayer-collapse", "dread", "sensory-intrusion" };
 		static const char* const StateNames[] = { "threshold", "elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender", "release", "spear", "contemplation" };
 		static const char* const CommandNames[] = { "acknowledgeAdvisory", "triggerSaying", "setMode", "setLayer", "setComfort", "pause", "resume", "exit", "openEvidence", "closeEvidence", "setSettings" };
-		static const char* const EventNames[] = { "timeline.enter", "timeline.phase", "saying.trigger", "mode.change", "layer.change", "comfort.change", "pause.change", "exit", "evidence.change", "settings.change", "rt.fragment", "command.rejected" };
+		static const char* const EventNames[] = { "timeline.enter", "timeline.phase", "saying.trigger", "mode.change", "layer.change", "comfort.change", "pause.change", "exit", "evidence.change", "settings.change", "rt.fragment", "command.rejected", "cue.start" };
+		static const char* const SourceTypeNames[] = { "gospel", "new-testament", "hebrew-bible", "ancient-text", "archaeology", "scholarship" };
+		static const char* const RenderingNames[] = { "public-domain-translation", "own-translation", "paraphrase", "description" };
+		static const char* const CueKindNames[] = { "spoken", "narration", "sound" };
+		static const char* const CueModeNames[] = { "embodiment", "witness", "any" };
 
 		template <typename E, size_t N>
 		bool ParseTable(const std::string& S, const char* const (&Table)[N], E& Out)
@@ -45,6 +49,10 @@ namespace RubiconCore
 	const char* ToString(EStateId V) { return TypesDetail::StateNames[static_cast<int>(V)]; }
 	const char* ToString(ECommandType V) { return TypesDetail::CommandNames[static_cast<int>(V)]; }
 	const char* ToString(EEventType V) { return TypesDetail::EventNames[static_cast<int>(V)]; }
+	const char* ToString(ESourceType V) { return TypesDetail::SourceTypeNames[static_cast<int>(V)]; }
+	const char* ToString(ERendering V) { return TypesDetail::RenderingNames[static_cast<int>(V)]; }
+	const char* ToString(ECueKind V) { return TypesDetail::CueKindNames[static_cast<int>(V)]; }
+	const char* ToString(ECueMode V) { return TypesDetail::CueModeNames[static_cast<int>(V)]; }
 
 	bool Parse(const std::string& S, EEvidence& Out) { return TypesDetail::ParseTable(S, TypesDetail::EvidenceNames, Out); }
 	bool Parse(const std::string& S, EStress& Out) { return TypesDetail::ParseTable(S, TypesDetail::StressNames, Out); }
@@ -58,6 +66,15 @@ namespace RubiconCore
 	bool Parse(const std::string& S, EFragmentCategory& Out) { return TypesDetail::ParseTable(S, TypesDetail::CategoryNames, Out); }
 	bool Parse(const std::string& S, EStateId& Out) { return TypesDetail::ParseTable(S, TypesDetail::StateNames, Out); }
 	bool Parse(const std::string& S, ECommandType& Out) { return TypesDetail::ParseTable(S, TypesDetail::CommandNames, Out); }
+	bool Parse(const std::string& S, ESourceType& Out) { return TypesDetail::ParseTable(S, TypesDetail::SourceTypeNames, Out); }
+	bool Parse(const std::string& S, ERendering& Out) { return TypesDetail::ParseTable(S, TypesDetail::RenderingNames, Out); }
+	bool Parse(const std::string& S, ECueKind& Out) { return TypesDetail::ParseTable(S, TypesDetail::CueKindNames, Out); }
+	bool Parse(const std::string& S, ECueMode& Out) { return TypesDetail::ParseTable(S, TypesDetail::CueModeNames, Out); }
+
+	bool IsNonScriptural(ESourceType V)
+	{
+		return V == ESourceType::AncientText || V == ESourceType::Archaeology || V == ESourceType::Scholarship;
+	}
 
 	EPhase FirstPhase(EStateKind Kind)
 	{
@@ -87,6 +104,18 @@ namespace RubiconCore
 	int FManifest::FindFragment(const std::string& InId) const
 	{
 		for (size_t I = 0; I < Fragments.size(); ++I) if (Fragments[I].Id == InId) return static_cast<int>(I);
+		return -1;
+	}
+
+	int FManifest::FindCue(const std::string& InId) const
+	{
+		for (size_t I = 0; I < Cues.size(); ++I) if (Cues[I].Id == InId) return static_cast<int>(I);
+		return -1;
+	}
+
+	int FManifest::FindCast(const std::string& InId) const
+	{
+		for (size_t I = 0; I < Cast.size(); ++I) if (Cast[I].Id == InId) return static_cast<int>(I);
 		return -1;
 	}
 }

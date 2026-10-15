@@ -2,10 +2,13 @@
  * Frame selector: the single read-only view the engine adapter consumes each tick.
  * Rendering, audio and UI read this and nothing else, so the adapter stays thin and replaceable.
  */
-import { effectiveStress, externalDuckDb, maxActiveVoices, outputIntensity } from "./racingThoughts.js";
+import { dwellTierId, effectiveStress, externalDuckDb, maxActiveVoices, outputIntensity } from "./racingThoughts.js";
 import { stateDef } from "./session.js";
 import type {
   AtmosphereKey,
+  CueKind,
+  Rendering,
+  SourceType,
   EpisodeManifest,
   Evidence,
   ExperienceMode,
@@ -23,8 +26,27 @@ export interface EvidenceItem {
   category: Evidence;
   citation: string;
   label: string;
+  sourceType?: SourceType;
   note?: string;
   manuscriptNotes?: string[];
+  debate?: string;
+}
+
+/** The dialogue cue currently sounding. */
+export interface CueFrame {
+  id: string;
+  kind: CueKind;
+  speaker: string;
+  speakerLabel: string; // cast name, or "Narrator"
+  subtitle: string;
+  citations: string[];
+  evidence: Evidence;
+  /** How the words were rendered, when every cited source shares one (e.g. "paraphrase" is never shown in quotes). */
+  rendering: Rendering | "kjv" | "mixed";
+  origin: string | null; // gaze target to spatialize from; null for the narrator
+  elapsedMs: number;
+  durationMs: number;
+  cueId: string | null;
 }
 
 export interface FrameOutputs {
@@ -56,7 +78,8 @@ export interface FrameOutputs {
     dialogueActive: boolean;
     breathFocus: number; // [0,1], audio focus only
   };
-  gaze: { target: string | null; dwellMs: number; stress: StressLevel };
+  gaze: { target: string | null; dwellMs: number; stress: StressLevel; tier: string };
+  cue: CueFrame | null;
   saying: null | {
     id: SayingId;
     subtitle: string | null; // shown during utterance and resonance
@@ -92,12 +115,17 @@ export function evidenceForState(m: EpisodeManifest, s: SessionState, locale?: L
       category: src.evidence,
       citation: src.citation,
       label: locale?.[`ui.evidence.${src.evidence}`] ?? src.evidence,
+      sourceType: src.sourceType,
       ...(src.note ? { note: src.note } : {}),
       ...(src.manuscriptNotes ? { manuscriptNotes: src.manuscriptNotes } : {}),
+      ...(src.debate ? { debate: src.debate } : {}),
     });
   };
   def.saying?.sourceIds.forEach(pushSource);
   def.sourceIds.forEach(pushSource);
+  /* the cue sounding now: its passages and accounts, with their source type and any authenticity debate */
+  const cue = activeCue(m, s);
+  cue?.sourceIds.forEach(pushSource);
 
   /* active internal voices: always disclosed as artistic interpretation, with the passage they echo */
   for (const v of s.rt.voices) {
@@ -120,6 +148,43 @@ export function evidenceForState(m: EpisodeManifest, s: SessionState, locale?: L
     });
   }
   return items;
+}
+
+export function activeCue(m: EpisodeManifest, s: SessionState) {
+  const a = s.cues.active;
+  if (!a || a.endsAt <= s.t) return undefined;
+  return m.cues.find((c) => c.id === a.id);
+}
+
+function cueRendering(m: EpisodeManifest, sourceIds: string[]): CueFrame["rendering"] {
+  const kinds = new Set(
+    sourceIds.map((id) => {
+      const src = m.sources.find((x) => x.id === id);
+      return src?.excerpt ? src.excerpt.rendering : src?.kjv ? "kjv" : "description";
+    }),
+  );
+  return kinds.size === 1 ? ([...kinds][0] as CueFrame["rendering"]) : "mixed";
+}
+
+export function cueFrame(m: EpisodeManifest, s: SessionState, locale?: Locale): CueFrame | null {
+  const c = activeCue(m, s);
+  const a = s.cues.active;
+  if (!c || !a) return null;
+  const speakerLabel = c.speaker === "narrator" ? locale?.["ui.narrator"] ?? "Narrator" : m.cast.find((x) => x.id === c.speaker)?.name ?? c.speaker;
+  return {
+    id: c.id,
+    kind: c.kind,
+    speaker: c.speaker,
+    speakerLabel,
+    subtitle: locale?.[c.textKey] ?? c.textKey,
+    citations: c.sourceIds.map((id) => m.sources.find((x) => x.id === id)?.citation ?? id),
+    evidence: c.evidence,
+    rendering: cueRendering(m, c.sourceIds),
+    origin: c.origin ?? (c.trigger.type === "gaze" && c.kind !== "narration" ? c.trigger.target : null),
+    elapsedMs: s.t - a.startedAt,
+    durationMs: c.durationMs,
+    cueId: c.cueId ?? null,
+  };
 }
 
 export function selectFrame(m: EpisodeManifest, s: SessionState, locale?: Locale): FrameOutputs {
@@ -160,7 +225,8 @@ export function selectFrame(m: EpisodeManifest, s: SessionState, locale?: Locale
       dialogueActive: s.timeline.phase === "utterance",
       breathFocus: s.breath,
     },
-    gaze: { target: s.gaze.target, dwellMs: s.gaze.dwellMs, stress: effectiveStress(m, def, s.gaze.target) },
+    gaze: { target: s.gaze.target, dwellMs: s.gaze.dwellMs, stress: effectiveStress(m, def, s.gaze.target), tier: dwellTierId(m, s.gaze.dwellMs) },
+    cue: cueFrame(m, s, locale),
     saying: saying
       ? {
           id: saying.id,

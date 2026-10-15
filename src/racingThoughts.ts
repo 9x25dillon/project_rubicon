@@ -21,6 +21,10 @@
  * accumulator += rate*dt; each unit spawns one fragment if a voice slot is free.
  * maxActiveVoices = 1 + floor(output * (maxVoices - 1)). Selection is weighted and seeded; recent fragments
  * are excluded so the stream does not loop.
+ *
+ * Dwell tiers: a fragment with `gaze: { target, tier }` is eligible only in Embodiment, while the gaze rests on that
+ * target, and only in that tier (glance -> sustained -> long -> extreme as dwell grows). Tiers are exclusive, so a
+ * long stare replaces the glance lines with harder ones instead of adding to them.
  */
 import { clamp, clamp01, lerp, rngNext, smoothToward } from "./prng.js";
 import type {
@@ -95,6 +99,24 @@ export function externalDuckDb(m: EpisodeManifest, output: number): number {
   return d.maxDb * t * t * (3 - 2 * t);
 }
 
+/** Index of the dwell tier for a continuous gaze of dwellMs (the last tier whose minDwellMs <= dwellMs). */
+export function dwellTierIndex(m: EpisodeManifest, dwellMs: number): number {
+  const tiers = m.racingThoughts.dwellTiers;
+  let idx = 0;
+  for (let i = 0; i < tiers.length; i++) if (tiers[i]!.minDwellMs <= dwellMs) idx = i;
+  return idx;
+}
+
+export function dwellTierId(m: EpisodeManifest, dwellMs: number): string {
+  return m.racingThoughts.dwellTiers[dwellTierIndex(m, dwellMs)]!.id;
+}
+
+/** Dwell-tiered lines answer the embodied gaze only: the current target, in exactly the current tier. */
+function gazeEligible(m: EpisodeManifest, f: Fragment, s: SessionState): boolean {
+  if (!f.gaze) return true;
+  return s.mode === "embodiment" && s.gaze.target === f.gaze.target && dwellTierId(m, s.gaze.dwellMs) === f.gaze.tier;
+}
+
 function eligible(m: EpisodeManifest, def: TimelineStateDef, s: SessionState, voices: Voice[], output: number): Fragment[] {
   const active = new Set(voices.map((v) => v.fragmentId));
   const recent = new Set(s.rt.recent);
@@ -103,7 +125,8 @@ function eligible(m: EpisodeManifest, def: TimelineStateDef, s: SessionState, vo
       (f.states === "*" || f.states.includes(def.id)) &&
       f.minIntensity <= output &&
       !active.has(f.id) &&
-      !recent.has(f.id),
+      !recent.has(f.id) &&
+      gazeEligible(m, f, s),
   );
 }
 

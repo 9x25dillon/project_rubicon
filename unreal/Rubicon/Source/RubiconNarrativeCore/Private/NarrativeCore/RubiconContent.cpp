@@ -134,6 +134,23 @@ namespace RubiconCore
 			for (size_t I = 0; I < N; ++I) if (P->StringValue == Table[I]) return true;
 			return false;
 		}
+
+		/** PHASES_BY_KIND[kind].includes(phase) */
+		bool PhaseInKind(const FJson* Kind, const FJson* Phase)
+		{
+			EStateKind K;
+			EPhase Ph;
+			if (!(Kind && Kind->IsString() && Parse(Kind->StringValue, K) && Phase && Phase->IsString() && Parse(Phase->StringValue, Ph))) return false;
+			switch (K)
+			{
+			case EStateKind::Gate: return Ph == EPhase::Advisory;
+			case EStateKind::Elevation: return Ph == EPhase::Raising || Ph == EPhase::Settled;
+			case EStateKind::Saying: return Ph == EPhase::Approach || Ph == EPhase::Utterance || Ph == EPhase::Resonance;
+			case EStateKind::Timed: return Ph == EPhase::Running;
+			case EStateKind::Terminal: return Ph == EPhase::Open;
+			}
+			return false;
+		}
 	}
 
 	FValidationResult ValidateManifest(const FJson& Raw, const FLocale* Locale)
@@ -155,7 +172,7 @@ namespace RubiconCore
 		{
 			if (!IsStr(Get(M, K))) Err(std::string("manifest.") + K + ": required string");
 		}
-		for (const char* K : { "cast", "sources", "gazeTargets", "fragments", "timeline", "witnessVantages" })
+		for (const char* K : { "cast", "sources", "gazeTargets", "fragments", "cues", "timeline", "witnessVantages" })
 		{
 			if (!IsArr(Get(M, K))) Err(std::string("manifest.") + K + ": required array");
 		}
@@ -180,6 +197,16 @@ namespace RubiconCore
 			if (IsString(Get(&Src, "evidence"), "textual-variant") && !bHasNotes) Err(Ctx + ": textual-variant requires manuscriptNotes");
 			const FJson* Kjv = Get(&Src, "kjv");
 			if (Truthy(Kjv) && !IsStr(Get(Kjv, "text"))) Err(Ctx + ": kjv.text empty");
+			const FJson* St = Get(&Src, "sourceType");
+			ESourceType SourceType;
+			if (!(St && St->IsString() && Parse(St->StringValue, SourceType))) Err(Ctx + ": invalid sourceType \"" + S(St) + "\"");
+			else if (IsNonScriptural(SourceType) && !IsString(Get(&Src, "evidence"), "historical-inference"))
+			{
+				Err(Ctx + ": " + St->StringValue + " sources must be historical-inference");
+			}
+			const FJson* Ex = Get(&Src, "excerpt");
+			if (Ex && !(IsObj(Ex) && IsStr(Get(Ex, "text")) && EnumOk<ERendering>(Get(Ex, "rendering")))) Err(Ctx + ": excerpt requires text and a valid rendering");
+			if (!Truthy(Kjv) && !Truthy(Ex) && !IsStr(Get(&Src, "note"))) Err(Ctx + ": needs kjv text, an excerpt, or a note");
 		}
 		auto RefOk = [&](const std::string& Ctx, const FJson* Ids)
 		{
@@ -296,6 +323,25 @@ namespace RubiconCore
 			}
 			const FJson* Aff = Get(Rt, "affinityMultiplier");
 			if (!(IsNum(Aff) && Aff->NumberValue >= 1)) Err("racingThoughts.affinityMultiplier: must be >= 1");
+			const FJson* Tiers = Get(Rt, "dwellTiers");
+			if (!(IsArr(Tiers) && !Tiers->Items.empty())) Err("racingThoughts.dwellTiers: required non-empty array");
+			else
+			{
+				std::set<std::string> TierIds;
+				for (size_t I = 0; I < Tiers->Items.size(); ++I)
+				{
+					const FJson* T = &Tiers->Items[I];
+					const std::string Ix = std::to_string(I);
+					const FJson* Tid = Get(T, "id");
+					if (!IsStr(Tid)) Err("racingThoughts.dwellTiers[" + Ix + "]: id required");
+					else if (TierIds.count(SetKey(Tid))) Err("racingThoughts.dwellTiers: duplicate id \"" + Tid->StringValue + "\"");
+					TierIds.insert(SetKey(Tid));
+					const FJson* Md = Get(T, "minDwellMs");
+					if (!IsNum(Md)) Err("racingThoughts.dwellTiers[" + Ix + "].minDwellMs: number required");
+					else if (I == 0 && Md->NumberValue != 0) Err("racingThoughts.dwellTiers[0].minDwellMs must be 0");
+					else if (I > 0 && !(Md->NumberValue > ToNum(Get(&Tiers->Items[I - 1], "minDwellMs")))) Err("racingThoughts.dwellTiers[" + Ix + "].minDwellMs must increase");
+				}
+			}
 			if (!IsString(Get(Rt, "evidence"), "artistic-interpretation")) Err("racingThoughts.evidence must be artistic-interpretation");
 			if (!IsStr(Get(Rt, "disclosure"))) Err("racingThoughts.disclosure: required");
 		}
@@ -467,6 +513,95 @@ namespace RubiconCore
 			{
 				if (!HasTarget(&T)) Err(Ctx + ": unknown affinity target \"" + JsString(&T) + "\"");
 			}
+			if (const FJson* Gz = Get(&F, "gaze"))
+			{
+				if (!HasTarget(Get(Gz, "target"))) Err(Ctx + ": gaze.target unknown \"" + S(Get(Gz, "target")) + "\"");
+				bool bTierKnown = false;
+				for (const FJson& T : Items(Get(Rt, "dwellTiers"))) if (StrictEq(Get(&T, "id"), Get(Gz, "tier"))) bTierKnown = true;
+				if (!bTierKnown) Err(Ctx + ": gaze.tier unknown \"" + S(Get(Gz, "tier")) + "\"");
+			}
+		}
+
+		/* dialogue cues */
+		std::set<std::string> CueIds;
+		for (const FJson& C : Items(Get(M, "cues")))
+		{
+			const FJson* Id = Get(&C, "id");
+			const std::string Ctx = "cue " + S(Id);
+			if (CueIds.count(SetKey(Id))) Err(Ctx + ": duplicate");
+			CueIds.insert(SetKey(Id));
+			const FJson* Kind = Get(&C, "kind");
+			if (!EnumOk<ECueKind>(Kind)) Err(Ctx + ": invalid kind \"" + S(Kind) + "\"");
+			const FJson* Speaker = Get(&C, "speaker");
+			if (!IsString(Speaker, "narrator") && !CastIds.count(SetKey(Speaker))) Err(Ctx + ": unknown speaker \"" + S(Speaker) + "\"");
+			if (IsString(Kind, "narration") && !IsString(Speaker, "narrator")) Err(Ctx + ": narration is spoken by the narrator");
+			const FJson* Ev = Get(&C, "evidence");
+			if (IsString(Kind, "spoken") && !IsString(Ev, "gospel-text") && !IsString(Ev, "textual-variant"))
+			{
+				Err(Ctx + ": spoken cues quote scripture (evidence gospel-text or textual-variant)");
+			}
+			if (!EvidenceOk(Ev)) Err(Ctx + ": invalid evidence");
+			const FJson* Tk = Get(&C, "textKey");
+			if (!IsStr(Tk)) Err(Ctx + ": textKey required");
+			else if (Locale && !LocaleHas(Locale, Tk)) Err(Ctx + ": locale missing \"" + Tk->StringValue + "\"");
+			const FJson* Sids = Get(&C, "sourceIds");
+			if (!(IsArr(Sids) && !Sids->Items.empty())) Err(Ctx + ": at least one source");
+			RefOk(Ctx, Sids);
+			const FJson* Origin = Get(&C, "origin");
+			if (Origin && !HasTarget(Origin)) Err(Ctx + ": unknown origin \"" + S(Origin) + "\"");
+			const FJson* Dur = Get(&C, "durationMs");
+			if (!(IsNum(Dur) && Dur->NumberValue > 0)) Err(Ctx + ": durationMs must be positive");
+			if (!IsString(Get(&C, "states"), "*"))
+			{
+				for (const FJson& St : Items(Get(&C, "states")))
+				{
+					if (!InTable(&St, TimelineIds, TimelineLength)) Err(Ctx + ": unknown state \"" + JsString(&St) + "\"");
+				}
+			}
+			const FJson* Tr = Get(&C, "trigger");
+			const FJson* TrType = Get(Tr, "type");
+			const FJson* SayingDef = nullptr;
+			if (IsString(TrType, "gaze"))
+			{
+				if (!HasTarget(Get(Tr, "target"))) Err(Ctx + ": unknown trigger target \"" + S(Get(Tr, "target")) + "\"");
+				const FJson* Md = Get(Tr, "minDwellMs");
+				if (!(IsNum(Md) && Md->NumberValue >= 0)) Err(Ctx + ": trigger.minDwellMs must be >= 0");
+				if (!EnumOk<ECueMode>(Get(Tr, "mode"))) Err(Ctx + ": invalid trigger.mode \"" + S(Get(Tr, "mode")) + "\"");
+			}
+			else if (IsString(TrType, "phase"))
+			{
+				const FJson* TrState = Get(Tr, "state");
+				const FJson* Def = nullptr;
+				for (const FJson& St : Timeline) if (StrictEq(Get(&St, "id"), TrState)) { Def = &St; break; }
+				if (!Def) Err(Ctx + ": unknown trigger state \"" + S(TrState) + "\"");
+				else if (!PhaseInKind(Get(Def, "kind"), Get(Tr, "phase")))
+				{
+					Err(Ctx + ": phase \"" + S(Get(Tr, "phase")) + "\" does not occur in state \"" + S(TrState) + "\"");
+				}
+				const FJson* At = Get(Tr, "atMs");
+				if (!(IsNum(At) && At->NumberValue >= 0)) Err(Ctx + ": trigger.atMs must be >= 0");
+				SayingDef = Def;
+			}
+			else
+			{
+				Err(Ctx + ": invalid trigger type \"" + S(TrType) + "\"");
+			}
+			const FJson* Before = Get(&C, "beforeSaying");
+			if (Before && Before->IsBool() && Before->BoolValue)
+			{
+				if (!SayingDef || !IsString(Get(SayingDef, "kind"), "saying") || !IsString(Get(Tr, "phase"), "approach"))
+				{
+					Err(Ctx + ": beforeSaying requires a phase trigger in a saying's approach");
+				}
+				else
+				{
+					const double End = ToNum(Get(Tr, "atMs")) + ToNum(Dur);
+					const FJson* MinJ = Get(Get(SayingDef, "timing"), "approachMinMs");
+					const bool bHasMin = MinJ && !MinJ->IsNull();
+					const double Min = bHasMin ? ToNum(MinJ) : 0;
+					if (End > Min) Err(Ctx + ": beforeSaying cue must end by approachMinMs (" + JsNumberToString(End) + "ms > " + (bHasMin ? JsString(MinJ) : std::string("0")) + "ms)");
+				}
+			}
 		}
 
 		/* every RT-active state needs eligible fragments, or the monologue would be silent where it should not be */
@@ -579,7 +714,17 @@ namespace RubiconCore
 			Sr.Id = B.Str(Get(&S, "id"), "source.id");
 			Sr.Citation = B.Str(Get(&S, "citation"), "source " + Sr.Id + ".citation");
 			Sr.Evidence = B.Enum(Get(&S, "evidence"), "source " + Sr.Id + ".evidence", EEvidence::GospelText);
+			Sr.SourceType = B.Enum(Get(&S, "sourceType"), "source " + Sr.Id + ".sourceType", ESourceType::Gospel);
 			Sr.KjvText = B.OptStr(Get(Get(&S, "kjv"), "text"));
+			if (const FJson* Ex = Get(&S, "excerpt"))
+			{
+				FExcerpt E;
+				E.Text = B.Str(Get(Ex, "text"), "source " + Sr.Id + ".excerpt.text");
+				E.Rendering = B.Enum(Get(Ex, "rendering"), "source " + Sr.Id + ".excerpt.rendering", ERendering::Description);
+				E.Translator = B.OptStr(Get(Ex, "translator"));
+				Sr.Excerpt = E;
+			}
+			Sr.Debate = B.OptStr(Get(&S, "debate"));
 			Sr.Greek = B.OptStr(Get(&S, "greek"));
 			Sr.Note = B.OptStr(Get(&S, "note"));
 			Sr.bHasManuscriptNotes = IsArr(Get(&S, "manuscriptNotes"));
@@ -631,6 +776,14 @@ namespace RubiconCore
 			Rm.RecentWindow = static_cast<int>(B.Num(Get(Rt, "recentWindow"), "racingThoughts.recentWindow"));
 			Rm.DuckStartAt = B.Num(Get(Get(Rt, "externalDuck"), "startAt"), "racingThoughts.externalDuck.startAt");
 			Rm.DuckMaxDb = B.Num(Get(Get(Rt, "externalDuck"), "maxDb"), "racingThoughts.externalDuck.maxDb");
+			for (const FJson& T : Items(Get(Rt, "dwellTiers")))
+			{
+				FDwellTier Tier;
+				Tier.Id = B.Str(Get(&T, "id"), "racingThoughts.dwellTiers.id");
+				Tier.MinDwellMs = B.Num(Get(&T, "minDwellMs"), "racingThoughts.dwellTiers.minDwellMs");
+				Rm.DwellTiers.push_back(std::move(Tier));
+			}
+			if (Rm.DwellTiers.empty()) OutErrors.push_back("racingThoughts.dwellTiers: required non-empty array");
 			Rm.Evidence = B.Enum(Get(Rt, "evidence"), "racingThoughts.evidence", EEvidence::ArtisticInterpretation);
 			Rm.Disclosure = B.Str(Get(Rt, "disclosure"), "racingThoughts.disclosure");
 		}
@@ -679,7 +832,71 @@ namespace RubiconCore
 				if (Idx < 0) OutErrors.push_back(Ctx + ": unknown affinity target \"" + T + "\"");
 				else Fr.TargetAffinity.push_back(Idx);
 			}
+			if (const FJson* Gz = Get(&F, "gaze"))
+			{
+				Fr.bHasGaze = true;
+				Fr.GazeTarget = Out.FindGazeTarget(B.Str(Get(Gz, "target"), Ctx + ".gaze.target"));
+				if (Fr.GazeTarget < 0) OutErrors.push_back(Ctx + ": gaze.target unknown");
+				const std::string Tier = B.Str(Get(Gz, "tier"), Ctx + ".gaze.tier");
+				Fr.GazeTier = -1;
+				for (size_t I = 0; I < Out.RacingThoughts.DwellTiers.size(); ++I)
+				{
+					if (Out.RacingThoughts.DwellTiers[I].Id == Tier) Fr.GazeTier = static_cast<int>(I);
+				}
+				if (Fr.GazeTier < 0) OutErrors.push_back(Ctx + ": gaze.tier unknown \"" + Tier + "\"");
+			}
 			Out.Fragments.push_back(std::move(Fr));
+		}
+
+		for (const FJson& C : Items(Get(M, "cues")))
+		{
+			FCue Cu;
+			Cu.Id = B.Str(Get(&C, "id"), "cue.id");
+			const std::string Ctx = "cue " + Cu.Id;
+			Cu.Kind = B.Enum(Get(&C, "kind"), Ctx + ".kind", ECueKind::Spoken);
+			Cu.Speaker = B.Str(Get(&C, "speaker"), Ctx + ".speaker");
+			Cu.TextKey = B.Str(Get(&C, "textKey"), Ctx + ".textKey");
+			Cu.CueId = B.OptStr(Get(&C, "cueId"));
+			if (const FJson* O = Get(&C, "origin"))
+			{
+				Cu.Origin = Out.FindGazeTarget(B.Str(O, Ctx + ".origin"));
+				if (Cu.Origin < 0) OutErrors.push_back(Ctx + ": unknown origin");
+			}
+			Cu.SourceIds = B.StrList(Get(&C, "sourceIds"));
+			Cu.SourceIndices = ResolveSources(Cu.SourceIds, Ctx);
+			Cu.Evidence = B.Enum(Get(&C, "evidence"), Ctx + ".evidence", EEvidence::GospelText);
+			const FJson* Tr = Get(&C, "trigger");
+			if (IsString(Get(Tr, "type"), "gaze"))
+			{
+				Cu.Trigger.bGaze = true;
+				Cu.Trigger.Target = Out.FindGazeTarget(B.Str(Get(Tr, "target"), Ctx + ".trigger.target"));
+				if (Cu.Trigger.Target < 0) OutErrors.push_back(Ctx + ": unknown trigger target");
+				Cu.Trigger.MinDwellMs = B.Num(Get(Tr, "minDwellMs"), Ctx + ".trigger.minDwellMs");
+				Cu.Trigger.Mode = B.Enum(Get(Tr, "mode"), Ctx + ".trigger.mode", ECueMode::Any);
+			}
+			else
+			{
+				Cu.Trigger.bGaze = false;
+				Cu.Trigger.State = B.Enum(Get(Tr, "state"), Ctx + ".trigger.state", EStateId::Threshold);
+				Cu.Trigger.Phase = B.Enum(Get(Tr, "phase"), Ctx + ".trigger.phase", EPhase::Advisory);
+				Cu.Trigger.AtMs = B.Num(Get(Tr, "atMs"), Ctx + ".trigger.atMs");
+			}
+			const FJson* States = Get(&C, "states");
+			if (IsString(States, "*")) Cu.bAllStates = true;
+			else
+			{
+				for (const std::string& St : B.StrList(States))
+				{
+					EStateId Sid;
+					if (Parse(St, Sid)) Cu.States[static_cast<size_t>(Sid)] = true;
+					else OutErrors.push_back(Ctx + ": unknown state \"" + St + "\"");
+				}
+			}
+			Cu.DurationMs = B.Num(Get(&C, "durationMs"), Ctx + ".durationMs");
+			const FJson* Before = Get(&C, "beforeSaying");
+			Cu.bBeforeSaying = Before && Before->IsBool() && Before->BoolValue;
+			Cu.Note = B.OptStr(Get(&C, "note"));
+			Out.Cues.push_back(std::move(Cu));
 		}
 
 		const auto& Timeline = Items(Get(M, "timeline"));

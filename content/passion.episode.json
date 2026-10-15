@@ -98,13 +98,15 @@
       "id": "mark-15-22",
       "citation": "Mark 15:22",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And they bring him unto the place Golgotha, which is, being interpreted, The place of a skull." }
+      "kjv": { "translation": "KJV", "text": "And they bring him unto the place Golgotha, which is, being interpreted, The place of a skull." },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-25",
       "citation": "Mark 15:25",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And it was the third hour, and they crucified him." }
+      "kjv": { "translation": "KJV", "text": "And it was the third hour, and they crucified him." },
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-14",
@@ -114,7 +116,8 @@
         "translation": "KJV",
         "text": "And it was the preparation of the passover, and about the sixth hour: and he saith unto the Jews, Behold your King!"
       },
-      "note": "Conflicts with Mark 15:25 on the hour."
+      "note": "Conflicts with Mark 15:25 on the hour.",
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-19-20",
@@ -123,7 +126,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "And Pilate wrote a title, and put it on the cross. And the writing was, JESUS OF NAZARETH THE KING OF THE JEWS. This title then read many of the Jews: for the place where Jesus was crucified was nigh to the city: and it was written in Hebrew, and Greek, and Latin."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-29-30",
@@ -132,7 +136,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "And they that passed by railed on him, wagging their heads, and saying, Ah, thou that destroyest the temple, and buildest it in three days, Save thyself, and come down from the cross."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-31",
@@ -141,7 +146,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "Likewise also the chief priests mocking said among themselves with the scribes, He saved others; himself he cannot save."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "matt-27-40",
@@ -151,19 +157,22 @@
         "translation": "KJV",
         "text": "And saying, Thou that destroyest the temple, and buildest it in three days, save thyself. If thou be the Son of God, come down from the cross."
       },
-      "note": "Echoes the wilderness temptation formula of Matthew 4:3."
+      "note": "Echoes the wilderness temptation formula of Matthew 4:3.",
+      "sourceType": "gospel"
     },
     {
       "id": "matt-4-3",
       "citation": "Matthew 4:3",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And when the tempter came to him, he said, If thou be the Son of God, command that these stones be made bread." }
+      "kjv": { "translation": "KJV", "text": "And when the tempter came to him, he said, If thou be the Son of God, command that these stones be made bread." },
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-27",
       "citation": "Luke 23:27",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And there followed him a great company of people, and of women, which also bewailed and lamented him." }
+      "kjv": { "translation": "KJV", "text": "And there followed him a great company of people, and of women, which also bewailed and lamented him." },
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-34",
@@ -178,7 +187,8 @@
         "The saying (23:34a) is absent from several early and geographically diverse witnesses, including Papyrus 75 and Codex Vaticanus (B), and from the first hand of Codex Bezae (D).",
         "It is present in the first hand of Codex Sinaiticus (later deleted by a corrector and then restored) and in Codex Alexandrinus.",
         "Modern critical editions (Nestle-Aland) print it within double brackets, marking it as very early but probably not part of Luke's original text. Many scholars nonetheless regard it as an authentic early tradition."
-      ]
+      ],
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-35",
@@ -187,19 +197,22 @@
       "kjv": {
         "translation": "KJV",
         "text": "And the people stood beholding. And the rulers also with them derided him, saying, He saved others; let him save himself, if he be Christ, the chosen of God."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-36",
       "citation": "Luke 23:36",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And the soldiers also mocked him, coming to him, and offering him vinegar," }
+      "kjv": { "translation": "KJV", "text": "And the soldiers also mocked him, coming to him, and offering him vinegar," },
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-39",
       "citation": "Luke 23:39",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And one of the malefactors which were hanged railed on him, saying, If thou be Christ, save thyself and us." }
+      "kjv": { "translation": "KJV", "text": "And one of the malefactors which were hanged railed on him, saying, If thou be Christ, save thyself and us." },
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-42-43",
@@ -210,7 +223,8 @@
         "text": "And he said unto Jesus, Lord, remember me when thou comest into thy kingdom. And Jesus said unto him, Verily I say unto thee, To day shalt thou be with me in paradise."
       },
       "greek": "Ἀμήν σοι λέγω, σήμερον μετ᾽ ἐμοῦ ἔσῃ ἐν τῷ παραδείσῳ.",
-      "note": "Early manuscripts are unpunctuated. Nearly all translations read 'I say to you, today you will be...'; a minority reading attaches 'today' to 'I say'. The comma is an editorial decision."
+      "note": "Early manuscripts are unpunctuated. Nearly all translations read 'I say to you, today you will be...'; a minority reading attaches 'today' to 'I say'. The comma is an editorial decision.",
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-44-45",
@@ -220,7 +234,9 @@
         "translation": "KJV",
         "text": "And it was about the sixth hour, and there was a darkness over all the earth until the ninth hour. And the sun was darkened, and the veil of the temple was rent in the midst."
       },
-      "note": "Several early manuscripts read 'the sun's light failed' (tou hēliou eklipontos). A solar eclipse is astronomically impossible at the Passover full moon; the Gospels report the darkness without explaining it."
+      "note": "Several early manuscripts read 'the sun's light failed' (tou hēliou eklipontos). A solar eclipse is astronomically impossible at the Passover full moon; the Gospels report the darkness without explaining it.",
+      "sourceType": "gospel",
+      "debate": "Luke 23:45: the oldest manuscripts (Papyrus 75, Codex Sinaiticus, Codex Vaticanus) read that 'the sun's light failed' (tou hēliou eklipontos), a verb also used of eclipses; the KJV follows later manuscripts, 'the sun was darkened'. No Gospel gives the darkness a cause."
     },
     {
       "id": "luke-23-46",
@@ -231,7 +247,8 @@
         "text": "And when Jesus had cried with a loud voice, he said, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost."
       },
       "greek": "Πάτερ, εἰς χεῖράς σου παρατίθεμαι τὸ πνεῦμά μου.",
-      "note": "Quotes Psalm 31:5."
+      "note": "Quotes Psalm 31:5.",
+      "sourceType": "gospel"
     },
     {
       "id": "luke-23-48",
@@ -240,13 +257,15 @@
       "kjv": {
         "translation": "KJV",
         "text": "And all the people that came together to that sight, beholding the things which were done, smote their breasts, and returned."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-33",
       "citation": "Mark 15:33",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And when the sixth hour was come, there was darkness over the whole land until the ninth hour." }
+      "kjv": { "translation": "KJV", "text": "And when the sixth hour was come, there was darkness over the whole land until the ninth hour." },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-34",
@@ -257,7 +276,8 @@
         "text": "And at the ninth hour Jesus cried with a loud voice, saying, Eloi, Eloi, lama sabachthani? which is, being interpreted, My God, my God, why hast thou forsaken me?"
       },
       "greek": "Ελωι ελωι λεμα σαβαχθανι;",
-      "note": "Quotes Psalm 22:1. Manuscripts vary in transliterating the Aramaic; some carry forms closer to Hebrew."
+      "note": "Quotes Psalm 22:1. Manuscripts vary in transliterating the Aramaic; some carry forms closer to Hebrew.",
+      "sourceType": "gospel"
     },
     {
       "id": "matt-27-46",
@@ -268,13 +288,15 @@
         "text": "And about the ninth hour Jesus cried with a loud voice, saying, Eli, Eli, lama sabachthani? that is to say, My God, my God, why hast thou forsaken me?"
       },
       "greek": "Ηλι ηλι λεμα σαβαχθανι;",
-      "note": "Matthew's 'Eli' is closer to Hebrew; Mark's 'Eloi' reflects Aramaic."
+      "note": "Matthew's 'Eli' is closer to Hebrew; Mark's 'Eloi' reflects Aramaic.",
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-35",
       "citation": "Mark 15:35",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "And some of them that stood by, when they heard it, said, Behold, he calleth Elias." }
+      "kjv": { "translation": "KJV", "text": "And some of them that stood by, when they heard it, said, Behold, he calleth Elias." },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-36",
@@ -283,7 +305,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "And one ran and filled a spunge full of vinegar, and put it on a reed, and gave him to drink, saying, Let alone; let us see whether Elias will come to take him down."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-39",
@@ -292,7 +315,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "And when the centurion, which stood over against him, saw that he so cried out, and gave up the ghost, he said, Truly this man was the Son of God."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-15-40",
@@ -301,7 +325,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "There were also women looking on afar off: among whom was Mary Magdalene, and Mary the mother of James the less and of Joses, and Salome;"
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-25",
@@ -311,7 +336,8 @@
         "translation": "KJV",
         "text": "Now there stood by the cross of Jesus his mother, and his mother's sister, Mary the wife of Cleophas, and Mary Magdalene."
       },
-      "note": "John places the women by the cross; Mark 15:40 places them at a distance."
+      "note": "John places the women by the cross; Mark 15:40 places them at a distance.",
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-26-27",
@@ -321,7 +347,8 @@
         "translation": "KJV",
         "text": "When Jesus therefore saw his mother, and the disciple standing by, whom he loved, he saith unto his mother, Woman, behold thy son! Then saith he to the disciple, Behold thy mother! And from that hour that disciple took her unto his own home."
       },
-      "greek": "Γύναι, ἴδε ὁ υἱός σου. ... Ἴδε ἡ μήτηρ σου."
+      "greek": "Γύναι, ἴδε ὁ υἱός σου. ... Ἴδε ἡ μήτηρ σου.",
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-28",
@@ -331,7 +358,8 @@
         "translation": "KJV",
         "text": "After this, Jesus knowing that all things were now accomplished, that the scripture might be fulfilled, saith, I thirst."
       },
-      "greek": "Διψῶ."
+      "greek": "Διψῶ.",
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-29",
@@ -341,7 +369,8 @@
         "translation": "KJV",
         "text": "Now there was set a vessel full of vinegar: and they filled a spunge with vinegar, and put it upon hyssop, and put it to his mouth."
       },
-      "note": "The 'vinegar' is sour wine (oxos), a common soldiers' drink. A conjectural emendation reads 'javelin' (hyssō) for 'hyssop' (hyssōpō); the giver is unnamed in John."
+      "note": "The 'vinegar' is sour wine (oxos), a common soldiers' drink. A conjectural emendation reads 'javelin' (hyssō) for 'hyssop' (hyssōpō); the giver is unnamed in John.",
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-30",
@@ -351,7 +380,8 @@
         "translation": "KJV",
         "text": "When Jesus therefore had received the vinegar, he said, It is finished: and he bowed his head, and gave up the ghost."
       },
-      "greek": "Τετέλεσται."
+      "greek": "Τετέλεσται.",
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-33-34",
@@ -361,7 +391,8 @@
         "translation": "KJV",
         "text": "But when they came to Jesus, and saw that he was dead already, they brake not his legs: But one of the soldiers with a spear pierced his side, and forthwith came there out blood and water."
       },
-      "note": "Some early manuscripts of Matthew 27:49 (including Sinaiticus and Vaticanus) add a spear-piercing before death. The project follows John's chronology: the spear is after death and is only ever witnessed."
+      "note": "Some early manuscripts of Matthew 27:49 (including Sinaiticus and Vaticanus) add a spear-piercing before death. The project follows John's chronology: the spear is after death and is only ever witnessed.",
+      "sourceType": "gospel"
     },
     {
       "id": "john-19-35",
@@ -370,7 +401,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "And he that saw it bare record, and his record is true: and he knoweth that he saith true, that ye might believe."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "mark-14-36",
@@ -379,9 +411,16 @@
       "kjv": {
         "translation": "KJV",
         "text": "And he said, Abba, Father, all things are possible unto thee; take away this cup from me: nevertheless not what I will, but what thou wilt."
-      }
+      },
+      "sourceType": "gospel"
     },
-    { "id": "mark-14-50", "citation": "Mark 14:50", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And they all forsook him, and fled." } },
+    {
+      "id": "mark-14-50",
+      "citation": "Mark 14:50",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And they all forsook him, and fled." },
+      "sourceType": "gospel"
+    },
     {
       "id": "mark-6-3",
       "citation": "Mark 6:3",
@@ -389,7 +428,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "Is not this the carpenter, the son of Mary, the brother of James, and Joses, and of Juda, and Simon? and are not his sisters here with us? And they were offended at him."
-      }
+      },
+      "sourceType": "gospel"
     },
     {
       "id": "psalm-22-1",
@@ -399,13 +439,15 @@
         "translation": "KJV",
         "text": "My God, my God, why hast thou forsaken me? why art thou so far from helping me, and from the words of my roaring?"
       },
-      "note": "Hebrew scripture quoted in Mark 15:34 and Matthew 27:46. Category 'gospel-text' here means scripture cited by the Gospels."
+      "note": "Hebrew scripture quoted in Mark 15:34 and Matthew 27:46. Category 'gospel-text' here means scripture cited by the Gospels.",
+      "sourceType": "hebrew-bible"
     },
     {
       "id": "psalm-22-7",
       "citation": "Psalm 22:7",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "All they that see me laugh me to scorn: they shoot out the lip, they shake the head, saying," }
+      "kjv": { "translation": "KJV", "text": "All they that see me laugh me to scorn: they shoot out the lip, they shake the head, saying," },
+      "sourceType": "hebrew-bible"
     },
     {
       "id": "psalm-22-14",
@@ -414,7 +456,8 @@
       "kjv": {
         "translation": "KJV",
         "text": "I am poured out like water, and all my bones are out of joint: my heart is like wax; it is melted in the midst of my bowels."
-      }
+      },
+      "sourceType": "hebrew-bible"
     },
     {
       "id": "psalm-22-15",
@@ -423,19 +466,523 @@
       "kjv": {
         "translation": "KJV",
         "text": "My strength is dried up like a potsherd; and my tongue cleaveth to my jaws; and thou hast brought me into the dust of death."
-      }
+      },
+      "sourceType": "hebrew-bible"
     },
     {
       "id": "psalm-13-1",
       "citation": "Psalm 13:1",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "How long wilt thou forget me, O LORD? for ever? how long wilt thou hide thy face from me?" }
+      "kjv": { "translation": "KJV", "text": "How long wilt thou forget me, O LORD? for ever? how long wilt thou hide thy face from me?" },
+      "sourceType": "hebrew-bible"
     },
     {
       "id": "psalm-31-5",
       "citation": "Psalm 31:5",
       "evidence": "gospel-text",
-      "kjv": { "translation": "KJV", "text": "Into thine hand I commit my spirit: thou hast redeemed me, O LORD God of truth." }
+      "kjv": { "translation": "KJV", "text": "Into thine hand I commit my spirit: thou hast redeemed me, O LORD God of truth." },
+      "sourceType": "hebrew-bible"
+    },
+    {
+      "id": "mark-14-32",
+      "citation": "Mark 14:32",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And they came to a place which was named Gethsemane: and he saith to his disciples, Sit ye here, while I shall pray."
+      }
+    },
+    {
+      "id": "mark-14-37",
+      "citation": "Mark 14:37",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And he cometh, and findeth them sleeping, and saith unto Peter, Simon, sleepest thou? couldest not thou watch one hour?"
+      }
+    },
+    {
+      "id": "mark-15-21",
+      "citation": "Mark 15:21",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And they compel one Simon a Cyrenian, who passed by, coming out of the country, the father of Alexander and Rufus, to bear his cross."
+      }
+    },
+    {
+      "id": "mark-15-23",
+      "citation": "Mark 15:23",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And they gave him to drink wine mingled with myrrh: but he received it not." }
+    },
+    {
+      "id": "mark-15-26",
+      "citation": "Mark 15:26",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And the superscription of his accusation was written over, THE KING OF THE JEWS." },
+      "note": "Matthew 27:37, Luke 23:38 and John 19:19 give the title in slightly different words."
+    },
+    {
+      "id": "mark-15-27",
+      "citation": "Mark 15:27",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And with him they crucify two thieves; the one on his right hand, and the other on his left." }
+    },
+    {
+      "id": "mark-15-32",
+      "citation": "Mark 15:32",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Let Christ the King of Israel descend now from the cross, that we may see and believe. And they that were crucified with him reviled him."
+      }
+    },
+    {
+      "id": "mark-15-40-41",
+      "citation": "Mark 15:40-41",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "There were also women looking on afar off: among whom was Mary Magdalene, and Mary the mother of James the less and of Joses, and Salome; (Who also, when he was in Galilee, followed him, and ministered unto him;) and many other women which came up with him unto Jerusalem."
+      }
+    },
+    {
+      "id": "matt-27-43",
+      "citation": "Matthew 27:43",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "He trusted in God; let him deliver him now, if he will have him: for he said, I am the Son of God." },
+      "note": "Spoken by the chief priests with the scribes and elders (Matthew 27:41); echoes Psalm 22:8."
+    },
+    {
+      "id": "matt-27-47-49",
+      "citation": "Matthew 27:47-49",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Some of them that stood there, when they heard that, said, This man calleth for Elias. And straightway one of them ran, and took a spunge, and filled it with vinegar, and put it on a reed, and gave him to drink. The rest said, Let be, let us see whether Elias will come to save him."
+      }
+    },
+    {
+      "id": "luke-2-35",
+      "citation": "Luke 2:35",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "(Yea, a sword shall pierce through thy own soul also,) that the thoughts of many hearts may be revealed." },
+      "note": "Simeon to Mary at the presentation in the Temple."
+    },
+    {
+      "id": "luke-19-41-42",
+      "citation": "Luke 19:41-42",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And when he was come near, he beheld the city, and wept over it, Saying, If thou hadst known, even thou, at least in this thy day, the things which belong unto thy peace! but now they are hid from thine eyes."
+      }
+    },
+    {
+      "id": "luke-23-28-31",
+      "citation": "Luke 23:28-31",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "But Jesus turning unto them said, Daughters of Jerusalem, weep not for me, but weep for yourselves, and for your children. For, behold, the days are coming, in the which they shall say, Blessed are the barren, and the wombs that never bare, and the paps which never gave suck. Then shall they begin to say to the mountains, Fall on us; and to the hills, Cover us. For if they do these things in a green tree, what shall be done in the dry?"
+      },
+      "note": "Spoken on the way to the place of execution."
+    },
+    {
+      "id": "luke-23-37",
+      "citation": "Luke 23:37",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And saying, If thou be the king of the Jews, save thyself." },
+      "note": "The soldiers' mockery (Luke 23:36)."
+    },
+    {
+      "id": "luke-23-40-41",
+      "citation": "Luke 23:40-41",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "But the other answering rebuked him, saying, Dost not thou fear God, seeing thou art in the same condemnation? And we indeed justly; for we receive the due reward of our deeds: but this man hath done nothing amiss."
+      }
+    },
+    {
+      "id": "luke-23-50-51",
+      "citation": "Luke 23:50-51",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And, behold, there was a man named Joseph, a counsellor; and he was a good man, and a just: (The same had not consented to the counsel and deed of them;) he was of Arimathaea, a city of the Jews: who also himself waited for the kingdom of God."
+      }
+    },
+    {
+      "id": "john-2-4",
+      "citation": "John 2:4",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "Jesus saith unto her, Woman, what have I to do with thee? mine hour is not yet come." },
+      "note": "At the wedding in Cana: the only other place John has Jesus address his mother, and with the same word, 'Woman' (compare John 19:26)."
+    },
+    {
+      "id": "john-11-43",
+      "citation": "John 11:43",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": { "translation": "KJV", "text": "And when he thus had spoken, he cried with a loud voice, Lazarus, come forth." }
+    },
+    {
+      "id": "john-19-21-22",
+      "citation": "John 19:21-22",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Then said the chief priests of the Jews to Pilate, Write not, The King of the Jews; but that he said, I am King of the Jews. Pilate answered, What I have written I have written."
+      }
+    },
+    {
+      "id": "john-19-23-24",
+      "citation": "John 19:23-24",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Then the soldiers, when they had crucified Jesus, took his garments, and made four parts, to every soldier a part; and also his coat: now the coat was without seam, woven from the top throughout. They said therefore among themselves, Let us not rend it, but cast lots for it, whose it shall be: that the scripture might be fulfilled, which saith, They parted my raiment among them, and for my vesture they did cast lots. These things therefore the soldiers did."
+      }
+    },
+    {
+      "id": "john-19-39",
+      "citation": "John 19:39",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And there came also Nicodemus, which at the first came to Jesus by night, and brought a mixture of myrrh and aloes, about an hundred pound weight."
+      }
+    },
+    {
+      "id": "john-19-41",
+      "citation": "John 19:41",
+      "evidence": "gospel-text",
+      "sourceType": "gospel",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Now in the place where he was crucified there was a garden; and in the garden a new sepulchre, wherein was never man yet laid."
+      }
+    },
+    {
+      "id": "romans-16-13",
+      "citation": "Romans 16:13",
+      "evidence": "gospel-text",
+      "sourceType": "new-testament",
+      "kjv": { "translation": "KJV", "text": "Salute Rufus chosen in the Lord, and his mother and mine." }
+    },
+    {
+      "id": "1-cor-1-23",
+      "citation": "1 Corinthians 1:23",
+      "evidence": "gospel-text",
+      "sourceType": "new-testament",
+      "kjv": { "translation": "KJV", "text": "But we preach Christ crucified, unto the Jews a stumblingblock, and unto the Greeks foolishness;" }
+    },
+    {
+      "id": "psalm-22-2",
+      "citation": "Psalm 22:2",
+      "evidence": "gospel-text",
+      "sourceType": "hebrew-bible",
+      "kjv": { "translation": "KJV", "text": "O my God, I cry in the day time, but thou hearest not; and in the night season, and am not silent." }
+    },
+    {
+      "id": "psalm-22-8",
+      "citation": "Psalm 22:8",
+      "evidence": "gospel-text",
+      "sourceType": "hebrew-bible",
+      "kjv": { "translation": "KJV", "text": "He trusted on the LORD that he would deliver him: let him deliver him, seeing he delighted in him." },
+      "note": "Quoted back in the mockery of Matthew 27:43."
+    },
+    {
+      "id": "psalm-22-18",
+      "citation": "Psalm 22:18",
+      "evidence": "gospel-text",
+      "sourceType": "hebrew-bible",
+      "kjv": { "translation": "KJV", "text": "They part my garments among them, and cast lots upon my vesture." },
+      "note": "Cited by John 19:24."
+    },
+    {
+      "id": "psalm-22-24",
+      "citation": "Psalm 22:24",
+      "evidence": "gospel-text",
+      "sourceType": "hebrew-bible",
+      "kjv": {
+        "translation": "KJV",
+        "text": "For he hath not despised nor abhorred the affliction of the afflicted; neither hath he hid his face from him; but when he cried unto him, he heard."
+      }
+    },
+    {
+      "id": "psalm-69-21",
+      "citation": "Psalm 69:21",
+      "evidence": "gospel-text",
+      "sourceType": "hebrew-bible",
+      "kjv": { "translation": "KJV", "text": "They gave me also gall for my meat; and in my thirst they gave me vinegar to drink." }
+    },
+    {
+      "id": "proverbs-31-6",
+      "citation": "Proverbs 31:6",
+      "evidence": "gospel-text",
+      "sourceType": "hebrew-bible",
+      "kjv": { "translation": "KJV", "text": "Give strong drink unto him that is ready to perish, and wine unto those that be of heavy hearts." }
+    },
+    {
+      "id": "deut-21-22-23",
+      "citation": "Deuteronomy 21:22-23",
+      "evidence": "gospel-text",
+      "sourceType": "hebrew-bible",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And if a man have committed a sin worthy of death, and he be to be put to death, and thou hang him on a tree: His body shall not remain all night upon the tree, but thou shalt in any wise bury him that day; (for he that is hanged is accursed of God;) that thy land be not defiled, which the LORD thy God giveth thee for an inheritance."
+      }
+    },
+    {
+      "id": "quintilian-decl-274",
+      "citation": "[Quintilian], Minor Declamations 274.13",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "Whenever we crucify the guilty, the most crowded roads are chosen, where the most people can look on and be moved by this fear. For every punishment has less to do with the offence than with the example.",
+        "rendering": "own-translation"
+      },
+      "note": "Latin: quotiens noxios crucifigimus, celeberrimae eliguntur viae, ubi plurimi intueri, plurimi commoveri hoc metu possint.",
+      "debate": "The Minor Declamations are rhetorical school exercises transmitted under Quintilian's name (late first century AD); authorship and exact date are uncertain."
+    },
+    {
+      "id": "cicero-verres-2-5-170",
+      "citation": "Cicero, Against Verres 2.5.170 (70 BC)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "To bind a Roman citizen is a crime, to flog him an abomination, to kill him almost parricide: what shall I call crucifying him?",
+        "rendering": "own-translation"
+      },
+      "note": "Latin: facinus est vincire civem Romanum, scelus verberare, prope parricidium necare: quid dicam in crucem tollere?"
+    },
+    {
+      "id": "cicero-rabirio-16",
+      "citation": "Cicero, For Rabirius on a Charge of Treason 16 (63 BC)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "The very word 'cross' should be kept far away not only from the body of a Roman citizen, but from his thoughts, his eyes, his ears.",
+        "rendering": "own-translation"
+      },
+      "note": "Latin: nomen ipsum crucis absit non modo a corpore civium Romanorum sed etiam a cogitatione, oculis, auribus."
+    },
+    {
+      "id": "tacitus-annals-15-44",
+      "citation": "Tacitus, Annals 15.44 (c. AD 116)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "Christus, from whom the name had its origin, suffered the extreme penalty during the reign of Tiberius at the hands of one of our procurators, Pontius Pilatus.",
+        "rendering": "public-domain-translation",
+        "translator": "A. J. Church and W. J. Brodribb (1876)"
+      },
+      "debate": "Tacitus calls Pilate a procurator; the inscription from Caesarea shows his title in office was prefect."
+    },
+    {
+      "id": "josephus-ant-18-63",
+      "citation": "Josephus, Jewish Antiquities 18.63-64, the Testimonium Flavianum (c. AD 93)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "And when Pilate, at the suggestion of the principal men amongst us, had condemned him to the cross, those that loved him at the first did not forsake him.",
+        "rendering": "public-domain-translation",
+        "translator": "William Whiston (1737)"
+      },
+      "debate": "Christian copyists expanded this passage. Most scholars accept an authentic core. A tenth-century Arabic version preserved by Agapius lacks the Christian additions and keeps the crucifixion under Pilate and the disciples' loyalty."
+    },
+    {
+      "id": "josephus-ant-17-295",
+      "citation": "Josephus, Jewish Antiquities 17.295; Jewish War 2.75",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "After the revolts that followed Herod's death (4 BC), the governor of Syria, Publius Quinctilius Varus, hunted down those responsible; about two thousand were crucified.",
+        "rendering": "paraphrase"
+      }
+    },
+    {
+      "id": "josephus-war-4-317",
+      "citation": "Josephus, Jewish War 4.317",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "The Jews used to take so much care of the burial of men, that they took down those that were condemned and crucified, and buried them before the going down of the sun.",
+        "rendering": "public-domain-translation",
+        "translator": "William Whiston (1737)"
+      },
+      "note": "Compare Deuteronomy 21:22-23 and John 19:31."
+    },
+    {
+      "id": "philo-embassy-302",
+      "citation": "Philo, On the Embassy to Gaius 302 (c. AD 41)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "A letter attributed to Agrippa I charges Pilate with bribery, insults, robbery, outrages, repeated executions without trial, and ceaseless cruelty.",
+        "rendering": "paraphrase"
+      },
+      "debate": "A hostile, polemical witness, but written in Pilate's own lifetime; it contrasts with the hesitant Pilate of the Gospels."
+    },
+    {
+      "id": "philo-flaccus-83",
+      "citation": "Philo, Against Flaccus 83 (c. AD 40)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "Philo writes that he had known crucified men taken down on the eve of a festival and handed over to their families for burial.",
+        "rendering": "paraphrase"
+      }
+    },
+    {
+      "id": "suetonius-caligula-32",
+      "citation": "Suetonius, Caligula 32.2",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "A slave caught stealing at a banquet was led around among the guests with a placard declaring the reason for his punishment.",
+        "rendering": "paraphrase"
+      }
+    },
+    {
+      "id": "cassius-dio-54-3",
+      "citation": "Cassius Dio, Roman History 54.3.7",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "A slave who had betrayed his master's son was led through the middle of the Forum with an inscription declaring why he was to die, and then crucified.",
+        "rendering": "paraphrase"
+      }
+    },
+    {
+      "id": "julius-africanus-thallus",
+      "citation": "Julius Africanus, Chronography (fragment preserved by George Syncellus)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "Thallus, in the third book of his histories, explains the darkness away as an eclipse of the sun, unreasonably, Africanus says, since an eclipse cannot happen at the full moon of Passover.",
+        "rendering": "paraphrase"
+      },
+      "debate": "Thallus's work is lost. His date (first or second century) and his exact words are known only through this report."
+    },
+    {
+      "id": "lucian-peregrinus",
+      "citation": "Lucian, The Passing of Peregrinus 11, 13 (c. AD 165)",
+      "evidence": "historical-inference",
+      "sourceType": "ancient-text",
+      "excerpt": {
+        "text": "Christians still worship the man who was crucified in Palestine for bringing their new rites into the world.",
+        "rendering": "paraphrase"
+      }
+    },
+    {
+      "id": "alexamenos-graffito",
+      "citation": "Alexamenos graffito, Palatine Hill, Rome",
+      "evidence": "historical-inference",
+      "sourceType": "archaeology",
+      "excerpt": {
+        "text": "Scratched into plaster in a building on the Palatine and found in 1857: a crucified figure with a donkey's head, a young man raising a hand toward it, and the Greek words ΑΛΕΞΑΜΕΝΟΣ ΣΕΒΕΤΕ ΘΕΟΝ, 'Alexamenos worships [his] god'.",
+        "rendering": "description"
+      },
+      "debate": "Dated anywhere from the first to the third century, most often about AD 200. Usually read as mockery of a Christian; the earliest surviving image of a crucifixion."
+    },
+    {
+      "id": "pilate-stone",
+      "citation": "Pilate Stone, Caesarea Maritima (found 1961)",
+      "evidence": "historical-inference",
+      "sourceType": "archaeology",
+      "excerpt": {
+        "text": "A limestone block reused in the Roman theatre at Caesarea, found by an Italian excavation in 1961, recording a building (Tiberieum) dedicated by [Pon]tius Pilatus, [Praef]ectus Iuda[ea]e.",
+        "rendering": "description"
+      },
+      "note": "The only inscription from his lifetime that names him."
+    },
+    {
+      "id": "yehohanan-heel-1968",
+      "citation": "Ossuary of Yehohanan, Giv'at ha-Mivtar, Jerusalem (found 1968)",
+      "evidence": "historical-inference",
+      "sourceType": "archaeology",
+      "excerpt": {
+        "text": "First-century ossuary of a man named Yehohanan, in his twenties, whose right heel bone is still pierced by an iron nail about 11.5 cm long, with remains of wood under its head.",
+        "rendering": "description"
+      },
+      "debate": "First reconstructions of his posture and of broken legs (1970) were later revised (Zias and Sekeles, 1985)."
+    },
+    {
+      "id": "fenstanton-2021",
+      "citation": "Fenstanton, Cambridgeshire (published 2021)",
+      "evidence": "historical-inference",
+      "sourceType": "archaeology",
+      "excerpt": {
+        "text": "Roman-period burial of a man whose heel bone was pierced by an iron nail: one of very few skeletal examples of crucifixion known anywhere.",
+        "rendering": "description"
+      }
+    },
+    {
+      "id": "kidron-ossuary-1941",
+      "citation": "Kidron Valley tomb of a Cyrenian family (excavated 1941)",
+      "evidence": "historical-inference",
+      "sourceType": "archaeology",
+      "excerpt": { "text": "Burial cave of a family from Cyrene; one ossuary bears the name Alexander, son of Simon.", "rendering": "description" },
+      "debate": "Excavated by E. L. Sukenik and N. Avigad and published in 1962. Both names were common; identification with the family of Mark's Simon of Cyrene is possible but unprovable."
+    },
+    {
+      "id": "scholarship-lestai",
+      "citation": "Greek lēstai in Mark 15:27 and Matthew 27:38",
+      "evidence": "historical-inference",
+      "sourceType": "scholarship",
+      "note": "The word the KJV renders 'thieves' is Josephus's usual term for bandits and armed insurgents; John 18:40 uses it of Barabbas, whom Mark 15:7 places among rebels. Luke 23:32-33 says 'malefactors'."
+    },
+    {
+      "id": "scholarship-posca",
+      "citation": "Posca, the Roman soldiers' sour wine",
+      "evidence": "historical-inference",
+      "sourceType": "scholarship",
+      "note": "Sour wine cut with water was an ordinary ration of Roman soldiers; the 'vinegar' (oxos) of John 19:29 is widely identified with it."
+    },
+    {
+      "id": "scholarship-mercy-drink",
+      "citation": "A drink of mercy for the condemned",
+      "evidence": "historical-inference",
+      "sourceType": "scholarship",
+      "note": "A later rabbinic tradition (Babylonian Talmud, Sanhedrin 43a), citing Proverbs 31:6, records that noblewomen of Jerusalem provided the condemned with wine mixed with frankincense to dull their senses. Compare the wine mingled with myrrh of Mark 15:23."
+    },
+    {
+      "id": "scholarship-women-witnesses",
+      "citation": "Women as the principal witnesses",
+      "evidence": "historical-inference",
+      "sourceType": "scholarship",
+      "note": "All four Gospels place women at the crucifixion. Because women's testimony was restricted in several ancient legal settings, many historians count this as a detail the early communities were unlikely to invent."
+    },
+    {
+      "id": "scholarship-psalm-22",
+      "citation": "Psalm 22 read as a whole",
+      "evidence": "historical-inference",
+      "sourceType": "scholarship",
+      "note": "Quoting the first line of a psalm could call the whole psalm to mind. Psalm 22 turns from lament (verses 1-21) to deliverance and praise (verses 22-31). Widely held, but the speaker's intent cannot be proved."
     }
   ],
   "gazeTargets": [
@@ -534,6 +1081,33 @@
       "sources": [],
       "evidence": "historical-inference",
       "note": "Close, not far. See setting notes on cross height."
+    },
+    {
+      "id": "road",
+      "label": "The road past the hill",
+      "stress": "medium",
+      "actors": ["passersby"],
+      "sources": ["mark-15-29-30", "mark-15-21", "quintilian-decl-274"],
+      "evidence": "historical-inference",
+      "note": "Mark's 'they that passed by' implies a road; Roman practice chose crowded roads (Quintilian, Minor Declamations 274)."
+    },
+    {
+      "id": "city_wall",
+      "label": "The city wall",
+      "stress": "low",
+      "actors": [],
+      "sources": ["john-19-19-20", "luke-19-41-42"],
+      "evidence": "historical-inference",
+      "note": "John 19:20 places the site 'nigh to the city'; the wall's line is reconstruction."
+    },
+    {
+      "id": "garden",
+      "label": "The garden with the new tomb",
+      "stress": "low",
+      "actors": [],
+      "sources": ["john-19-41"],
+      "evidence": "gospel-text",
+      "note": "John 19:41: in the place where he was crucified there was a garden."
     }
   ],
   "witnessVantages": [
@@ -555,7 +1129,13 @@
     "recentWindow": 6,
     "externalDuck": { "startAt": 0.6, "maxDb": -18 },
     "evidence": "artistic-interpretation",
-    "disclosure": "The Gospels do not record his inner thoughts. Every internal voice in this experience is artistic interpretation. Where a fragment echoes scripture, the overlay names the passage; the echoing itself is invented."
+    "disclosure": "The Gospels do not record his inner thoughts. Every internal voice in this experience is artistic interpretation. Where a fragment echoes scripture, the overlay names the passage; the echoing itself is invented.",
+    "dwellTiers": [
+      { "id": "glance", "minDwellMs": 0 },
+      { "id": "sustained", "minDwellMs": 3000 },
+      { "id": "long", "minDwellMs": 9000 },
+      { "id": "extreme", "minDwellMs": 18000 }
+    ]
   },
   "fragments": [
     {
@@ -882,6 +1462,874 @@
       "weight": 2,
       "states": ["completion", "surrender", "release"],
       "targetAffinity": ["horizon", "sky"]
+    },
+    {
+      "id": "g_crowd_glance",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.g.crowd.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-29-30"],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst"],
+      "targetAffinity": ["crowd"],
+      "gaze": { "target": "crowd", "tier": "glance" }
+    },
+    {
+      "id": "g_crowd_sustained",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.g.crowd.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-29-30"],
+      "minIntensity": 0.1,
+      "durationMs": 6900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst"],
+      "targetAffinity": ["crowd"],
+      "gaze": { "target": "crowd", "tier": "sustained" }
+    },
+    {
+      "id": "g_crowd_long",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.g.crowd.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["matt-27-43", "mark-15-31"],
+      "minIntensity": 0.2,
+      "durationMs": 6900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst"],
+      "targetAffinity": ["crowd"],
+      "gaze": { "target": "crowd", "tier": "long" }
+    },
+    {
+      "id": "g_crowd_long_2",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.crowd.long.2",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-8", "matt-27-43"],
+      "minIntensity": 0.2,
+      "durationMs": 5200,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst"],
+      "targetAffinity": ["crowd"],
+      "gaze": { "target": "crowd", "tier": "long" }
+    },
+    {
+      "id": "g_crowd_extreme",
+      "kind": "verbal",
+      "category": "accusation",
+      "textKey": "rt.g.crowd.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-32", "matt-27-40"],
+      "minIntensity": 0.3,
+      "durationMs": 5600,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst"],
+      "targetAffinity": ["crowd"],
+      "gaze": { "target": "crowd", "tier": "extreme" }
+    },
+    {
+      "id": "g_crowd_extreme_2",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.crowd.extreme.2",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-27", "luke-23-48"],
+      "minIntensity": 0.3,
+      "durationMs": 6400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst"],
+      "targetAffinity": ["crowd"],
+      "gaze": { "target": "crowd", "tier": "extreme" }
+    },
+    {
+      "id": "g_soldiers_glance",
+      "kind": "verbal",
+      "category": "sensory-intrusion",
+      "textKey": "rt.g.soldiers.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-23-24"],
+      "minIntensity": 0,
+      "durationMs": 2700,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["soldiers"],
+      "gaze": { "target": "soldiers", "tier": "glance" }
+    },
+    {
+      "id": "g_soldiers_sustained",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.soldiers.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-18", "john-19-23-24"],
+      "minIntensity": 0.1,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["soldiers"],
+      "gaze": { "target": "soldiers", "tier": "sustained" }
+    },
+    {
+      "id": "g_soldiers_long",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.soldiers.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-23-24"],
+      "minIntensity": 0.2,
+      "durationMs": 6400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["soldiers"],
+      "gaze": { "target": "soldiers", "tier": "long" }
+    },
+    {
+      "id": "g_soldiers_extreme",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.g.soldiers.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-36", "luke-23-37"],
+      "minIntensity": 0.3,
+      "durationMs": 6400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["soldiers"],
+      "gaze": { "target": "soldiers", "tier": "extreme" }
+    },
+    {
+      "id": "g_other_condemned_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.other_condemned.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["other_condemned"],
+      "gaze": { "target": "other_condemned", "tier": "glance" }
+    },
+    {
+      "id": "g_other_condemned_sustained",
+      "kind": "verbal",
+      "category": "accusation",
+      "textKey": "rt.g.other_condemned.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-39"],
+      "minIntensity": 0.1,
+      "durationMs": 2300,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["other_condemned"],
+      "gaze": { "target": "other_condemned", "tier": "sustained" }
+    },
+    {
+      "id": "g_other_condemned_long",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.other_condemned.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-27"],
+      "minIntensity": 0.2,
+      "durationMs": 5600,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["other_condemned"],
+      "gaze": { "target": "other_condemned", "tier": "long" }
+    },
+    {
+      "id": "g_other_condemned_extreme",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.other_condemned.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-40-41"],
+      "minIntensity": 0.3,
+      "durationMs": 5600,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["other_condemned"],
+      "gaze": { "target": "other_condemned", "tier": "extreme" }
+    },
+    {
+      "id": "g_condemned_man_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.condemned_man.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 2700,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["condemned_man"],
+      "gaze": { "target": "condemned_man", "tier": "glance" }
+    },
+    {
+      "id": "g_condemned_man_sustained",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.condemned_man.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-40-41"],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["condemned_man"],
+      "gaze": { "target": "condemned_man", "tier": "sustained" }
+    },
+    {
+      "id": "g_condemned_man_long",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.condemned_man.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-42-43"],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["condemned_man"],
+      "gaze": { "target": "condemned_man", "tier": "long" }
+    },
+    {
+      "id": "g_condemned_man_extreme",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.g.condemned_man.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-42-43"],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["condemned_man"],
+      "gaze": { "target": "condemned_man", "tier": "extreme" }
+    },
+    {
+      "id": "g_mary_and_disciple_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.mary_and_disciple.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-25"],
+      "minIntensity": 0,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mary_and_disciple"],
+      "gaze": { "target": "mary_and_disciple", "tier": "glance" }
+    },
+    {
+      "id": "g_mary_and_disciple_sustained",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.mary_and_disciple.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-2-35"],
+      "minIntensity": 0.1,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mary_and_disciple"],
+      "gaze": { "target": "mary_and_disciple", "tier": "sustained" }
+    },
+    {
+      "id": "g_mary_and_disciple_long",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.mary_and_disciple.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-2-4"],
+      "minIntensity": 0.2,
+      "durationMs": 5200,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mary_and_disciple"],
+      "gaze": { "target": "mary_and_disciple", "tier": "long" }
+    },
+    {
+      "id": "g_mary_and_disciple_extreme",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.mary_and_disciple.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-26-27"],
+      "minIntensity": 0.3,
+      "durationMs": 4800,
+      "weight": 3,
+      "states": ["forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mary_and_disciple"],
+      "gaze": { "target": "mary_and_disciple", "tier": "extreme" }
+    },
+    {
+      "id": "g_sky_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.sky.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-33"],
+      "minIntensity": 0,
+      "durationMs": 2300,
+      "weight": 3,
+      "states": ["mother", "abandonment", "thirst", "completion"],
+      "targetAffinity": ["sky"],
+      "gaze": { "target": "sky", "tier": "glance" }
+    },
+    {
+      "id": "g_sky_sustained",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.sky.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-33"],
+      "minIntensity": 0.1,
+      "durationMs": 2700,
+      "weight": 3,
+      "states": ["mother", "abandonment", "thirst", "completion"],
+      "targetAffinity": ["sky"],
+      "gaze": { "target": "sky", "tier": "sustained" }
+    },
+    {
+      "id": "g_sky_long",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.g.sky.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-1"],
+      "minIntensity": 0.2,
+      "durationMs": 3900,
+      "weight": 3,
+      "states": ["mother", "abandonment", "thirst", "completion"],
+      "targetAffinity": ["sky"],
+      "gaze": { "target": "sky", "tier": "long" }
+    },
+    {
+      "id": "g_sky_extreme",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.g.sky.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-2"],
+      "minIntensity": 0.3,
+      "durationMs": 6900,
+      "weight": 3,
+      "states": ["mother", "abandonment", "thirst", "completion"],
+      "targetAffinity": ["sky"],
+      "gaze": { "target": "sky", "tier": "extreme" }
+    },
+    {
+      "id": "g_ground_below_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.ground_below.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["ground_below"],
+      "gaze": { "target": "ground_below", "tier": "glance" }
+    },
+    {
+      "id": "g_ground_below_sustained",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.ground_below.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-15"],
+      "minIntensity": 0.1,
+      "durationMs": 2300,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["ground_below"],
+      "gaze": { "target": "ground_below", "tier": "sustained" }
+    },
+    {
+      "id": "g_ground_below_long",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.ground_below.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-15"],
+      "minIntensity": 0.2,
+      "durationMs": 3900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["ground_below"],
+      "gaze": { "target": "ground_below", "tier": "long" }
+    },
+    {
+      "id": "g_ground_below_extreme",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.ground_below.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-11-43"],
+      "minIntensity": 0.3,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["ground_below"],
+      "gaze": { "target": "ground_below", "tier": "extreme" }
+    },
+    {
+      "id": "g_titulus_glance",
+      "kind": "verbal",
+      "category": "sensory-intrusion",
+      "textKey": "rt.g.titulus.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-19-20"],
+      "minIntensity": 0,
+      "durationMs": 2700,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["titulus"],
+      "gaze": { "target": "titulus", "tier": "glance" }
+    },
+    {
+      "id": "g_titulus_sustained",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.titulus.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-26"],
+      "minIntensity": 0.1,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["titulus"],
+      "gaze": { "target": "titulus", "tier": "sustained" }
+    },
+    {
+      "id": "g_titulus_long",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.titulus.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-19-20"],
+      "minIntensity": 0.2,
+      "durationMs": 5600,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["titulus"],
+      "gaze": { "target": "titulus", "tier": "long" }
+    },
+    {
+      "id": "g_titulus_extreme",
+      "kind": "verbal",
+      "category": "accusation",
+      "textKey": "rt.g.titulus.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-21-22"],
+      "minIntensity": 0.3,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["titulus"],
+      "gaze": { "target": "titulus", "tier": "extreme" }
+    },
+    {
+      "id": "g_soldier_with_sponge_glance",
+      "kind": "verbal",
+      "category": "sensory-intrusion",
+      "textKey": "rt.g.soldier_with_sponge.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-29"],
+      "minIntensity": 0,
+      "durationMs": 2300,
+      "weight": 3,
+      "states": ["abandonment", "thirst", "completion"],
+      "targetAffinity": ["soldier_with_sponge"],
+      "gaze": { "target": "soldier_with_sponge", "tier": "glance" }
+    },
+    {
+      "id": "g_soldier_with_sponge_sustained",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.soldier_with_sponge.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-69-21"],
+      "minIntensity": 0.1,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["abandonment", "thirst", "completion"],
+      "targetAffinity": ["soldier_with_sponge"],
+      "gaze": { "target": "soldier_with_sponge", "tier": "sustained" }
+    },
+    {
+      "id": "g_soldier_with_sponge_long",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.soldier_with_sponge.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-29", "scholarship-posca"],
+      "minIntensity": 0.2,
+      "durationMs": 4800,
+      "weight": 3,
+      "states": ["abandonment", "thirst", "completion"],
+      "targetAffinity": ["soldier_with_sponge"],
+      "gaze": { "target": "soldier_with_sponge", "tier": "long" }
+    },
+    {
+      "id": "g_soldier_with_sponge_extreme",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.g.soldier_with_sponge.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["matt-27-47-49"],
+      "minIntensity": 0.3,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["abandonment", "thirst", "completion"],
+      "targetAffinity": ["soldier_with_sponge"],
+      "gaze": { "target": "soldier_with_sponge", "tier": "extreme" }
+    },
+    {
+      "id": "g_centurion_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.centurion.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["centurion"],
+      "gaze": { "target": "centurion", "tier": "glance" }
+    },
+    {
+      "id": "g_centurion_sustained",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.centurion.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.1,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["centurion"],
+      "gaze": { "target": "centurion", "tier": "sustained" }
+    },
+    {
+      "id": "g_centurion_long",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.centurion.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-39"],
+      "minIntensity": 0.2,
+      "durationMs": 2300,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["centurion"],
+      "gaze": { "target": "centurion", "tier": "long" }
+    },
+    {
+      "id": "g_centurion_extreme",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.centurion.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-39"],
+      "minIntensity": 0.3,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["centurion"],
+      "gaze": { "target": "centurion", "tier": "extreme" }
+    },
+    {
+      "id": "g_women_at_distance_glance",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.women_at_distance.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-40"],
+      "minIntensity": 0,
+      "durationMs": 1600,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["women_at_distance"],
+      "gaze": { "target": "women_at_distance", "tier": "glance" }
+    },
+    {
+      "id": "g_women_at_distance_sustained",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.women_at_distance.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-40-41"],
+      "minIntensity": 0,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["women_at_distance"],
+      "gaze": { "target": "women_at_distance", "tier": "sustained" }
+    },
+    {
+      "id": "g_women_at_distance_long",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.women_at_distance.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-40-41"],
+      "minIntensity": 0,
+      "durationMs": 3900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["women_at_distance"],
+      "gaze": { "target": "women_at_distance", "tier": "long" }
+    },
+    {
+      "id": "g_women_at_distance_extreme",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.g.women_at_distance.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-40-41"],
+      "minIntensity": 0,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["women_at_distance"],
+      "gaze": { "target": "women_at_distance", "tier": "extreme" }
+    },
+    {
+      "id": "g_mourners_glance",
+      "kind": "verbal",
+      "category": "sensory-intrusion",
+      "textKey": "rt.g.mourners.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-27"],
+      "minIntensity": 0,
+      "durationMs": 1900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mourners"],
+      "gaze": { "target": "mourners", "tier": "glance" }
+    },
+    {
+      "id": "g_mourners_sustained",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.mourners.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-28-31"],
+      "minIntensity": 0.1,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mourners"],
+      "gaze": { "target": "mourners", "tier": "sustained" }
+    },
+    {
+      "id": "g_mourners_long",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.mourners.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-28-31"],
+      "minIntensity": 0.2,
+      "durationMs": 7300,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mourners"],
+      "gaze": { "target": "mourners", "tier": "long" }
+    },
+    {
+      "id": "g_mourners_extreme",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.g.mourners.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-48"],
+      "minIntensity": 0.3,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["mourners"],
+      "gaze": { "target": "mourners", "tier": "extreme" }
+    },
+    {
+      "id": "g_road_glance",
+      "kind": "verbal",
+      "category": "sensory-intrusion",
+      "textKey": "rt.g.road.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-29-30"],
+      "minIntensity": 0,
+      "durationMs": 3900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["road"],
+      "gaze": { "target": "road", "tier": "glance" }
+    },
+    {
+      "id": "g_road_sustained",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.road.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["quintilian-decl-274"],
+      "minIntensity": 0.1,
+      "durationMs": 3900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["road"],
+      "gaze": { "target": "road", "tier": "sustained" }
+    },
+    {
+      "id": "g_road_long",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.road.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-21"],
+      "minIntensity": 0.2,
+      "durationMs": 5200,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["road"],
+      "gaze": { "target": "road", "tier": "long" }
+    },
+    {
+      "id": "g_road_extreme",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.g.road.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-29-30"],
+      "minIntensity": 0.3,
+      "durationMs": 6000,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["road"],
+      "gaze": { "target": "road", "tier": "extreme" }
+    },
+    {
+      "id": "g_city_wall_glance",
+      "kind": "verbal",
+      "category": "sensory-intrusion",
+      "textKey": "rt.g.city_wall.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-19-20"],
+      "minIntensity": 0,
+      "durationMs": 2300,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["city_wall"],
+      "gaze": { "target": "city_wall", "tier": "glance" }
+    },
+    {
+      "id": "g_city_wall_sustained",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.city_wall.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-29-30"],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["city_wall"],
+      "gaze": { "target": "city_wall", "tier": "sustained" }
+    },
+    {
+      "id": "g_city_wall_long",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.city_wall.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-19-41-42"],
+      "minIntensity": 0,
+      "durationMs": 3900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["city_wall"],
+      "gaze": { "target": "city_wall", "tier": "long" }
+    },
+    {
+      "id": "g_city_wall_extreme",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.g.city_wall.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-19-41-42"],
+      "minIntensity": 0,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["city_wall"],
+      "gaze": { "target": "city_wall", "tier": "extreme" }
+    },
+    {
+      "id": "g_garden_glance",
+      "kind": "verbal",
+      "category": "sensory-intrusion",
+      "textKey": "rt.g.garden.glance",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-41"],
+      "minIntensity": 0,
+      "durationMs": 1900,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["garden"],
+      "gaze": { "target": "garden", "tier": "glance" }
+    },
+    {
+      "id": "g_garden_sustained",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.garden.sustained",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-14-32"],
+      "minIntensity": 0,
+      "durationMs": 4400,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["garden"],
+      "gaze": { "target": "garden", "tier": "sustained" }
+    },
+    {
+      "id": "g_garden_long",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.g.garden.long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-14-37"],
+      "minIntensity": 0,
+      "durationMs": 3100,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["garden"],
+      "gaze": { "target": "garden", "tier": "long" }
+    },
+    {
+      "id": "g_garden_extreme",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.g.garden.extreme",
+      "evidence": "artistic-interpretation",
+      "anchors": ["john-19-41"],
+      "minIntensity": 0,
+      "durationMs": 3500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["garden"],
+      "gaze": { "target": "garden", "tier": "extreme" }
     }
   ],
   "timeline": [
@@ -960,7 +2408,7 @@
       "label": "Paradise",
       "sourceIds": ["luke-23-39", "luke-23-42-43"],
       "evidence": "gospel-text",
-      "timing": { "approachMinMs": 8000, "approachAutoMs": 45000, "utteranceMs": 6000, "resonanceMs": 12000 },
+      "timing": { "approachMinMs": 15000, "approachAutoMs": 45000, "utteranceMs": 6000, "resonanceMs": 12000 },
       "rt": { "floor": 0.28, "ceiling": 0.85, "tauUpMs": 1500, "tauDownMs": 7000, "utteranceDuck": 0.6, "postUtteranceFloorBoost": 0.05, "entryImpulse": 0 },
       "stressOverrides": { "condemned_man": "relief" },
       "allowEmbodiment": true,
@@ -990,7 +2438,10 @@
           "evidence": "historical-inference"
         },
         "attestation": "Luke only."
-      }
+      },
+      "notes": [
+        "approachMinMs is 15 s so the exchange Luke records (23:39-42: railing, rebuke, request) is heard before the saying can answer it; the paradise_* cues are validated against it (beforeSaying)."
+      ]
     },
     {
       "id": "mother",
@@ -1223,5 +2674,401 @@
       "notes": ["Open-ended quiet. Player may stay, change vantage, open the evidence archive, or exit."]
     }
   ],
-  "advisory": { "titleKey": "ui.advisory.title", "bodyKey": "ui.advisory.body" }
+  "advisory": { "titleKey": "ui.advisory.title", "bodyKey": "ui.advisory.body" },
+  "cues": [
+    {
+      "id": "paradise_rail",
+      "kind": "spoken",
+      "speaker": "condemned_mocking",
+      "textKey": "cue.paradise_rail",
+      "origin": "other_condemned",
+      "beforeSaying": true,
+      "durationMs": 3200,
+      "sourceIds": ["luke-23-39"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "paradise", "phase": "approach", "atMs": 500 },
+      "states": ["paradise"]
+    },
+    {
+      "id": "paradise_rebuke",
+      "kind": "spoken",
+      "speaker": "condemned_penitent",
+      "textKey": "cue.paradise_rebuke",
+      "origin": "condemned_man",
+      "beforeSaying": true,
+      "durationMs": 6500,
+      "sourceIds": ["luke-23-40-41"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "paradise", "phase": "approach", "atMs": 4000 },
+      "states": ["paradise"]
+    },
+    {
+      "id": "paradise_request",
+      "kind": "spoken",
+      "speaker": "condemned_penitent",
+      "textKey": "cue.paradise_request",
+      "origin": "condemned_man",
+      "beforeSaying": true,
+      "durationMs": 3600,
+      "sourceIds": ["luke-23-42-43"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "paradise", "phase": "approach", "atMs": 11000 },
+      "states": ["paradise"]
+    },
+    {
+      "id": "elias_calleth",
+      "kind": "spoken",
+      "speaker": "onlookers",
+      "textKey": "cue.elias_calleth",
+      "origin": "crowd",
+      "durationMs": 2400,
+      "sourceIds": ["mark-15-35"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "abandonment", "phase": "resonance", "atMs": 1500 },
+      "states": ["abandonment"]
+    },
+    {
+      "id": "elias_let_be",
+      "kind": "spoken",
+      "speaker": "onlookers",
+      "textKey": "cue.elias_let_be",
+      "origin": "soldier_with_sponge",
+      "durationMs": 3600,
+      "sourceIds": ["matt-27-47-49"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "abandonment", "phase": "resonance", "atMs": 6000 },
+      "states": ["abandonment"]
+    },
+    {
+      "id": "thirst_sponge",
+      "kind": "sound",
+      "speaker": "soldiers",
+      "textKey": "cue.thirst_sponge",
+      "origin": "soldier_with_sponge",
+      "cueId": "sfx.scene.reed_sponge",
+      "durationMs": 4000,
+      "sourceIds": ["john-19-29"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "thirst", "phase": "resonance", "atMs": 300 },
+      "states": ["thirst"]
+    },
+    {
+      "id": "centurion_truly",
+      "kind": "spoken",
+      "speaker": "centurion",
+      "textKey": "cue.centurion_truly",
+      "origin": "centurion",
+      "durationMs": 3200,
+      "note": "Luke 23:47 records: Certainly this was a righteous man.",
+      "sourceIds": ["mark-15-39"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "release", "phase": "running", "atMs": 2500 },
+      "states": ["release"]
+    },
+    {
+      "id": "crowd_smote",
+      "kind": "sound",
+      "speaker": "mourners",
+      "textKey": "cue.crowd_smote",
+      "origin": "mourners",
+      "cueId": "sfx.scene.breasts_smitten",
+      "durationMs": 5000,
+      "sourceIds": ["luke-23-48"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "release", "phase": "running", "atMs": 7000 },
+      "states": ["release"]
+    },
+    {
+      "id": "spear_record",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.spear_record",
+      "sourceIds": ["john-19-35"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "phase", "state": "spear", "phase": "running", "atMs": 14000 },
+      "states": ["spear"],
+      "durationMs": 5800
+    },
+    {
+      "id": "passersby_temple",
+      "kind": "spoken",
+      "speaker": "passersby",
+      "textKey": "cue.passersby_temple",
+      "origin": "road",
+      "sourceIds": ["mark-15-29-30"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "gaze", "target": "crowd", "minDwellMs": 2500, "mode": "embodiment" },
+      "states": ["elevation", "forgiveness", "mother"],
+      "durationMs": 8500
+    },
+    {
+      "id": "priests_saved_others",
+      "kind": "spoken",
+      "speaker": "chief_priests_and_scribes",
+      "textKey": "cue.priests_saved_others",
+      "origin": "crowd",
+      "sourceIds": ["mark-15-31", "mark-15-32"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "gaze", "target": "crowd", "minDwellMs": 9000, "mode": "embodiment" },
+      "states": ["elevation", "forgiveness", "mother"],
+      "durationMs": 10000
+    },
+    {
+      "id": "priests_trusted",
+      "kind": "spoken",
+      "speaker": "chief_priests_and_scribes",
+      "textKey": "cue.priests_trusted",
+      "origin": "crowd",
+      "sourceIds": ["matt-27-43"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "gaze", "target": "crowd", "minDwellMs": 18000, "mode": "embodiment" },
+      "states": ["elevation", "forgiveness", "mother"],
+      "durationMs": 9600
+    },
+    {
+      "id": "soldiers_mock",
+      "kind": "spoken",
+      "speaker": "soldiers",
+      "textKey": "cue.soldiers_mock",
+      "origin": "soldiers",
+      "sourceIds": ["luke-23-36", "luke-23-37"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "gaze", "target": "soldiers", "minDwellMs": 3000, "mode": "embodiment" },
+      "states": ["elevation", "forgiveness", "mother"],
+      "durationMs": 4600
+    },
+    {
+      "id": "soldiers_lots",
+      "kind": "spoken",
+      "speaker": "soldiers",
+      "textKey": "cue.soldiers_lots",
+      "origin": "soldiers",
+      "sourceIds": ["john-19-23-24"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "gaze", "target": "soldiers", "minDwellMs": 10000, "mode": "embodiment" },
+      "states": ["elevation", "forgiveness", "mother"],
+      "durationMs": 6200
+    },
+    {
+      "id": "malefactor_rails",
+      "kind": "spoken",
+      "speaker": "condemned_mocking",
+      "textKey": "cue.malefactor_rails",
+      "origin": "other_condemned",
+      "sourceIds": ["luke-23-39"],
+      "evidence": "gospel-text",
+      "trigger": { "type": "gaze", "target": "other_condemned", "minDwellMs": 2500, "mode": "embodiment" },
+      "states": ["elevation", "forgiveness"],
+      "durationMs": 3900
+    },
+    {
+      "id": "n_road_quintilian",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_road_quintilian",
+      "sourceIds": ["quintilian-decl-274", "mark-15-29-30"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "road", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 23700
+    },
+    {
+      "id": "n_road_simon",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_road_simon",
+      "sourceIds": ["mark-15-21", "romans-16-13", "kidron-ossuary-1941"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "road", "minDwellMs": 14000, "mode": "witness" },
+      "states": "*",
+      "durationMs": 27100
+    },
+    {
+      "id": "n_wall_pilate",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_wall_pilate",
+      "sourceIds": ["john-19-19-20", "pilate-stone", "tacitus-annals-15-44"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "city_wall", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 26200
+    },
+    {
+      "id": "n_titulus_custom",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_titulus_custom",
+      "sourceIds": ["suetonius-caligula-32", "cassius-dio-54-3", "mark-15-26", "john-19-19-20"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "titulus", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 28300
+    },
+    {
+      "id": "n_soldiers_varus",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_soldiers_varus",
+      "sourceIds": ["josephus-ant-17-295"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "soldiers", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 21200
+    },
+    {
+      "id": "n_crowd_tacitus",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_crowd_tacitus",
+      "sourceIds": ["tacitus-annals-15-44", "philo-embassy-302"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "crowd", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 32500
+    },
+    {
+      "id": "n_centurion_cicero",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_centurion_cicero",
+      "sourceIds": ["cicero-verres-2-5-170", "cicero-rabirio-16"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "centurion", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 30400
+    },
+    {
+      "id": "n_other_lestai",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_other_lestai",
+      "sourceIds": ["mark-15-27", "scholarship-lestai", "luke-23-39"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "other_condemned", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 19100
+    },
+    {
+      "id": "n_sponge_drinks",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_sponge_drinks",
+      "sourceIds": ["mark-15-23", "proverbs-31-6", "scholarship-mercy-drink", "scholarship-posca", "john-19-29"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "soldier_with_sponge", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 29600
+    },
+    {
+      "id": "n_ground_yehohanan",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_ground_yehohanan",
+      "sourceIds": ["yehohanan-heel-1968", "fenstanton-2021"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "ground_below", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 34100
+    },
+    {
+      "id": "n_sky_thallus",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_sky_thallus",
+      "sourceIds": ["julius-africanus-thallus", "luke-23-44-45", "mark-15-33"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "sky", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 32100
+    },
+    {
+      "id": "n_garden_burial",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_garden_burial",
+      "sourceIds": ["john-19-41", "deut-21-22-23", "josephus-war-4-317", "philo-flaccus-83", "luke-23-50-51", "john-19-39"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "garden", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 41200
+    },
+    {
+      "id": "n_mourners_lament",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_mourners_lament",
+      "sourceIds": ["luke-23-27", "luke-23-48"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "mourners", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 20800
+    },
+    {
+      "id": "n_women_witnesses",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_women_witnesses",
+      "sourceIds": ["mark-15-40-41", "john-19-25", "scholarship-women-witnesses"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "women_at_distance", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 24100
+    },
+    {
+      "id": "n_mary_john",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.n_mary_john",
+      "sourceIds": ["john-19-25", "john-19-26-27", "mark-15-40"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "gaze", "target": "mary_and_disciple", "minDwellMs": 2500, "mode": "witness" },
+      "states": "*",
+      "durationMs": 15800
+    },
+    {
+      "id": "c_alexamenos",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.c_alexamenos",
+      "sourceIds": ["alexamenos-graffito"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "phase", "state": "contemplation", "phase": "open", "atMs": 6000 },
+      "states": ["contemplation"],
+      "durationMs": 21200
+    },
+    {
+      "id": "c_lucian",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.c_lucian",
+      "sourceIds": ["lucian-peregrinus", "1-cor-1-23"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "phase", "state": "contemplation", "phase": "open", "atMs": 32000 },
+      "states": ["contemplation"],
+      "durationMs": 17900
+    },
+    {
+      "id": "c_josephus",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.c_josephus",
+      "sourceIds": ["josephus-ant-18-63"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "phase", "state": "contemplation", "phase": "open", "atMs": 58000 },
+      "states": ["contemplation"],
+      "durationMs": 23300
+    },
+    {
+      "id": "c_psalm22",
+      "kind": "narration",
+      "speaker": "narrator",
+      "textKey": "cue.c_psalm22",
+      "sourceIds": ["psalm-22-1", "psalm-22-24", "scholarship-psalm-22"],
+      "evidence": "historical-inference",
+      "trigger": { "type": "phase", "state": "contemplation", "phase": "open", "atMs": 86000 },
+      "states": ["contemplation"],
+      "durationMs": 21200
+    }
+  ]
 }

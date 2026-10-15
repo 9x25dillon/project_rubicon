@@ -13,6 +13,8 @@ namespace RubiconCore
 		EEvidence Category = EEvidence::GospelText;
 		std::string Citation;
 		std::string Label;
+		std::optional<ESourceType> SourceType; // set for manifest sources
+		std::optional<std::string> Debate;
 		std::optional<std::string> Note;
 		std::vector<std::string> ManuscriptNotes;
 		bool bHasManuscriptNotes = false;
@@ -33,6 +35,26 @@ namespace RubiconCore
 		std::optional<std::string> SourceNote;
 		int GazeTarget = -1;
 		bool bAttended = false;
+	};
+
+	/** How a cue's words were rendered, when all its cited sources agree. */
+	enum class ECueRendering : uint8_t { Kjv, PublicDomainTranslation, OwnTranslation, Paraphrase, Description, Mixed };
+	const char* ToString(ECueRendering V);
+
+	struct FCueFrame
+	{
+		int Cue = -1;
+		ECueKind Kind = ECueKind::Spoken;
+		std::string Speaker;
+		std::string SpeakerLabel;
+		std::string Subtitle;
+		std::vector<std::string> Citations;
+		EEvidence Evidence = EEvidence::GospelText;
+		ECueRendering Rendering = ECueRendering::Kjv;
+		int Origin = -1; // gaze target to spatialize from; -1 for the narrator
+		double ElapsedMs = 0;
+		double DurationMs = 0;
+		std::optional<std::string> CueId;
 	};
 
 	struct FFrameOutputs
@@ -65,6 +87,8 @@ namespace RubiconCore
 		int GazeTarget = -1;
 		double GazeDwellMs = 0;
 		EStress GazeStress = EStress::Low;
+		int GazeTier = 0;
+		std::optional<FCueFrame> Cue;
 
 		std::optional<FFrameSaying> Saying;
 		std::vector<FEvidenceItem> EvidenceOverlay;
@@ -72,5 +96,6 @@ namespace RubiconCore
 	};
 
 	std::vector<FEvidenceItem> EvidenceForState(const FManifest& M, const FSessionState& S, const FLocale* Locale);
+	std::optional<FCueFrame> CueFrame(const FManifest& M, const FSessionState& S, const FLocale* Locale);
 	FFrameOutputs SelectFrame(const FManifest& M, const FSessionState& S, const FLocale* Locale);
 }

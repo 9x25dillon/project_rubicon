@@ -5,11 +5,12 @@
  *
  * Order within a tick:
  *   1. commands, in order, at time t (may change mode, comfort, layer, trigger a saying, acknowledge the gate)
- *   2. if running (not paused, not exited): gaze dwell, breath, timeline clock, Racing Thoughts, t += dt
+ *   2. if running (not paused, not exited): gaze dwell, breath, timeline clock, dialogue cues, Racing Thoughts, t += dt
  *
  * The engine owns real time and calls step() at a fixed rate (accumulator pattern), so render frame rate
  * never affects simulation results.
  */
+import { EMPTY_CUES, stepCues } from "./cues.js";
 import { clamp01, seedToState, smoothToward } from "./prng.js";
 import { stepRacingThoughts } from "./racingThoughts.js";
 import {
@@ -73,6 +74,7 @@ export function createSession(
     gaze: { target: null, dwellMs: 0 },
     breath: 0,
     rt: { intensity: 0, gain: 1, floorBoost: 0, spawnAccumulator: 0, voices: [], recent: [] },
+    cues: EMPTY_CUES,
   };
 }
 
@@ -158,7 +160,7 @@ function applyCommand(m: EpisodeManifest, s: SessionState, c: Command, events: S
   switch (c.type) {
     case "exit":
       events.push({ t: s.t, type: "exit" });
-      return { ...s, exited: true, rt: { ...s.rt, voices: [] } };
+      return { ...s, exited: true, rt: { ...s.rt, voices: [] }, cues: { ...s.cues, active: null } };
 
     case "pause":
       if (s.paused) return s;
@@ -289,10 +291,12 @@ export function step(m: EpisodeManifest, s0: SessionState, input: TickInput, dtM
   /* timeline */
   s = advanceTimeline(m, s, dtMs, events);
 
-  /* racing thoughts, against the (possibly new) current state */
-  const rt = stepRacingThoughts(m, stateDef(m, s), s, dtMs);
-  s = { ...s, rt: rt.rt, rng: rt.rng, t: s.t + dtMs };
-  events.push(...rt.events);
+  /* dialogue cues and racing thoughts, against the (possibly new) current state; neither writes the timeline */
+  const def = stateDef(m, s);
+  const cues = stepCues(m, def, s, dtMs);
+  const rt = stepRacingThoughts(m, def, s, dtMs);
+  s = { ...s, cues: cues.cues, rt: rt.rt, rng: rt.rng, t: s.t + dtMs };
+  events.push(...cues.events, ...rt.events);
 
   return { state: s, events };
 }

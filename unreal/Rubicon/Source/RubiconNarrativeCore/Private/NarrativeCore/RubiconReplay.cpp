@@ -201,6 +201,14 @@ namespace RubiconCore
 			J.Set("voice", Num(E.Voice));
 			break;
 		case EEventType::CommandRejected: J.Set("command", Str(ToString(E.Command))); J.Set("reason", Str(E.Reason)); break;
+		case EEventType::CueStart:
+		{
+			const FCue& C = M.Cues[static_cast<size_t>(E.Cue)];
+			J.Set("cueId", Str(C.Id));
+			J.Set("kind", Str(ToString(C.Kind)));
+			J.Set("speaker", Str(C.Speaker));
+			break;
+		}
 		}
 		return J;
 	}
@@ -252,6 +260,23 @@ namespace RubiconCore
 		for (int F : S.Rt.Recent) Recent.Push(Str(M.Fragments[static_cast<size_t>(F)].Id));
 		Rt.Set("recent", std::move(Recent));
 		J.Set("rt", std::move(Rt));
+		FJson Cues = FJson::MakeObject();
+		FJson Played = FJson::MakeArray();
+		for (int I : S.Cues.Played) Played.Push(Str(M.Cues[static_cast<size_t>(I)].Id));
+		Cues.Set("played", std::move(Played));
+		if (S.Cues.bActive)
+		{
+			FJson A = FJson::MakeObject();
+			A.Set("id", Str(M.Cues[static_cast<size_t>(S.Cues.Active)].Id));
+			A.Set("startedAt", Num(S.Cues.StartedAt));
+			A.Set("endsAt", Num(S.Cues.EndsAt));
+			Cues.Set("active", std::move(A));
+		}
+		else
+		{
+			Cues.Set("active", FJson::MakeNull());
+		}
+		J.Set("cues", std::move(Cues));
 		return J;
 	}
 

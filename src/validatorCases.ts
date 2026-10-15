@@ -135,6 +135,66 @@ export function validatorCases(m: EpisodeManifest, locale: Locale): ValidatorCas
       mutate: (x) => x,
     },
     {
+      name: "dwell tier errors",
+      mutate: (x) => {
+        x.racingThoughts.dwellTiers = [{ id: "glance", minDwellMs: 500 }, { id: "glance", minDwellMs: 100 }, { minDwellMs: "x" }];
+        x.fragments[0].gaze = { target: "the_moon", tier: "forever" };
+        return x;
+      },
+    },
+    {
+      name: "missing dwell tiers",
+      mutate: (x) => { delete x.racingThoughts.dwellTiers; return x; },
+    },
+    {
+      name: "source type and excerpt errors",
+      mutate: (x) => {
+        x.sources[0].sourceType = "rumour";
+        delete x.sources[1].sourceType;
+        const anc = x.sources.find((y: Mutable) => y.sourceType === "ancient-text");
+        anc.evidence = "gospel-text";
+        anc.excerpt.rendering = "guess";
+        const arch = x.sources.find((y: Mutable) => y.sourceType === "archaeology");
+        delete arch.excerpt;
+        delete arch.note;
+        return x;
+      },
+    },
+    {
+      name: "cue errors",
+      mutate: (x) => {
+        const c = x.cues;
+        c[1].id = c[0].id;
+        c[2].kind = "shouted";
+        c[3].speaker = "pilate";
+        c[4].evidence = "artistic-interpretation";
+        c[5].trigger = { type: "phase", state: "thirst", phase: "raising", atMs: -1 };
+        c[6].trigger = { type: "gaze", target: "the_moon", minDwellMs: -5, mode: "telepathy" };
+        c[7].trigger = { type: "touch" };
+        c[8].sourceIds = [];
+        c[9].durationMs = 0;
+        c[10].states = ["nowhere"];
+        c[11].origin = "the_moon";
+        delete c[12].textKey;
+        const narration = c.find((y: Mutable) => y.kind === "narration" && y.trigger.type === "gaze");
+        narration.speaker = "centurion";
+        return x;
+      },
+    },
+    {
+      name: "beforeSaying cue would let the saying answer before it is asked",
+      mutate: (x) => {
+        state(x, "paradise").timing.approachMinMs = 8000;
+        x.cues.find((y: Mutable) => y.id === "elias_calleth").beforeSaying = true;
+        return x;
+      },
+    },
+    {
+      name: "cue locale missing",
+      locale: Object.fromEntries(Object.entries(locale).filter(([k]) => !k.startsWith("cue.n_"))),
+      mutate: (x) => x,
+    },
+    {
       name: "too few fragments (warnings only)",
       mutate: (x) => { x.fragments = x.fragments.filter((f: Mutable) => f.states === "*").slice(0, 1); return x; },
     },

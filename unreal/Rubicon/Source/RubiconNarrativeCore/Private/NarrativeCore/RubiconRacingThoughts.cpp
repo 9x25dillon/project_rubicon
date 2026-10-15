@@ -72,6 +72,24 @@ namespace RubiconCore
 		return R.DuckMaxDb * T * T * (3 - 2 * T);
 	}
 
+	int DwellTierIndex(const FManifest& M, double DwellMs)
+	{
+		int Idx = 0;
+		const auto& Tiers = M.RacingThoughts.DwellTiers;
+		for (size_t I = 0; I < Tiers.size(); ++I) if (Tiers[I].MinDwellMs <= DwellMs) Idx = static_cast<int>(I);
+		return Idx;
+	}
+
+	namespace RtDetail
+	{
+		/** Dwell-tiered lines answer the embodied gaze only: the current target, in exactly the current tier. */
+		bool GazeEligible(const FManifest& M, const FFragment& F, const FSessionState& S)
+		{
+			if (!F.bHasGaze) return true;
+			return S.Mode == EMode::Embodiment && S.GazeTarget == F.GazeTarget && DwellTierIndex(M, S.GazeDwellMs) == F.GazeTier;
+		}
+	}
+
 	FRtStepResult StepRacingThoughts(const FManifest& M, const FTimelineStateDef& Def, const FSessionState& S, int DtMs)
 	{
 		const FRacingThoughtsModel& Model = M.RacingThoughts;
@@ -117,6 +135,7 @@ namespace RubiconCore
 				if (!(F.MinIntensity <= Output)) continue;
 				if (std::any_of(Voices.begin(), Voices.end(), [Fi](const FVoice& V) { return V.Fragment == Fi; })) continue;
 				if (std::find(Recent.begin(), Recent.end(), Fi) != Recent.end()) continue;
+				if (!RtDetail::GazeEligible(M, F, S)) continue;
 				Pool.push_back(Fi);
 			}
 			if (Pool.empty())

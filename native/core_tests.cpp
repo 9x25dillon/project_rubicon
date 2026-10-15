@@ -2,6 +2,7 @@
 //   rubicon_core_tests <content-dir>
 
 #include "NarrativeCore/RubiconContent.h"
+#include "NarrativeCore/RubiconCues.h"
 #include "NarrativeCore/RubiconFixedStep.h"
 #include "NarrativeCore/RubiconFrame.h"
 #include "NarrativeCore/RubiconMath.h"
@@ -282,6 +283,58 @@ int main(int Argc, char** Argv)
 		FFixedStepClock Hitch;
 		EXPECT(Hitch.Advance(2000, TickMs) == 25 && Hitch.DroppedMs == 1750 && Hitch.AccumulatorMs == 0, "hitch guard");
 		EXPECT(Hitch.Advance(-5, TickMs) == 0 && Hitch.Advance(9.5, TickMs) == 0 && Hitch.Advance(0.5, TickMs) == 1, "accumulates sub-tick deltas");
+		return ok;
+	});
+
+	Test("dialogue: Luke's exchange precedes the Paradise saying even when it is triggered at the earliest moment", [&]
+	{
+		bool ok = true;
+		const int Road = M.FindGazeTarget("road");
+		for (int Witness = 0; Witness < 2; ++Witness)
+		{
+			FDriver D(4);
+			D.Cmd(Ack());
+			if (Witness) D.Cmd(Mode(EMode::Witness));
+			D.Until(EStateId::Paradise, Road);
+			FCommand Say = FCommand::Make(ECommandType::TriggerSaying);
+			for (int I = 0; I < 3000 && StateDef(M, D.S).Id == EStateId::Paradise && D.S.Timeline.Phase == EPhase::Approach; ++I) D.Run(TickMs, Road, { Say });
+			std::vector<std::string> Order;
+			for (const FEvent& E : D.Events)
+			{
+				if (E.Type == EEventType::CueStart && M.Cues[static_cast<size_t>(E.Cue)].Id.rfind("paradise_", 0) == 0) Order.push_back(M.Cues[static_cast<size_t>(E.Cue)].Id);
+				if (E.Type == EEventType::SayingTrigger && E.Saying == EStateId::Paradise) Order.push_back("SAYING");
+			}
+			EXPECT((Order == std::vector<std::string>{ "paradise_rail", "paradise_rebuke", "paradise_request", "SAYING" }), "witness=%d order size %zu", Witness, Order.size());
+		}
+		return ok;
+	});
+
+	Test("dialogue: a held gaze speaks once; the saying takes the floor; tiered lines stay in their tier", [&]
+	{
+		bool ok = true;
+		FDriver D(3);
+		D.Cmd(Ack()).Until(EStateId::Forgiveness, Horizon).Run(8000, Horizon);
+		const double T0 = D.S.T;
+		D.Run(2700, Crowd);
+		const std::optional<FCueFrame> Cf = CueFrame(M, D.S, &L);
+		EXPECT(Cf && M.Cues[static_cast<size_t>(Cf->Cue)].Id == "passersby_temple" && Cf->SpeakerLabel == "Passersby", "passersby cue");
+		D.Cmd(FCommand::Make(ECommandType::TriggerSaying));
+		EXPECT(!CueFrame(M, D.S, &L), "cut by the saying");
+		FDriver T(3);
+		T.Cmd(Ack()).Until(EStateId::Forgiveness, Horizon);
+		const double S0 = T.S.T;
+		T.Run(40000, Crowd);
+		int Tiered = 0;
+		for (const FEvent& E : T.Events)
+		{
+			if (E.Type != EEventType::RtFragment || E.T <= S0) continue;
+			const FFragment& F = M.Fragments[static_cast<size_t>(E.Fragment)];
+			if (!F.bHasGaze) continue;
+			++Tiered;
+			EXPECT(F.GazeTier == DwellTierIndex(M, E.T - S0), "%s at dwell %.0f", F.Id.c_str(), E.T - S0);
+		}
+		EXPECT(Tiered > 4, "tiered lines %d", Tiered);
+		(void)T0;
 		return ok;
 	});
 

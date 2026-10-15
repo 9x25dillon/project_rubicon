@@ -13,6 +13,7 @@
  *   I4  The timeline cannot soft-lock: after the consent gate, every state auto-advances on a bounded clock.
  *   I5  Racing Thoughts never gate narrative progress; they read timeline state, never write it.
  *   I6  Determinism: identical (manifest, seed, input stream) => identical state hash and event log.
+ *   I7  Dialogue cues read timeline, gaze and mode; they never write the timeline or the Racing Thoughts state.
  */
 
 /* ------------------------------------------------------------------ */
@@ -106,14 +107,33 @@ export interface ScriptureText {
   text: string;
 }
 
+/** What kind of witness a source is. Shown in the evidence overlay next to the evidence category. */
+export type SourceType = "gospel" | "new-testament" | "hebrew-bible" | "ancient-text" | "archaeology" | "scholarship";
+export const SOURCE_TYPES: readonly SourceType[] = ["gospel", "new-testament", "hebrew-bible", "ancient-text", "archaeology", "scholarship"] as const;
+/** Sources that are not scripture describe the world around the scene; their bearing on it is inference. */
+export const NON_SCRIPTURAL_SOURCE_TYPES: readonly SourceType[] = ["ancient-text", "archaeology", "scholarship"] as const;
+
+/** How an excerpt's English came to be. A paraphrase is never displayed or voiced as a quotation. */
+export type Rendering = "public-domain-translation" | "own-translation" | "paraphrase" | "description";
+export const RENDERINGS: readonly Rendering[] = ["public-domain-translation", "own-translation", "paraphrase", "description"] as const;
+
+export interface Excerpt {
+  text: string;
+  rendering: Rendering;
+  translator?: string; // e.g. "William Whiston (1737)"
+}
+
 export interface SourceRef {
   id: string; // e.g. "luke-23-34"
   citation: string; // e.g. "Luke 23:34"
   evidence: Evidence;
+  sourceType: SourceType;
   kjv?: ScriptureText;
+  excerpt?: Excerpt; // non-KJV text (ancient authors, inscriptions)
   greek?: string;
   note?: string;
   manuscriptNotes?: string[];
+  debate?: string; // authenticity, dating or identification questions, always shown with the source
 }
 
 export interface CastMember {
@@ -217,6 +237,12 @@ export type FragmentCategory =
   | "dread"
   | "sensory-intrusion";
 
+/** Continuous-gaze tiers: the tier is the last one whose minDwellMs <= current dwell on the gaze target. */
+export interface DwellTier {
+  id: string; // "glance" | "sustained" | "long" | "extreme" in the shipped manifest
+  minDwellMs: number;
+}
+
 export interface Fragment {
   id: string;
   kind: FragmentKind;
@@ -230,6 +256,43 @@ export interface Fragment {
   weight: number;
   states: TimelineStateId[] | "*";
   targetAffinity: string[]; // gaze targets that raise selection weight
+  /** Dwell-tiered line: eligible only in Embodiment, while gazing at target, in exactly this dwell tier. */
+  gaze?: { target: string; tier: string };
+}
+
+/* ------------------------------------------------------------------ */
+/* Dialogue cues: the world speaking (never the internal monologue)    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * spoken     a character's recorded words (KJV), voiced at its origin in the scene
+ * narration  a narrator reading a historical account or archaeological description (Witness and Contemplation)
+ * sound      a recorded action heard in the scene (the sponge on a reed, breasts beaten), citing its passage
+ */
+export type CueKind = "spoken" | "narration" | "sound";
+export const CUE_KINDS: readonly CueKind[] = ["spoken", "narration", "sound"] as const;
+export type CueMode = "embodiment" | "witness" | "any";
+export const CUE_MODES: readonly CueMode[] = ["embodiment", "witness", "any"] as const;
+
+export type CueTrigger =
+  | { type: "gaze"; target: string; minDwellMs: number; mode: CueMode }
+  | { type: "phase"; state: TimelineStateId; phase: Phase; atMs: number };
+
+export interface Cue {
+  id: string;
+  kind: CueKind;
+  speaker: string; // cast id, or "narrator"
+  textKey: string; // subtitle / VO script
+  cueId?: string; // audio asset id for sound cues and recorded VO
+  origin?: string; // gaze target the voice comes from (spatialization)
+  sourceIds: string[];
+  evidence: Evidence;
+  trigger: CueTrigger;
+  states: TimelineStateId[] | "*";
+  durationMs: number;
+  /** Narrative order: must finish before the saying of its state can be triggered (validated). */
+  beforeSaying?: boolean;
+  note?: string;
 }
 
 export interface RacingThoughtsModel {
@@ -241,6 +304,7 @@ export interface RacingThoughtsModel {
   comfortGain: number;
   comfortReleaseTauMs: number;
   affinityMultiplier: number;
+  dwellTiers: DwellTier[];
   fragmentRate: { minPerSec: number; maxPerSec: number; gamma: number };
   maxVoices: number;
   recentWindow: number;
@@ -267,6 +331,7 @@ export interface EpisodeManifest {
   witnessVantages: { id: WitnessVantage; castId: string; sourceIds: string[]; evidence: Evidence }[];
   racingThoughts: RacingThoughtsModel;
   fragments: Fragment[];
+  cues: Cue[];
   timeline: TimelineStateDef[];
   advisory: { titleKey: string; bodyKey: string };
 }
@@ -309,6 +374,11 @@ export interface RacingThoughtsRuntime {
   recent: string[];
 }
 
+export interface CueRuntime {
+  played: string[]; // cue ids in the order they started (each cue plays at most once per session)
+  active: { id: string; startedAt: number; endsAt: number } | null;
+}
+
 export interface SessionState {
   t: number; // simulation ms since start
   seed: number;
@@ -325,6 +395,7 @@ export interface SessionState {
   gaze: { target: string | null; dwellMs: number };
   breath: number; // smoothed [0,1]; audio focus only
   rt: RacingThoughtsRuntime;
+  cues: CueRuntime;
 }
 
 /* ------------------------------------------------------------------ */
@@ -364,6 +435,7 @@ export type SessionEvent =
   | { t: number; type: "evidence.change"; sourceId: string | null }
   | { t: number; type: "settings.change"; settings: Settings }
   | { t: number; type: "rt.fragment"; fragmentId: string; kind: FragmentKind; voice: number }
+  | { t: number; type: "cue.start"; cueId: string; kind: CueKind; speaker: string }
   | { t: number; type: "command.rejected"; command: Command["type"]; reason: string };
 
 export interface StepResult {

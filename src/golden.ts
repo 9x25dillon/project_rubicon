@@ -6,6 +6,7 @@
  * Two input profiles:
  *   "basic"     gaze changes plus setMode / setComfort / triggerSaying (the original M0 goldens)
  *   "coverage"  every command type, breath input, rejected commands, non-default settings and a final exit
+ *   "dwell"     long gaze holds (mean 20 s per target) so every dwell tier and the gaze-triggered dialogue occur
  *
  * Expected results carry the full event log, the state and event hashes, and a per-tick Racing Thoughts
  * trace (internal intensity, mixer output, comfort gain) sampled after every step.
@@ -17,7 +18,7 @@ import { runReplay } from "./replay.js";
 import { createSession, stateDef, step, TICK_MS } from "./session.js";
 import type { Command, EpisodeManifest, SessionEvent, Settings, TickInput, WitnessVantage } from "./types.js";
 
-export type GoldenProfile = "basic" | "coverage";
+export type GoldenProfile = "basic" | "coverage" | "dwell";
 
 export interface RacingThoughtsTrace {
   intensity: number[];
@@ -41,6 +42,7 @@ export const GOLDEN_CASES: readonly { seed: number; profile: GoldenProfile }[] =
   { seed: 7, profile: "basic" },
   { seed: 42, profile: "basic" },
   { seed: 1234, profile: "coverage" },
+  { seed: 99, profile: "dwell" },
 ];
 
 export function goldenTicks(m: EpisodeManifest): number {
@@ -125,13 +127,32 @@ function coverageInputs(m: EpisodeManifest, seed: number, ticks: number): TickIn
   return out;
 }
 
+function dwellInputs(m: EpisodeManifest, seed: number, ticks: number): TickInput[] {
+  const rand = seededRand(seed);
+  const targets = m.gazeTargets.map((g) => g.id);
+  const out: TickInput[] = [{ gaze: null, commands: [{ type: "acknowledgeAdvisory" }] }];
+  let gaze: string | null = targets[0]!;
+  for (let i = 1; i < ticks; i++) {
+    if (rand() < 0.0005) gaze = targets[Math.floor(rand() * targets.length)]!;
+    let commands: Command[] | undefined;
+    const p = rand();
+    if (p < 0.0002) commands = [{ type: "setMode", mode: rand() < 0.5 ? "witness" : "embodiment" }];
+    else if (p < 0.0004) commands = [{ type: "setComfort", on: rand() < 0.3 }];
+    else if (p < 0.0007) commands = [{ type: "triggerSaying", via: "speech" }];
+    out.push({ gaze, ...(commands ? { commands } : {}) });
+  }
+  return out;
+}
+
 export function goldenInputs(m: EpisodeManifest, seed: number, profile: GoldenProfile): TickInput[] {
   const ticks = goldenTicks(m);
-  return profile === "basic" ? basicInputs(m, seed, ticks) : coverageInputs(m, seed, ticks);
+  if (profile === "basic") return basicInputs(m, seed, ticks);
+  if (profile === "dwell") return dwellInputs(m, seed, ticks);
+  return coverageInputs(m, seed, ticks);
 }
 
 export function goldenSettings(profile: GoldenProfile): Partial<Omit<Settings, "subtitles">> {
-  return profile === "basic" ? {} : { intensityCeiling: 0.85, seated: false };
+  return profile === "coverage" ? { intensityCeiling: 0.85, seated: false } : {};
 }
 
 /** Per-tick Racing Thoughts trace, sampled after each step (what the engine mixer would read that tick). */

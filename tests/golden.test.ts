@@ -76,3 +76,13 @@ test("validator parity cases cover errors and warnings and the canonical manifes
   assert.ok(cases.slice(2).every((c) => c.errors.length > 0 || c.warnings.length > 0));
   assert.ok(cases.reduce((a, c) => a + c.errors.length, 0) > 40);
 });
+
+test("the dwell golden reaches every dwell tier and triggers gaze dialogue, so C++ parity covers them", async () => {
+  const g = buildGolden(M, 99, "dwell");
+  const tiers = new Set(
+    g.expected.events.flatMap((e) => (e.type === "rt.fragment" ? [M.fragments.find((f) => f.id === e.fragmentId)!.gaze?.tier] : [])).filter(Boolean),
+  );
+  for (const t of M.racingThoughts.dwellTiers) assert.ok(tiers.has(t.id), `tier ${t.id} never played`);
+  const gazeCues = g.expected.events.filter((e) => e.type === "cue.start" && M.cues.find((c) => c.id === e.cueId)!.trigger.type === "gaze");
+  assert.ok(gazeCues.length >= 3, `gaze cues: ${gazeCues.length}`);
+});

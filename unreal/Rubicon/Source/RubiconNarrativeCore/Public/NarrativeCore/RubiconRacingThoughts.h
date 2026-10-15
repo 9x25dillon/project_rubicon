@@ -28,6 +28,8 @@ namespace RubiconCore
 	int MaxActiveVoices(const FManifest& M, double Output);
 	double SpawnRatePerSec(const FManifest& M, double Output);
 	double ExternalDuckDb(const FManifest& M, double Output);
+	/** Index of the dwell tier for a continuous gaze of DwellMs (last tier whose MinDwellMs <= DwellMs). */
+	int DwellTierIndex(const FManifest& M, double DwellMs);
 
 	struct FRtStepResult
 	{

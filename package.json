@@ -9,7 +9,8 @@
     "test": "npm run build && node --test dist/tests/*.test.js",
     "validate": "npm run build && node dist/src/cli/validate.js content/passion.episode.json content/locale.en.json",
     "simulate": "npm run build && node dist/src/cli/simulate.js",
-    "golden": "npm run build && node dist/src/cli/golden.js"
+    "golden": "npm run build && node dist/src/cli/golden.js",
+    "parity": "npm run golden && cmake -S native -B native/build -DCMAKE_BUILD_TYPE=Release && cmake --build native/build --config Release && node scripts/run-native.mjs"
   },
   "engines": {
     "node": ">=20"

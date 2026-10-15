@@ -1,3 +1,13 @@
 node_modules/
 dist/
 golden/
+native/build*/
+unreal/Rubicon/Binaries/
+unreal/Rubicon/Intermediate/
+unreal/Rubicon/Saved/
+unreal/Rubicon/DerivedDataCache/
+unreal/Rubicon/.vs/
+unreal/Rubicon/*.sln
+unreal/Rubicon/.vscode/
+unreal/Rubicon/Plugins/*/Binaries/
+unreal/Rubicon/Plugins/*/Intermediate/

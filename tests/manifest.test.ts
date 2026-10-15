@@ -95,3 +95,16 @@ test("auto-run bound is finite and under 12 minutes", () => {
   const ms = maxAutoRunMs(M);
   assert.ok(ms > 0 && ms < 12 * 60_000, String(ms));
 });
+
+test("validator bounds the Racing Thoughts mixer parameters the core reads (fragment rate, duck, affinity)", () => {
+  assert.deepEqual(validateManifest(M, L).errors, []);
+  const bad = clone(M);
+  bad.racingThoughts.fragmentRate.gamma = 0;
+  bad.racingThoughts.externalDuck.maxDb = 3;
+  bad.racingThoughts.affinityMultiplier = 0.5;
+  bad.racingThoughts.maxVoices = 2.5;
+  const errors = validateManifest(bad, L).errors;
+  for (const k of ["fragmentRate", "externalDuck", "affinityMultiplier", "must be integers"]) {
+    assert.ok(errors.some((e) => e.includes(k)), `missing ${k} error: ${errors.join("; ")}`);
+  }
+});

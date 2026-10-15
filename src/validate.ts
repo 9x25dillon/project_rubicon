@@ -115,6 +115,16 @@ export function validateManifest(raw: unknown, locale?: Locale): ValidationResul
     for (const k of ["dwellTauMs", "witnessEchoTauMs", "comfortReleaseTauMs", "maxVoices", "recentWindow"] as const) {
       if (!(isNum(rt[k]) && rt[k] > 0)) err(`racingThoughts.${k}: positive number`);
     }
+    if (!(Number.isInteger(rt.maxVoices) && Number.isInteger(rt.recentWindow))) err("racingThoughts.maxVoices and recentWindow must be integers");
+    const fr = rt.fragmentRate as unknown;
+    if (!(isObj(fr) && isNum(fr.minPerSec) && fr.minPerSec >= 0 && isNum(fr.maxPerSec) && fr.maxPerSec >= fr.minPerSec && isNum(fr.gamma) && fr.gamma > 0)) {
+      err("racingThoughts.fragmentRate: requires 0 <= minPerSec <= maxPerSec and gamma > 0");
+    }
+    const xd = rt.externalDuck as unknown;
+    if (!(isObj(xd) && isNum(xd.startAt) && xd.startAt >= 0 && xd.startAt < 1 && isNum(xd.maxDb) && xd.maxDb <= 0)) {
+      err("racingThoughts.externalDuck: requires 0 <= startAt < 1 and maxDb <= 0");
+    }
+    if (!(isNum(rt.affinityMultiplier) && rt.affinityMultiplier >= 1)) err("racingThoughts.affinityMultiplier: must be >= 1");
     if (rt.evidence !== "artistic-interpretation") err("racingThoughts.evidence must be artistic-interpretation");
     if (!isStr(rt.disclosure)) err("racingThoughts.disclosure: required");
   }

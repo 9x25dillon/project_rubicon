@@ -1,0 +1,21 @@
+{
+  "name": "rubicon-passion",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Project Rubicon, Prototype 01: The Passion. Engine-agnostic deterministic narrative core (timeline state machine + Racing Thoughts system).",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "validate": "npm run build && node dist/src/cli/validate.js content/passion.episode.json content/locale.en.json",
+    "simulate": "npm run build && node dist/src/cli/simulate.js",
+    "golden": "npm run build && node dist/src/cli/golden.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  }
+}

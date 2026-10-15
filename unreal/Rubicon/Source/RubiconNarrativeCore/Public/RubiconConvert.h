@@ -24,6 +24,8 @@ namespace RubiconConvert
 	inline ERubiconTriggerVia ToUE(RubiconCore::ETriggerVia V) { return static_cast<ERubiconTriggerVia>(V); }
 	inline ERubiconFragmentKind ToUE(RubiconCore::EFragmentKind V) { return static_cast<ERubiconFragmentKind>(V); }
 	inline ERubiconElevationTransition ToUE(RubiconCore::EElevationTransition V) { return static_cast<ERubiconElevationTransition>(V); }
+	inline ERubiconSourceType ToUE(RubiconCore::ESourceType V) { return static_cast<ERubiconSourceType>(V); }
+	inline ERubiconCueKind ToUE(RubiconCore::ECueKind V) { return static_cast<ERubiconCueKind>(V); }
 
 	inline RubiconCore::EMode ToCore(ERubiconExperienceMode V) { return static_cast<RubiconCore::EMode>(V); }
 	inline RubiconCore::ELayer ToCore(ERubiconVisualLayer V) { return static_cast<RubiconCore::ELayer>(V); }
@@ -34,6 +36,7 @@ namespace RubiconConvert
 	RUBICONNARRATIVECORE_API RubiconCore::FSettingsPatch ToPatch(const FRubiconSettings& S);
 	RUBICONNARRATIVECORE_API FRubiconFragmentInfo FragmentInfo(const RubiconCore::FManifest& M, const RubiconCore::FLocale& L, int FragmentIndex);
 	RUBICONNARRATIVECORE_API FName GazeTargetName(const RubiconCore::FManifest& M, int Index);
+	RUBICONNARRATIVECORE_API FRubiconCueInfo CueInfo(const RubiconCore::FManifest& M, const RubiconCore::FLocale& L, int CueIndex);
 	/** Gaze.Target.<id> */
 	RUBICONNARRATIVECORE_API FName GazeTagFor(const FString& TargetId);
 	RUBICONNARRATIVECORE_API void ToUE(const RubiconCore::FManifest& M, const RubiconCore::FFrameOutputs& In, int64 Tick, FRubiconFrameOutputs& Out);

@@ -120,6 +120,7 @@ void URubiconNarrativeSubsystem::Broadcast(const std::vector<RubiconCore::FEvent
 			UE_LOG(LogRubiconNarrative, Verbose, TEXT("command rejected: %s (%s)"), *ToFString(RubiconCore::ToString(E.Command)), *ToFString(E.Reason));
 			OnCommandRejected.Broadcast(E.T, ToFString(RubiconCore::ToString(E.Command)), ToFString(E.Reason));
 			break;
+		case EEventType::CueStart: OnDialogueCue.Broadcast(E.T, RubiconConvert::CueInfo(Manifest, Locale, E.Cue)); break;
 		}
 	}
 }

@@ -101,10 +101,20 @@ bool URubiconEpisodeAsset::RebuildViews(TArray<FString>& OutErrors)
 		S.Evidence = RubiconConvert::ToUE(Src.Evidence);
 		S.KjvText = Src.KjvText ? ToFString(*Src.KjvText) : FString();
 		for (const std::string& N : Src.ManuscriptNotes) S.ManuscriptNotes.Add(ToFString(N));
+		S.SourceType = RubiconConvert::ToUE(Src.SourceType);
+		if (Src.Excerpt)
+		{
+			S.Excerpt = ToFString(Src.Excerpt->Text);
+			S.Rendering = ToFString(RubiconCore::ToString(Src.Excerpt->Rendering));
+			S.Translator = Src.Excerpt->Translator ? ToFString(*Src.Excerpt->Translator) : FString();
+		}
+		S.Debate = Src.Debate ? ToFString(*Src.Debate) : FString();
 	}
 
 	Fragments.Reset();
 	for (int I = 0; I < static_cast<int>(M.Fragments.size()); ++I) Fragments.Add(RubiconConvert::FragmentInfo(M, L, I));
+	Cues.Reset();
+	for (int I = 0; I < static_cast<int>(M.Cues.size()); ++I) Cues.Add(RubiconConvert::CueInfo(M, L, I));
 	return true;
 }
 

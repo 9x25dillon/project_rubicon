@@ -39,6 +39,14 @@ enum class ERubiconFragmentKind : uint8 { Verbal, Sonic };
 UENUM(BlueprintType)
 enum class ERubiconElevationTransition : uint8 { SlowTilt, FadeSettle };
 
+/** What kind of witness a source is: shown beside the evidence category. */
+UENUM(BlueprintType)
+enum class ERubiconSourceType : uint8 { Gospel, NewTestament, HebrewBible, AncientText, Archaeology, Scholarship };
+
+/** Spoken: a character's recorded words (KJV). Narration: a historical account read by a narrator. Sound: a recorded action. */
+UENUM(BlueprintType)
+enum class ERubiconCueKind : uint8 { Spoken, Narration, Sound };
+
 USTRUCT(BlueprintType)
 struct RUBICONNARRATIVECORE_API FRubiconSettings
 {
@@ -109,6 +117,31 @@ struct RUBICONNARRATIVECORE_API FRubiconEvidenceItem
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString Label;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString Note;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") TArray<FString> ManuscriptNotes;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") bool bHasSourceType = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") ERubiconSourceType SourceType = ERubiconSourceType::Gospel;
+	/** Authenticity, dating or identification questions; always shown with the source. */
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString Debate;
+};
+
+/** The dialogue cue sounding now (the world speaking; never the internal monologue). */
+USTRUCT(BlueprintType)
+struct RUBICONNARRATIVECORE_API FRubiconCueFrame
+{
+	GENERATED_BODY()
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FName Id;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") ERubiconCueKind Kind = ERubiconCueKind::Spoken;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString Speaker;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString SpeakerLabel;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString Subtitle;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") TArray<FString> Citations;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") ERubiconEvidence Evidence = ERubiconEvidence::GospelText;
+	/** kjv, public-domain-translation, own-translation, paraphrase (never display in quotation marks), description, mixed. */
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FString Rendering;
+	/** Gaze target to spatialize the voice from; None for the narrator (head-locked, like the internal voices). */
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FName Origin;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") double ElapsedMs = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") double DurationMs = 0;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon") FName AudioCueId;
 };
 
 USTRUCT(BlueprintType)
@@ -160,6 +193,11 @@ struct RUBICONNARRATIVECORE_API FRubiconFrameOutputs
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Gaze") FName GazeTarget;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Gaze") double GazeDwellMs = 0;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Gaze") ERubiconStress GazeStress = ERubiconStress::Low;
+	/** Dwell tier of the current gaze (glance, sustained, long, extreme). */
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Gaze") FName GazeTier;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Dialogue") bool bHasCue = false;
+	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Dialogue") FRubiconCueFrame Cue;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Saying") bool bHasSaying = false;
 	UPROPERTY(BlueprintReadOnly, Category = "Rubicon|Saying") FRubiconSayingFrame Saying;
@@ -185,6 +223,25 @@ struct RUBICONNARRATIVECORE_API FRubiconFragmentInfo
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") TArray<FString> AnchorCitations;
 };
 
+/** Static description of a dialogue cue (delegate payload and data asset view). */
+USTRUCT(BlueprintType)
+struct RUBICONNARRATIVECORE_API FRubiconCueInfo
+{
+	GENERATED_BODY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FName Id;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") ERubiconCueKind Kind = ERubiconCueKind::Spoken;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString Speaker;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString SpeakerLabel;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString Text;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") TArray<FString> Citations;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") ERubiconEvidence Evidence = ERubiconEvidence::GospelText;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FName Origin;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FName AudioCueId;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") double DurationMs = 0;
+	/** Human-readable trigger, e.g. "gaze crowd >= 2.5 s (embodiment)" or "paradise/approach at 0.5 s". */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString Trigger;
+};
+
 USTRUCT(BlueprintType)
 struct RUBICONNARRATIVECORE_API FRubiconGazeTargetInfo
 {
@@ -206,6 +263,12 @@ struct RUBICONNARRATIVECORE_API FRubiconSourceInfo
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") ERubiconEvidence Evidence = ERubiconEvidence::GospelText;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString KjvText;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") TArray<FString> ManuscriptNotes;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") ERubiconSourceType SourceType = ERubiconSourceType::Gospel;
+	/** Non-KJV text (ancient authors, inscriptions) and how its English was produced. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString Excerpt;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString Rendering;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString Translator;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Rubicon") FString Debate;
 };
 
 USTRUCT(BlueprintType)
@@ -233,4 +296,5 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FRubiconExitSignature, double, TimeM
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FRubiconEvidenceChangeSignature, double, TimeMs, const FString&, SourceId);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FRubiconSettingsChangeSignature, double, TimeMs, const FRubiconSettings&, Settings);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRubiconFragmentSignature, double, TimeMs, const FRubiconFragmentInfo&, Fragment, int32, Voice);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FRubiconCueSignature, double, TimeMs, const FRubiconCueInfo&, Cue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FRubiconCommandRejectedSignature, double, TimeMs, const FString&, Command, const FString&, Reason);

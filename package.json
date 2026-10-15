@@ -11,7 +11,8 @@
     "simulate": "npm run build && node dist/src/cli/simulate.js",
     "golden": "npm run build && node dist/src/cli/golden.js",
     "parity": "npm run golden && cmake -S native -B native/build -DCMAKE_BUILD_TYPE=Release && cmake --build native/build --config Release && node scripts/run-native.mjs",
-    "format:content": "node scripts/format-json.mjs"
+    "format:content": "node scripts/format-json.mjs",
+    "docs:sources": "node scripts/sources-table.mjs"
   },
   "engines": {
     "node": ">=20"

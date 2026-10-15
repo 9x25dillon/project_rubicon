@@ -79,7 +79,13 @@ TArray<FRubiconGazePlacement> ARubiconGolgothaGreybox::DefaultLayout()
 		TEXT("Directional: gaze above the horizon band with nothing hit.")));
 	L.Add(Place(TEXT("horizon"), FVector::ZeroVector, R::Horizon, S::HillRing, FVector(250000, 0, 6000), 24,
 		TEXT("Low hills about 2.5 km out; also the fallback for level gaze with nothing tagged in view.")));
-	L.Add(Place(TEXT("ground_below"), FVector(9825, 0, -20), R::GroundBelow, S::Box, FVector(10175, 20000, 10), 1,
+	L.Add(Place(TEXT("road"), FVector(1800, 0, 0), R::Collision, S::Box, FVector(250, 20000, 1), 1,
+		TEXT("Mark 15:29 'they that passed by' implies a road; Roman practice chose crowded roads ([Quintilian], Minor Declamations 274)."), FLinearColor(0.5f, 0.45f, 0.36f)));
+	L.Add(Place(TEXT("city_wall"), FVector(30000, 0, 0), R::Collision, S::Box, FVector(150, 40000, 400), 1,
+		TEXT("John 19:20: nigh to the city. Line and height of the wall are reconstruction (about 300 m away here)."), FLinearColor(0.62f, 0.56f, 0.45f)));
+	L.Add(Place(TEXT("garden"), FVector(700, 1700, 0), R::Cone, S::Figures, FVector(220, 260, 120), 7,
+		TEXT("John 19:41: in the place where he was crucified there was a garden, and a new tomb. Placement is greybox."), FLinearColor(0.22f, 0.33f, 0.2f)));
+	L.Add(Place(TEXT("ground_below"), FVector(19825, 0, -20), R::GroundBelow, S::Box, FVector(20175, 20000, 10), 1,
 		TEXT("Ground in front of the knoll; also the fallback for downward gaze on untagged ground (road, quarry floor)."), FLinearColor(0.42f, 0.38f, 0.31f)));
 	return L;
 }
@@ -108,8 +114,7 @@ ARubiconGolgothaGreybox::ARubiconGolgothaGreybox()
 	QuarryFloor = MakeBox(this, WorldRoot, TEXT("QuarryFloor"), Cube, FVector(-4350, 0, -710), FVector(4000, 6000, 10));
 	QuarryFace = MakeBox(this, WorldRoot, TEXT("QuarryFace"), Cube, FVector(-360, 0, -350), FVector(10, 6000, 350));
 	Knoll = MakeBox(this, WorldRoot, TEXT("Knoll"), Sphere, FVector(0, 0, -150), FVector(450, 450, 170));
-	Road = MakeBox(this, WorldRoot, TEXT("Road"), Cube, FVector(1800, 0, 1), FVector(250, 20000, 1));
-	CityWall = MakeBox(this, WorldRoot, TEXT("CityWall"), Cube, FVector(30000, 0, 400), FVector(150, 40000, 400));
+	// The road and the city wall are gaze targets (points of interest), placed by Layout like every other target.
 	const FName GroundTag = ARubiconGazeTargetActor::TagFor(TEXT("ground_below"));
 	QuarryFloor->ComponentTags.Add(GroundTag);
 	Knoll->ComponentTags.Add(GroundTag);

@@ -49,6 +49,10 @@ Exit: all controls respond within one tick from every state (already proven in t
 
 **M6. Playtest.** 8 to 12 participants. Record intensity traces, witness and comfort usage, exits, the Simulator Sickness Questionnaire, and a short debrief. Theology and history reviewers sign off on the overlay content.
 
+## Dialogue and history
+
+The world speaks only in recorded words. Spoken cues are verbatim KJV, voiced at their source in the scene and attributed to the specific group that said them. Some answer a held gaze; others follow the sayings in Gospel order (the condemned men's exchange before Paradise, Elias after the cry, the sponge after thirst, the centurion after death). Dwell tiers make looking costly in a second dimension: a glance gets a line, and a long stare gets harder ones (glance, sustained, long, extreme). Lesser-known history (Quintilian on crowded roads, Cicero on the cross, Josephus on Varus and on burial before sunset, Philo on Pilate, Thallus and the darkness, the Pilate Stone, the Yehohanan heel bone, the Alexamenos graffito) is narrated only from outside, in Witness and Contemplation. Each account names its source, rendering and any authenticity debate. See docs/SOURCES.md.
+
 ## Racing Thoughts audio direction
 
 Voices are head-locked and deliberately non-externalized: near-zero interaural difference, close-mic dry signal, so they sit inside the skull while the world stays spatialized outside it. One actor in several registers (whisper, flat, cracked, layered) plus distorted duplicates for crowd echoes. No looping beds: everything is a discrete fragment, never repeating within the recent window. External ambience ducks by up to 18 dB above output 0.6 so the storm can drown the world. During an utterance the storm is ducked only partially, so the line is heard through it. After Surrender the ceiling falls to zero and the ambience drops with it: the silence is a designed event, and it should land like one.

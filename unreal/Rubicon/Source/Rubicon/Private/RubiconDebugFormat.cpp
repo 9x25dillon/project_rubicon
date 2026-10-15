@@ -31,7 +31,17 @@ namespace RubiconDebugFormat
 		L.Add(FString::Printf(TEXT("RT intensity %.4f %s"), Rt.Intensity, *Bar(Rt.Intensity, 30)));
 		L.Add(FString::Printf(TEXT("voices %d/%d  world duck %.1f dB  breath %.2f%s"), Rt.ActiveVoices.Num(), Rt.MaxVoices, F.ExternalDuckDb, F.BreathFocus,
 			F.bDialogueActive ? TEXT("  DIALOGUE") : TEXT("")));
-		L.Add(FString::Printf(TEXT("gaze %s (%s)  dwell %.1f s"), F.GazeTarget.IsNone() ? TEXT("-") : *F.GazeTarget.ToString(), *EnumName(F.GazeStress), F.GazeDwellMs / 1000.0));
+		L.Add(FString::Printf(TEXT("gaze %s (%s)  dwell %.1f s  tier %s"), F.GazeTarget.IsNone() ? TEXT("-") : *F.GazeTarget.ToString(), *EnumName(F.GazeStress),
+			F.GazeDwellMs / 1000.0, *F.GazeTier.ToString()));
+		if (F.bHasCue)
+		{
+			const FRubiconCueFrame& C = F.Cue;
+			// A paraphrase is never shown in quotation marks.
+			const bool bQuote = C.Kind == ERubiconCueKind::Spoken;
+			L.Add(FString::Printf(TEXT("%s %s%s: %s%s%s"), *EnumName(C.Kind).ToUpper(), *C.SpeakerLabel, C.Origin.IsNone() ? TEXT("") : *(TEXT(" @") + C.Origin.ToString()),
+				bQuote ? TEXT("\"") : TEXT(""), *C.Subtitle, bQuote ? TEXT("\"") : TEXT("")));
+			L.Add(FString::Printf(TEXT("  [%s | %s] %s  %.1f/%.1f s"), *EnumName(C.Evidence), *C.Rendering, *FString::Join(C.Citations, TEXT("; ")), C.ElapsedMs / 1000.0, C.DurationMs / 1000.0));
+		}
 		for (const FRubiconActiveVoice& V : Rt.ActiveVoices) L.Add(FString::Printf(TEXT("  voice %s  %.1f s"), *V.FragmentId.ToString(), V.ElapsedMs / 1000.0));
 		if (F.bHasSaying)
 		{
@@ -45,7 +55,11 @@ namespace RubiconDebugFormat
 			L.Add(FString::Printf(TEXT("atmosphere %.0f lux  %.0f K  AOD %.2f [%s]"), F.Atmosphere.SunIlluminanceLux, F.Atmosphere.SkyCctK, F.Atmosphere.AerosolOpticalDepth,
 				*EnumName(F.Atmosphere.Evidence)));
 		}
-		for (const FRubiconEvidenceItem& E : F.EvidenceOverlay) L.Add(FString::Printf(TEXT("  [%s] %s"), *E.Label, *E.Citation));
+		for (const FRubiconEvidenceItem& E : F.EvidenceOverlay)
+		{
+			L.Add(FString::Printf(TEXT("  [%s%s] %s"), *E.Label, E.bHasSourceType ? *(TEXT(" / ") + EnumName(E.SourceType)) : TEXT(""), *E.Citation));
+			if (!E.Debate.IsEmpty()) L.Add(TEXT("     debate: ") + E.Debate);
+		}
 		L.Add(TEXT("trigger say/consent  A witness  B comfort  X pause  menu exit  Y layer  L-stick recenter"));
 		return L;
 	}

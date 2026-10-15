@@ -52,7 +52,11 @@ The same core checks run without Unreal: `npm run parity` (CMake + any C++17 com
 | Recenter (position only) | left stick click | R | |
 | Debug HUD | right stick click | F1 | |
 
-`rubicon.DebugHUD 0|1` toggles the HUD from the console. Without an HMD, the mouse looks around (desktop debugging only).
+`rubicon.DebugHUD 0|1` toggles the HUD from the console.
+
+## Dialogue cues and dwell tiers
+
+`OnDialogueCue(TimeMs, FRubiconCueInfo)` fires when the world speaks. Play the VO or sound (`AudioCueId`) at the gaze actor named by `Origin`. The narrator has no origin and is head-locked like the internal voices. Duck everything by `ExternalDuckDb` so the storm can drown the taunts. `FRubiconFrameOutputs.Cue` carries the live subtitle, citations, evidence, `Rendering` and progress. A `paraphrase` rendering must never be shown in quotation marks. `GazeTier` shows the current dwell tier (glance, sustained, long, extreme). The debug HUD prints both. Without an HMD, the mouse looks around (desktop debugging only).
 
 ## Headset acceptance checklist (manual)
 

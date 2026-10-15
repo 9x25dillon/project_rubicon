@@ -203,6 +203,36 @@ bool FRubiconSafeguardTest::RunTest(const FString& Parameters)
 		TestTrue(FString::Printf(TEXT("Witness same tick in %s"), *RubiconConvert::ToFString(ToString(static_cast<EStateId>(Si)))), Out(W) <= Bound + 1e-9);
 	}
 
+	// Dialogue: Luke's exchange is heard before the Paradise saying, even when it is triggered at the earliest moment.
+	{
+		const int Road = M.FindGazeTarget("road");
+		FSessionState S = CreateSession(M, 4);
+		std::vector<std::string> Order;
+		auto Collect = [&](const FStepResult& R)
+		{
+			for (const FEvent& E : R.Events)
+			{
+				if (E.Type == EEventType::CueStart && M.Cues[static_cast<size_t>(E.Cue)].Id.rfind("paradise_", 0) == 0) Order.push_back(M.Cues[static_cast<size_t>(E.Cue)].Id);
+				if (E.Type == EEventType::SayingTrigger && E.Saying == EStateId::Paradise) Order.push_back("SAYING");
+			}
+		};
+		FTickInput Ack;
+		Ack.Commands.push_back(FCommand::Make(ECommandType::AcknowledgeAdvisory));
+		FStepResult R = Step(M, S, Ack);
+		S = R.State;
+		for (int Guard = 0; Guard < 200000 && !(StateDef(M, S).Id == EStateId::Paradise && S.Timeline.Phase != EPhase::Approach); ++Guard)
+		{
+			FTickInput In;
+			In.Gaze = Road;
+			if (StateDef(M, S).Id == EStateId::Paradise) In.Commands.push_back(FCommand::Make(ECommandType::TriggerSaying));
+			R = Step(M, S, In);
+			Collect(R);
+			S = R.State;
+		}
+		TestTrue(TEXT("paradise exchange (rail, rebuke, request) precedes the saying"),
+			Order == std::vector<std::string>{ "paradise_rail", "paradise_rebuke", "paradise_request", "SAYING" });
+	}
+
 	// Frame chunking never changes the simulation (fixed-step accumulator).
 	std::vector<FTickInput> In(2000);
 	In[0].Commands.push_back(FCommand::Make(ECommandType::AcknowledgeAdvisory));

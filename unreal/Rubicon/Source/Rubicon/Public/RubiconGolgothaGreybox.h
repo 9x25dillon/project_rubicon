@@ -6,7 +6,7 @@
 //
 //   Root (cross base)
 //    |- WorldRoot   everything in the world; the slow-tilt elevation rotates THIS about the cross base
-//    |    |- environment meshes (ground, quarry pit and face, rock knoll, road, city wall)
+//    |    |- environment meshes (quarry pit and face, rock knoll)
 //    |    \- gaze target actors (attached at runtime or by Rubicon.CreateGolgothaMap)
 //    \- CrossRoot   the cross, the titulus and the embodied body; never moved while embodied, so the player's
 //                   camera is never moved or rotated by code. In Witness the cross itself leans and rises instead.
@@ -105,8 +105,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> QuarryFloor;
 	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> QuarryFace;
 	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> Knoll;
-	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> Road;
-	UPROPERTY(VisibleAnywhere, Category = "Environment") TObjectPtr<UStaticMeshComponent> CityWall;
 	UPROPERTY(VisibleAnywhere, Category = "Cross") TObjectPtr<UStaticMeshComponent> Upright;
 	UPROPERTY(VisibleAnywhere, Category = "Cross") TObjectPtr<UStaticMeshComponent> Crossbeam;
 

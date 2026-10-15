@@ -8,11 +8,13 @@ This repo holds the engine-agnostic narrative core (TypeScript reference), the c
 
 ```bash
 npm install
-npm test            # build + 41 tests (node:test)
+npm test            # build + 55 tests (node:test)
 npm run validate    # manifest + locale validation
 npm run simulate    # headless slice trace: Threshold -> Elevation -> Forgiveness -> Witness (arg: seed)
 npm run golden      # golden/replay-*.json (+ RT trace), validator-cases.json, math-vectors.json (regenerable, not committed)
-npm run parity      # golden + CMake build of the C++ core (native/) + 10 C++ tests + bit-exact parity check
+npm run parity      # golden + CMake build of the C++ core (native/) + 12 C++ tests + bit-exact parity check
+npm run format:content   # canonical formatting of content/*.json (also: node scripts/format-json.mjs --check)
+npm run docs:sources     # regenerate docs/SOURCES.md (every source, rendering, debate, and what cites it)
 ```
 
 ## Layout
@@ -23,7 +25,8 @@ content/locale.en.json         KJV dialogue, fragment text, UI strings
 src/types.ts                   type contract + invariants I1 to I6
 src/validate.ts                structural and semantic manifest validation
 src/session.ts                 pure reducer: step(manifest, state, input, dt) -> { state, events }
-src/racingThoughts.ts          continuous intensity model + deterministic fragment scheduler
+src/racingThoughts.ts          continuous intensity model + deterministic fragment scheduler (incl. dwell tiers)
+src/cues.ts                    dialogue cues: the world speaking (spoken KJV, sounds, narrated history)
 src/frame.ts                   selectFrame(): the only view the engine adapter reads
 src/data.ts                    typed accessors (lastWords, maxAutoRunMs)
 src/replay.ts                  replay runner, state and event hashes
@@ -36,6 +39,7 @@ tests/                         manifest, timeline, racingThoughts, determinism, 
 native/                        standalone CMake build of the C++ core: rubicon_parity, rubicon_core_tests
 unreal/Rubicon/                UE5 project (see unreal/README.md): RubiconNarrativeCore, Rubicon, RubiconEditor
 docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction, resolved conflicts, UE5 port map
+docs/SOURCES.md                generated source catalogue for reviewers
 ```
 
 ## Invariants (tested; never break these)
@@ -46,6 +50,7 @@ docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction
 - **I4** No soft-lock: after the consent gate every state auto-advances on a bounded clock.
 - **I5** Racing Thoughts read the timeline and never write it.
 - **I6** Same manifest, seed and input stream give identical state and event hashes, in TypeScript and in C++ (bit-exact; `npm run parity`).
+- **I7** Dialogue cues read timeline, gaze and mode; they never write the timeline or Racing Thoughts. No cue holds a phase open.
 
 ## Content rules
 
@@ -57,6 +62,11 @@ docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction
 - From Release onward the player is in Witness; embodiment is refused. The spear (John 19:33-34) is seen from the beloved disciple's vantage (John 19:35).
 - No health bars, no struggle mechanics, no pain haptics, no simulated choking or forced breathing, no score for enduring.
 - KJV is the shipped English text (public domain). Greek and the Aramaic reconstruction of the cry of abandonment are labeled historical-inference.
+- Every source has a `sourceType` (gospel, new-testament, hebrew-bible, ancient-text, archaeology, scholarship). Ancient texts, archaeology and scholarship are always historical-inference. Non-KJV text carries its rendering: public-domain translation (name the translator), own translation from the original, paraphrase, or description. A paraphrase is never quoted; record authenticity or identification questions in `debate`.
+- Spoken cues are verbatim KJV from their cited passages (ellipses mark omissions), attributed to the group that said them. Narrations quote only what a cited non-paraphrase source contains. Both are checked mechanically by `tests/dialogue.test.ts`.
+- History is narrated from outside only (Witness and Contemplation); the embodied player hears the scene, never a lecture.
+- Dwell-tiered lines echo the specific taunts and words the Gospels attribute to specific groups, and the crowd tiers always include its non-mocking members (Luke 23:27, 48). The internal monologue never says "the Jews" (tested).
+- Sources whose framing assigns collective responsibility (Mara bar Serapion's "wise king" line, Melito's *On Pascha*) are not voiced or displayed.
 
 ## Racing Thoughts model (summary)
 
@@ -82,11 +92,18 @@ docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction
 - Elevation: slow world tilt (default) and fade-settle (Comfort or Reduced Effects). The camera is never rotated by code.
 - Gaze resolver (trace, 4 degree cone, 150 ms hysteresis, sky, horizon and ground fallbacks); atmosphere driver (lux, CCT, AOD to sun, Mie and fog); debug HUD (world-space panel plus desktop canvas); `Rubicon.Game.*` tests.
 
+**Done (dialogue and history)**
+- Dwell tiers: glance (0 s), sustained (3 s), long (9 s), extreme (18 s); 62 tiered lines over 15 targets, exclusive per tier, embodied only.
+- Dialogue cues: 34 in all. Luke's exchange before Paradise, Elias after the cry, the sponge after thirst, the centurion and the crowd going home after death, the beloved disciple's record at the spear; gaze-held taunts in the groups' own words; 15 Witness narrations and 4 Contemplation readings drawn from ancient texts, archaeology and scholarship (see docs/SOURCES.md). Rules: fit, floor, preempt, once.
+- Paradise `approachMinMs` raised from 8 s to 15 s so the request is heard before the answer (validated via `beforeSaying`).
+- New points of interest: road, city wall, garden (manifest, greybox, coverage test).
+- C++: bit-exact port (5 goldens incl. a dwell profile, 21 validator cases); UE: `OnDialogueCue`, `FRubiconFrameOutputs.Cue` and `GazeTier`, cue info on the episode asset, HUD lines.
+
 **Not yet verified (needs a UE 5.4 machine and a headset)**: compiling the UE modules (written against the 5.4 API but never compiled here), running the automation tests in-editor, and the headset checklist in `unreal/README.md`.
 
 **Next (M3 onward, see docs/VERTICAL_SLICE_PLAN.md)**
 1. Build in UE 5.4, fix any API drift, run `Automation RunTests Rubicon`, walk the headset checklist.
-2. MetaSounds Racing Thoughts graph driven by `output`, `maxVoices`, `externalDuckDb` and `OnRacingThoughtsFragment`; temp VO.
+2. MetaSounds Racing Thoughts graph driven by `output`, `maxVoices`, `externalDuckDb` and `OnRacingThoughtsFragment`; temp VO for fragments and cues (spatialized at `Cue.Origin`, narrator head-locked, ducked by `externalDuckDb`).
 3. Forgiveness end to end with subtitles and the evidence overlay.
 4. Witness vantage polish, Comfort vignette, voice and gesture bindings for all safeguards.
 5. Playtest protocol and reviewer sign-off.
@@ -98,7 +115,8 @@ docs/VERTICAL_SLICE_PLAN.md    milestones M0 to M6, audio and lighting direction
 - Theological layer art direction beyond "vast and cold".
 - Fragment rate tuning after the first playtest.
 - Witness orientation: by default Witness moves the player by position only and they turn their own head toward the cross. `URubiconSettings::bAlignYawOnWitness` can snap yaw while the view is fully black. Which should be the default?
-- Dwell-tiered gaze monologue (short, sustained, long and extreme lines per target, proposed 2026-10). The mechanism fits the model, but it needs a decision and new content. The drafts proposed so far were not added: their "your people" lines describe the crowd collectively in blood, debt and greed terms, which breaks the content rule above and echoes blood-libel imagery; other drafts recast him as a guerrilla killer or as having spent children, which goes beyond the current self-recrimination open decision.
+- Cue tuning after the first playtest: dwell thresholds (2.5 s for a cue, 3/9/18 s for tiers), whether narrations should also be offered as text-only in the evidence archive, and narrator voice casting.
+- Evidence label for Hebrew Bible and other New Testament sources: they use the `gospel-text` category (canonical text) and show their `sourceType` beside it. Rename the category to "scripture text"? That changes an invariant, so ask first.
 
 ## Working conventions
 

@@ -10,6 +10,8 @@ static_assert(static_cast<int>(ERubiconEvidence::ArtisticInterpretation) == stat
 static_assert(static_cast<int>(ERubiconStress::Extreme) + 1 == RubiconCore::StressLevelCount, "stress enum drift");
 static_assert(static_cast<int>(ERubiconTriggerVia::Auto) == static_cast<int>(RubiconCore::ETriggerVia::Auto), "trigger enum drift");
 static_assert(static_cast<int>(ERubiconFragmentKind::Sonic) == static_cast<int>(RubiconCore::EFragmentKind::Sonic), "fragment enum drift");
+static_assert(static_cast<int>(ERubiconSourceType::Scholarship) == static_cast<int>(RubiconCore::ESourceType::Scholarship), "source type enum drift");
+static_assert(static_cast<int>(ERubiconCueKind::Sound) == static_cast<int>(RubiconCore::ECueKind::Sound), "cue kind enum drift");
 static_assert(static_cast<int>(ERubiconElevationTransition::FadeSettle) == static_cast<int>(RubiconCore::EElevationTransition::FadeSettle), "elevation enum drift");
 
 namespace RubiconConvert
@@ -75,6 +77,41 @@ namespace RubiconConvert
 		return FName(*ToFString(M.GazeTargets[static_cast<size_t>(Index)].Id));
 	}
 
+	FRubiconCueInfo CueInfo(const RubiconCore::FManifest& M, const RubiconCore::FLocale& L, int CueIndex)
+	{
+		FRubiconCueInfo Info;
+		if (CueIndex < 0 || CueIndex >= static_cast<int>(M.Cues.size())) return Info;
+		const RubiconCore::FCue& C = M.Cues[static_cast<size_t>(CueIndex)];
+		Info.Id = FName(*ToFString(C.Id));
+		Info.Kind = ToUE(C.Kind);
+		Info.Speaker = ToFString(C.Speaker);
+		if (C.Speaker == "narrator")
+		{
+			const auto It = L.find("ui.narrator");
+			Info.SpeakerLabel = It != L.end() ? ToFString(It->second) : FString(TEXT("Narrator"));
+		}
+		else
+		{
+			const int Ci = M.FindCast(C.Speaker);
+			Info.SpeakerLabel = Ci >= 0 ? ToFString(M.Cast[static_cast<size_t>(Ci)].Name) : Info.Speaker;
+		}
+		const auto Tx = L.find(C.TextKey);
+		Info.Text = Tx != L.end() ? ToFString(Tx->second) : ToFString(C.TextKey);
+		for (int Idx : C.SourceIndices)
+		{
+			if (Idx >= 0) Info.Citations.Add(ToFString(M.Sources[static_cast<size_t>(Idx)].Citation));
+		}
+		Info.Evidence = ToUE(C.Evidence);
+		const int Origin = C.Origin >= 0 ? C.Origin : (C.Trigger.bGaze && C.Kind != RubiconCore::ECueKind::Narration ? C.Trigger.Target : -1);
+		Info.Origin = GazeTargetName(M, Origin);
+		if (C.CueId) Info.AudioCueId = FName(*ToFString(*C.CueId));
+		Info.DurationMs = C.DurationMs;
+		Info.Trigger = C.Trigger.bGaze
+			? FString::Printf(TEXT("gaze %s >= %.1f s (%s)"), *GazeTargetName(M, C.Trigger.Target).ToString(), C.Trigger.MinDwellMs / 1000.0, *ToFString(RubiconCore::ToString(C.Trigger.Mode)))
+			: FString::Printf(TEXT("%s/%s at %.1f s"), *ToFString(RubiconCore::ToString(C.Trigger.State)), *ToFString(RubiconCore::ToString(C.Trigger.Phase)), C.Trigger.AtMs / 1000.0);
+		return Info;
+	}
+
 	FName GazeTagFor(const FString& TargetId)
 	{
 		return FName(*(TEXT("Gaze.Target.") + TargetId));
@@ -129,6 +166,27 @@ namespace RubiconConvert
 		Out.GazeTarget = GazeTargetName(M, In.GazeTarget);
 		Out.GazeDwellMs = In.GazeDwellMs;
 		Out.GazeStress = ToUE(In.GazeStress);
+		Out.GazeTier = In.GazeTier >= 0 && In.GazeTier < static_cast<int>(M.RacingThoughts.DwellTiers.size())
+			? FName(*ToFString(M.RacingThoughts.DwellTiers[static_cast<size_t>(In.GazeTier)].Id)) : NAME_None;
+
+		Out.bHasCue = In.Cue.has_value();
+		if (In.Cue)
+		{
+			const RubiconCore::FCueFrame& C = *In.Cue;
+			Out.Cue.Id = FName(*ToFString(M.Cues[static_cast<size_t>(C.Cue)].Id));
+			Out.Cue.Kind = ToUE(C.Kind);
+			Out.Cue.Speaker = ToFString(C.Speaker);
+			Out.Cue.SpeakerLabel = ToFString(C.SpeakerLabel);
+			Out.Cue.Subtitle = ToFString(C.Subtitle);
+			Out.Cue.Citations.Reset();
+			for (const std::string& Ct : C.Citations) Out.Cue.Citations.Add(ToFString(Ct));
+			Out.Cue.Evidence = ToUE(C.Evidence);
+			Out.Cue.Rendering = ToFString(RubiconCore::ToString(C.Rendering));
+			Out.Cue.Origin = GazeTargetName(M, C.Origin);
+			Out.Cue.ElapsedMs = C.ElapsedMs;
+			Out.Cue.DurationMs = C.DurationMs;
+			Out.Cue.AudioCueId = C.CueId ? FName(*ToFString(*C.CueId)) : NAME_None;
+		}
 
 		Out.bHasSaying = In.Saying.has_value();
 		if (In.Saying)
@@ -154,6 +212,9 @@ namespace RubiconConvert
 			Item.Label = ToFString(E.Label);
 			Item.Note = E.Note ? ToFString(*E.Note) : FString();
 			for (const std::string& N : E.ManuscriptNotes) Item.ManuscriptNotes.Add(ToFString(N));
+			Item.bHasSourceType = E.SourceType.has_value();
+			if (E.SourceType) Item.SourceType = ToUE(*E.SourceType);
+			Item.Debate = E.Debate ? ToFString(*E.Debate) : FString();
 		}
 		Out.EvidenceOpen = In.EvidenceOpen >= 0 ? ToFString(M.Sources[static_cast<size_t>(In.EvidenceOpen)].Id) : FString();
 	}

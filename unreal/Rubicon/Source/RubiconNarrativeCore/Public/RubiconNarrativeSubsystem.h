@@ -119,6 +119,8 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "Rubicon|Events") FRubiconSettingsChangeSignature OnSettingsChange;
 	UPROPERTY(BlueprintAssignable, Category = "Rubicon|Events") FRubiconFragmentSignature OnRacingThoughtsFragment;
 	UPROPERTY(BlueprintAssignable, Category = "Rubicon|Events") FRubiconCommandRejectedSignature OnCommandRejected;
+	/** A dialogue cue starts: play its VO or sound at Cue.Origin (narrator: head-locked), subtitle Cue.Text. */
+	UPROPERTY(BlueprintAssignable, Category = "Rubicon|Events") FRubiconCueSignature OnDialogueCue;
 
 	/** Maximum recorded ticks (about 2.8 hours at 100 Hz); recording stops beyond it, the session does not. */
 	static constexpr int32 MaxRecordedTicks = 1000000;

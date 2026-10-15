@@ -58,6 +58,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Episode") TArray<FRubiconGazeTargetInfo> GazeTargets;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Episode") TArray<FRubiconSourceInfo> Sources;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Episode") TArray<FRubiconFragmentInfo> Fragments;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Episode") TArray<FRubiconCueInfo> Cues;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Episode") TArray<FString> ValidationWarnings;
 
 	/** Validate and compile the stored JSON into the runtime manifest (the same path the parity tests use). */

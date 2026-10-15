@@ -37,82 +37,504 @@
   },
   "harmonizationNote": "The Seven Last Words are a later devotional harmonization of four Gospel accounts. No Gospel contains all seven. Mark and Matthew record one saying (the cry of abandonment); Luke records three (forgiveness, paradise, surrender); John records three (mother, thirst, completion). Luke ends with surrender and John ends with completion; the traditional order places both at the end. Each saying keeps its own Gospel attribution in the evidence overlay.",
   "cast": [
-    { "id": "jesus", "name": "Jesus of Nazareth", "sources": ["john-19-19-20"], "evidence": "gospel-text", "note": "Embodied by the player. His interior life is not recorded; all internal monologue is artistic interpretation." },
-    { "id": "mary_mother", "name": "Mary, his mother", "sources": ["john-19-25"], "evidence": "gospel-text", "note": "John places her near the cross; Mark and Matthew place the women at a distance." },
-    { "id": "beloved_disciple", "name": "The disciple whom he loved", "sources": ["john-19-26-27", "john-19-35"], "evidence": "gospel-text", "note": "Identification with John son of Zebedee is later tradition (historical-inference)." },
+    {
+      "id": "jesus",
+      "name": "Jesus of Nazareth",
+      "sources": ["john-19-19-20"],
+      "evidence": "gospel-text",
+      "note": "Embodied by the player. His interior life is not recorded; all internal monologue is artistic interpretation."
+    },
+    {
+      "id": "mary_mother",
+      "name": "Mary, his mother",
+      "sources": ["john-19-25"],
+      "evidence": "gospel-text",
+      "note": "John places her near the cross; Mark and Matthew place the women at a distance."
+    },
+    {
+      "id": "beloved_disciple",
+      "name": "The disciple whom he loved",
+      "sources": ["john-19-26-27", "john-19-35"],
+      "evidence": "gospel-text",
+      "note": "Identification with John son of Zebedee is later tradition (historical-inference)."
+    },
     { "id": "mary_magdalene", "name": "Mary Magdalene", "sources": ["john-19-25", "mark-15-40"], "evidence": "gospel-text" },
     { "id": "mary_clopas", "name": "Mary the wife of Clopas", "sources": ["john-19-25"], "evidence": "gospel-text" },
-    { "id": "women_galilee", "name": "Women from Galilee (including Mary the mother of James and Joses, and Salome)", "sources": ["mark-15-40"], "evidence": "gospel-text" },
-    { "id": "centurion", "name": "The centurion", "sources": ["mark-15-39"], "evidence": "gospel-text", "note": "Unnamed in the Gospels. 'Longinus' is later tradition." },
+    {
+      "id": "women_galilee",
+      "name": "Women from Galilee (including Mary the mother of James and Joses, and Salome)",
+      "sources": ["mark-15-40"],
+      "evidence": "gospel-text"
+    },
+    {
+      "id": "centurion",
+      "name": "The centurion",
+      "sources": ["mark-15-39"],
+      "evidence": "gospel-text",
+      "note": "Unnamed in the Gospels. 'Longinus' is later tradition."
+    },
     { "id": "soldiers", "name": "Roman soldiers of the execution detail", "sources": ["luke-23-34", "luke-23-36"], "evidence": "gospel-text" },
-    { "id": "condemned_penitent", "name": "The condemned man who asks to be remembered", "sources": ["luke-23-42-43"], "evidence": "gospel-text", "note": "Unnamed in Luke. 'Dismas' is later tradition." },
+    {
+      "id": "condemned_penitent",
+      "name": "The condemned man who asks to be remembered",
+      "sources": ["luke-23-42-43"],
+      "evidence": "gospel-text",
+      "note": "Unnamed in Luke. 'Dismas' is later tradition."
+    },
     { "id": "condemned_mocking", "name": "The condemned man who rails", "sources": ["luke-23-39"], "evidence": "gospel-text" },
     { "id": "passersby", "name": "Passersby", "sources": ["mark-15-29-30"], "evidence": "gospel-text" },
-    { "id": "chief_priests_and_scribes", "name": "Some chief priests and scribes", "sources": ["mark-15-31"], "evidence": "gospel-text", "note": "Specific members of the Temple leadership. Never generalized to a people." },
+    {
+      "id": "chief_priests_and_scribes",
+      "name": "Some chief priests and scribes",
+      "sources": ["mark-15-31"],
+      "evidence": "gospel-text",
+      "note": "Specific members of the Temple leadership. Never generalized to a people."
+    },
     { "id": "onlookers", "name": "People standing and watching", "sources": ["luke-23-35"], "evidence": "gospel-text" },
     { "id": "mourners", "name": "Women and crowds who lament", "sources": ["luke-23-27", "luke-23-48"], "evidence": "gospel-text" }
   ],
   "sources": [
-    { "id": "mark-15-22", "citation": "Mark 15:22", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And they bring him unto the place Golgotha, which is, being interpreted, The place of a skull." } },
-    { "id": "mark-15-25", "citation": "Mark 15:25", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And it was the third hour, and they crucified him." } },
-    { "id": "john-19-14", "citation": "John 19:14", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And it was the preparation of the passover, and about the sixth hour: and he saith unto the Jews, Behold your King!" }, "note": "Conflicts with Mark 15:25 on the hour." },
-    { "id": "john-19-19-20", "citation": "John 19:19-20", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And Pilate wrote a title, and put it on the cross. And the writing was, JESUS OF NAZARETH THE KING OF THE JEWS. This title then read many of the Jews: for the place where Jesus was crucified was nigh to the city: and it was written in Hebrew, and Greek, and Latin." } },
-    { "id": "mark-15-29-30", "citation": "Mark 15:29-30", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And they that passed by railed on him, wagging their heads, and saying, Ah, thou that destroyest the temple, and buildest it in three days, Save thyself, and come down from the cross." } },
-    { "id": "mark-15-31", "citation": "Mark 15:31", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "Likewise also the chief priests mocking said among themselves with the scribes, He saved others; himself he cannot save." } },
-    { "id": "matt-27-40", "citation": "Matthew 27:40", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And saying, Thou that destroyest the temple, and buildest it in three days, save thyself. If thou be the Son of God, come down from the cross." }, "note": "Echoes the wilderness temptation formula of Matthew 4:3." },
-    { "id": "matt-4-3", "citation": "Matthew 4:3", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And when the tempter came to him, he said, If thou be the Son of God, command that these stones be made bread." } },
-    { "id": "luke-23-27", "citation": "Luke 23:27", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And there followed him a great company of people, and of women, which also bewailed and lamented him." } },
-    { "id": "luke-23-34", "citation": "Luke 23:34", "evidence": "textual-variant", "kjv": { "translation": "KJV", "text": "Then said Jesus, Father, forgive them; for they know not what they do. And they parted his raiment, and cast lots." }, "greek": "Πάτερ, ἄφες αὐτοῖς, οὐ γὰρ οἴδασιν τί ποιοῦσιν.", "manuscriptNotes": [
-      "The saying (23:34a) is absent from several early and geographically diverse witnesses, including Papyrus 75 and Codex Vaticanus (B), and from the first hand of Codex Bezae (D).",
-      "It is present in the first hand of Codex Sinaiticus (later deleted by a corrector and then restored) and in Codex Alexandrinus.",
-      "Modern critical editions (Nestle-Aland) print it within double brackets, marking it as very early but probably not part of Luke's original text. Many scholars nonetheless regard it as an authentic early tradition."
-    ] },
-    { "id": "luke-23-35", "citation": "Luke 23:35", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And the people stood beholding. And the rulers also with them derided him, saying, He saved others; let him save himself, if he be Christ, the chosen of God." } },
-    { "id": "luke-23-36", "citation": "Luke 23:36", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And the soldiers also mocked him, coming to him, and offering him vinegar," } },
-    { "id": "luke-23-39", "citation": "Luke 23:39", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And one of the malefactors which were hanged railed on him, saying, If thou be Christ, save thyself and us." } },
-    { "id": "luke-23-42-43", "citation": "Luke 23:42-43", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And he said unto Jesus, Lord, remember me when thou comest into thy kingdom. And Jesus said unto him, Verily I say unto thee, To day shalt thou be with me in paradise." }, "greek": "Ἀμήν σοι λέγω, σήμερον μετ᾽ ἐμοῦ ἔσῃ ἐν τῷ παραδείσῳ.", "note": "Early manuscripts are unpunctuated. Nearly all translations read 'I say to you, today you will be...'; a minority reading attaches 'today' to 'I say'. The comma is an editorial decision." },
-    { "id": "luke-23-44-45", "citation": "Luke 23:44-45", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And it was about the sixth hour, and there was a darkness over all the earth until the ninth hour. And the sun was darkened, and the veil of the temple was rent in the midst." }, "note": "Several early manuscripts read 'the sun's light failed' (tou hēliou eklipontos). A solar eclipse is astronomically impossible at the Passover full moon; the Gospels report the darkness without explaining it." },
-    { "id": "luke-23-46", "citation": "Luke 23:46", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And when Jesus had cried with a loud voice, he said, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost." }, "greek": "Πάτερ, εἰς χεῖράς σου παρατίθεμαι τὸ πνεῦμά μου.", "note": "Quotes Psalm 31:5." },
-    { "id": "luke-23-48", "citation": "Luke 23:48", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And all the people that came together to that sight, beholding the things which were done, smote their breasts, and returned." } },
-    { "id": "mark-15-33", "citation": "Mark 15:33", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And when the sixth hour was come, there was darkness over the whole land until the ninth hour." } },
-    { "id": "mark-15-34", "citation": "Mark 15:34", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And at the ninth hour Jesus cried with a loud voice, saying, Eloi, Eloi, lama sabachthani? which is, being interpreted, My God, my God, why hast thou forsaken me?" }, "greek": "Ελωι ελωι λεμα σαβαχθανι;", "note": "Quotes Psalm 22:1. Manuscripts vary in transliterating the Aramaic; some carry forms closer to Hebrew." },
-    { "id": "matt-27-46", "citation": "Matthew 27:46", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And about the ninth hour Jesus cried with a loud voice, saying, Eli, Eli, lama sabachthani? that is to say, My God, my God, why hast thou forsaken me?" }, "greek": "Ηλι ηλι λεμα σαβαχθανι;", "note": "Matthew's 'Eli' is closer to Hebrew; Mark's 'Eloi' reflects Aramaic." },
-    { "id": "mark-15-35", "citation": "Mark 15:35", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And some of them that stood by, when they heard it, said, Behold, he calleth Elias." } },
-    { "id": "mark-15-36", "citation": "Mark 15:36", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And one ran and filled a spunge full of vinegar, and put it on a reed, and gave him to drink, saying, Let alone; let us see whether Elias will come to take him down." } },
-    { "id": "mark-15-39", "citation": "Mark 15:39", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And when the centurion, which stood over against him, saw that he so cried out, and gave up the ghost, he said, Truly this man was the Son of God." } },
-    { "id": "mark-15-40", "citation": "Mark 15:40", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "There were also women looking on afar off: among whom was Mary Magdalene, and Mary the mother of James the less and of Joses, and Salome;" } },
-    { "id": "john-19-25", "citation": "John 19:25", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "Now there stood by the cross of Jesus his mother, and his mother's sister, Mary the wife of Cleophas, and Mary Magdalene." }, "note": "John places the women by the cross; Mark 15:40 places them at a distance." },
-    { "id": "john-19-26-27", "citation": "John 19:26-27", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "When Jesus therefore saw his mother, and the disciple standing by, whom he loved, he saith unto his mother, Woman, behold thy son! Then saith he to the disciple, Behold thy mother! And from that hour that disciple took her unto his own home." }, "greek": "Γύναι, ἴδε ὁ υἱός σου. ... Ἴδε ἡ μήτηρ σου." },
-    { "id": "john-19-28", "citation": "John 19:28", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "After this, Jesus knowing that all things were now accomplished, that the scripture might be fulfilled, saith, I thirst." }, "greek": "Διψῶ." },
-    { "id": "john-19-29", "citation": "John 19:29", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "Now there was set a vessel full of vinegar: and they filled a spunge with vinegar, and put it upon hyssop, and put it to his mouth." }, "note": "The 'vinegar' is sour wine (oxos), a common soldiers' drink. A conjectural emendation reads 'javelin' (hyssō) for 'hyssop' (hyssōpō); the giver is unnamed in John." },
-    { "id": "john-19-30", "citation": "John 19:30", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "When Jesus therefore had received the vinegar, he said, It is finished: and he bowed his head, and gave up the ghost." }, "greek": "Τετέλεσται." },
-    { "id": "john-19-33-34", "citation": "John 19:33-34", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "But when they came to Jesus, and saw that he was dead already, they brake not his legs: But one of the soldiers with a spear pierced his side, and forthwith came there out blood and water." }, "note": "Some early manuscripts of Matthew 27:49 (including Sinaiticus and Vaticanus) add a spear-piercing before death. The project follows John's chronology: the spear is after death and is only ever witnessed." },
-    { "id": "john-19-35", "citation": "John 19:35", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And he that saw it bare record, and his record is true: and he knoweth that he saith true, that ye might believe." } },
-    { "id": "mark-14-36", "citation": "Mark 14:36", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And he said, Abba, Father, all things are possible unto thee; take away this cup from me: nevertheless not what I will, but what thou wilt." } },
+    {
+      "id": "mark-15-22",
+      "citation": "Mark 15:22",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And they bring him unto the place Golgotha, which is, being interpreted, The place of a skull." }
+    },
+    {
+      "id": "mark-15-25",
+      "citation": "Mark 15:25",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And it was the third hour, and they crucified him." }
+    },
+    {
+      "id": "john-19-14",
+      "citation": "John 19:14",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And it was the preparation of the passover, and about the sixth hour: and he saith unto the Jews, Behold your King!"
+      },
+      "note": "Conflicts with Mark 15:25 on the hour."
+    },
+    {
+      "id": "john-19-19-20",
+      "citation": "John 19:19-20",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And Pilate wrote a title, and put it on the cross. And the writing was, JESUS OF NAZARETH THE KING OF THE JEWS. This title then read many of the Jews: for the place where Jesus was crucified was nigh to the city: and it was written in Hebrew, and Greek, and Latin."
+      }
+    },
+    {
+      "id": "mark-15-29-30",
+      "citation": "Mark 15:29-30",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And they that passed by railed on him, wagging their heads, and saying, Ah, thou that destroyest the temple, and buildest it in three days, Save thyself, and come down from the cross."
+      }
+    },
+    {
+      "id": "mark-15-31",
+      "citation": "Mark 15:31",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Likewise also the chief priests mocking said among themselves with the scribes, He saved others; himself he cannot save."
+      }
+    },
+    {
+      "id": "matt-27-40",
+      "citation": "Matthew 27:40",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And saying, Thou that destroyest the temple, and buildest it in three days, save thyself. If thou be the Son of God, come down from the cross."
+      },
+      "note": "Echoes the wilderness temptation formula of Matthew 4:3."
+    },
+    {
+      "id": "matt-4-3",
+      "citation": "Matthew 4:3",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And when the tempter came to him, he said, If thou be the Son of God, command that these stones be made bread." }
+    },
+    {
+      "id": "luke-23-27",
+      "citation": "Luke 23:27",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And there followed him a great company of people, and of women, which also bewailed and lamented him." }
+    },
+    {
+      "id": "luke-23-34",
+      "citation": "Luke 23:34",
+      "evidence": "textual-variant",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Then said Jesus, Father, forgive them; for they know not what they do. And they parted his raiment, and cast lots."
+      },
+      "greek": "Πάτερ, ἄφες αὐτοῖς, οὐ γὰρ οἴδασιν τί ποιοῦσιν.",
+      "manuscriptNotes": [
+        "The saying (23:34a) is absent from several early and geographically diverse witnesses, including Papyrus 75 and Codex Vaticanus (B), and from the first hand of Codex Bezae (D).",
+        "It is present in the first hand of Codex Sinaiticus (later deleted by a corrector and then restored) and in Codex Alexandrinus.",
+        "Modern critical editions (Nestle-Aland) print it within double brackets, marking it as very early but probably not part of Luke's original text. Many scholars nonetheless regard it as an authentic early tradition."
+      ]
+    },
+    {
+      "id": "luke-23-35",
+      "citation": "Luke 23:35",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And the people stood beholding. And the rulers also with them derided him, saying, He saved others; let him save himself, if he be Christ, the chosen of God."
+      }
+    },
+    {
+      "id": "luke-23-36",
+      "citation": "Luke 23:36",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And the soldiers also mocked him, coming to him, and offering him vinegar," }
+    },
+    {
+      "id": "luke-23-39",
+      "citation": "Luke 23:39",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And one of the malefactors which were hanged railed on him, saying, If thou be Christ, save thyself and us." }
+    },
+    {
+      "id": "luke-23-42-43",
+      "citation": "Luke 23:42-43",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And he said unto Jesus, Lord, remember me when thou comest into thy kingdom. And Jesus said unto him, Verily I say unto thee, To day shalt thou be with me in paradise."
+      },
+      "greek": "Ἀμήν σοι λέγω, σήμερον μετ᾽ ἐμοῦ ἔσῃ ἐν τῷ παραδείσῳ.",
+      "note": "Early manuscripts are unpunctuated. Nearly all translations read 'I say to you, today you will be...'; a minority reading attaches 'today' to 'I say'. The comma is an editorial decision."
+    },
+    {
+      "id": "luke-23-44-45",
+      "citation": "Luke 23:44-45",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And it was about the sixth hour, and there was a darkness over all the earth until the ninth hour. And the sun was darkened, and the veil of the temple was rent in the midst."
+      },
+      "note": "Several early manuscripts read 'the sun's light failed' (tou hēliou eklipontos). A solar eclipse is astronomically impossible at the Passover full moon; the Gospels report the darkness without explaining it."
+    },
+    {
+      "id": "luke-23-46",
+      "citation": "Luke 23:46",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And when Jesus had cried with a loud voice, he said, Father, into thy hands I commend my spirit: and having said thus, he gave up the ghost."
+      },
+      "greek": "Πάτερ, εἰς χεῖράς σου παρατίθεμαι τὸ πνεῦμά μου.",
+      "note": "Quotes Psalm 31:5."
+    },
+    {
+      "id": "luke-23-48",
+      "citation": "Luke 23:48",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And all the people that came together to that sight, beholding the things which were done, smote their breasts, and returned."
+      }
+    },
+    {
+      "id": "mark-15-33",
+      "citation": "Mark 15:33",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And when the sixth hour was come, there was darkness over the whole land until the ninth hour." }
+    },
+    {
+      "id": "mark-15-34",
+      "citation": "Mark 15:34",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And at the ninth hour Jesus cried with a loud voice, saying, Eloi, Eloi, lama sabachthani? which is, being interpreted, My God, my God, why hast thou forsaken me?"
+      },
+      "greek": "Ελωι ελωι λεμα σαβαχθανι;",
+      "note": "Quotes Psalm 22:1. Manuscripts vary in transliterating the Aramaic; some carry forms closer to Hebrew."
+    },
+    {
+      "id": "matt-27-46",
+      "citation": "Matthew 27:46",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And about the ninth hour Jesus cried with a loud voice, saying, Eli, Eli, lama sabachthani? that is to say, My God, my God, why hast thou forsaken me?"
+      },
+      "greek": "Ηλι ηλι λεμα σαβαχθανι;",
+      "note": "Matthew's 'Eli' is closer to Hebrew; Mark's 'Eloi' reflects Aramaic."
+    },
+    {
+      "id": "mark-15-35",
+      "citation": "Mark 15:35",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "And some of them that stood by, when they heard it, said, Behold, he calleth Elias." }
+    },
+    {
+      "id": "mark-15-36",
+      "citation": "Mark 15:36",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And one ran and filled a spunge full of vinegar, and put it on a reed, and gave him to drink, saying, Let alone; let us see whether Elias will come to take him down."
+      }
+    },
+    {
+      "id": "mark-15-39",
+      "citation": "Mark 15:39",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And when the centurion, which stood over against him, saw that he so cried out, and gave up the ghost, he said, Truly this man was the Son of God."
+      }
+    },
+    {
+      "id": "mark-15-40",
+      "citation": "Mark 15:40",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "There were also women looking on afar off: among whom was Mary Magdalene, and Mary the mother of James the less and of Joses, and Salome;"
+      }
+    },
+    {
+      "id": "john-19-25",
+      "citation": "John 19:25",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Now there stood by the cross of Jesus his mother, and his mother's sister, Mary the wife of Cleophas, and Mary Magdalene."
+      },
+      "note": "John places the women by the cross; Mark 15:40 places them at a distance."
+    },
+    {
+      "id": "john-19-26-27",
+      "citation": "John 19:26-27",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "When Jesus therefore saw his mother, and the disciple standing by, whom he loved, he saith unto his mother, Woman, behold thy son! Then saith he to the disciple, Behold thy mother! And from that hour that disciple took her unto his own home."
+      },
+      "greek": "Γύναι, ἴδε ὁ υἱός σου. ... Ἴδε ἡ μήτηρ σου."
+    },
+    {
+      "id": "john-19-28",
+      "citation": "John 19:28",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "After this, Jesus knowing that all things were now accomplished, that the scripture might be fulfilled, saith, I thirst."
+      },
+      "greek": "Διψῶ."
+    },
+    {
+      "id": "john-19-29",
+      "citation": "John 19:29",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Now there was set a vessel full of vinegar: and they filled a spunge with vinegar, and put it upon hyssop, and put it to his mouth."
+      },
+      "note": "The 'vinegar' is sour wine (oxos), a common soldiers' drink. A conjectural emendation reads 'javelin' (hyssō) for 'hyssop' (hyssōpō); the giver is unnamed in John."
+    },
+    {
+      "id": "john-19-30",
+      "citation": "John 19:30",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "When Jesus therefore had received the vinegar, he said, It is finished: and he bowed his head, and gave up the ghost."
+      },
+      "greek": "Τετέλεσται."
+    },
+    {
+      "id": "john-19-33-34",
+      "citation": "John 19:33-34",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "But when they came to Jesus, and saw that he was dead already, they brake not his legs: But one of the soldiers with a spear pierced his side, and forthwith came there out blood and water."
+      },
+      "note": "Some early manuscripts of Matthew 27:49 (including Sinaiticus and Vaticanus) add a spear-piercing before death. The project follows John's chronology: the spear is after death and is only ever witnessed."
+    },
+    {
+      "id": "john-19-35",
+      "citation": "John 19:35",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And he that saw it bare record, and his record is true: and he knoweth that he saith true, that ye might believe."
+      }
+    },
+    {
+      "id": "mark-14-36",
+      "citation": "Mark 14:36",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "And he said, Abba, Father, all things are possible unto thee; take away this cup from me: nevertheless not what I will, but what thou wilt."
+      }
+    },
     { "id": "mark-14-50", "citation": "Mark 14:50", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "And they all forsook him, and fled." } },
-    { "id": "mark-6-3", "citation": "Mark 6:3", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "Is not this the carpenter, the son of Mary, the brother of James, and Joses, and of Juda, and Simon? and are not his sisters here with us? And they were offended at him." } },
-    { "id": "psalm-22-1", "citation": "Psalm 22:1", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "My God, my God, why hast thou forsaken me? why art thou so far from helping me, and from the words of my roaring?" }, "note": "Hebrew scripture quoted in Mark 15:34 and Matthew 27:46. Category 'gospel-text' here means scripture cited by the Gospels." },
-    { "id": "psalm-22-7", "citation": "Psalm 22:7", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "All they that see me laugh me to scorn: they shoot out the lip, they shake the head, saying," } },
-    { "id": "psalm-22-14", "citation": "Psalm 22:14", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "I am poured out like water, and all my bones are out of joint: my heart is like wax; it is melted in the midst of my bowels." } },
-    { "id": "psalm-22-15", "citation": "Psalm 22:15", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "My strength is dried up like a potsherd; and my tongue cleaveth to my jaws; and thou hast brought me into the dust of death." } },
-    { "id": "psalm-13-1", "citation": "Psalm 13:1", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "How long wilt thou forget me, O LORD? for ever? how long wilt thou hide thy face from me?" } },
-    { "id": "psalm-31-5", "citation": "Psalm 31:5", "evidence": "gospel-text", "kjv": { "translation": "KJV", "text": "Into thine hand I commit my spirit: thou hast redeemed me, O LORD God of truth." } }
+    {
+      "id": "mark-6-3",
+      "citation": "Mark 6:3",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "Is not this the carpenter, the son of Mary, the brother of James, and Joses, and of Juda, and Simon? and are not his sisters here with us? And they were offended at him."
+      }
+    },
+    {
+      "id": "psalm-22-1",
+      "citation": "Psalm 22:1",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "My God, my God, why hast thou forsaken me? why art thou so far from helping me, and from the words of my roaring?"
+      },
+      "note": "Hebrew scripture quoted in Mark 15:34 and Matthew 27:46. Category 'gospel-text' here means scripture cited by the Gospels."
+    },
+    {
+      "id": "psalm-22-7",
+      "citation": "Psalm 22:7",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "All they that see me laugh me to scorn: they shoot out the lip, they shake the head, saying," }
+    },
+    {
+      "id": "psalm-22-14",
+      "citation": "Psalm 22:14",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "I am poured out like water, and all my bones are out of joint: my heart is like wax; it is melted in the midst of my bowels."
+      }
+    },
+    {
+      "id": "psalm-22-15",
+      "citation": "Psalm 22:15",
+      "evidence": "gospel-text",
+      "kjv": {
+        "translation": "KJV",
+        "text": "My strength is dried up like a potsherd; and my tongue cleaveth to my jaws; and thou hast brought me into the dust of death."
+      }
+    },
+    {
+      "id": "psalm-13-1",
+      "citation": "Psalm 13:1",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "How long wilt thou forget me, O LORD? for ever? how long wilt thou hide thy face from me?" }
+    },
+    {
+      "id": "psalm-31-5",
+      "citation": "Psalm 31:5",
+      "evidence": "gospel-text",
+      "kjv": { "translation": "KJV", "text": "Into thine hand I commit my spirit: thou hast redeemed me, O LORD God of truth." }
+    }
   ],
   "gazeTargets": [
-    { "id": "crowd", "label": "The crowd below", "stress": "high", "actors": ["passersby", "chief_priests_and_scribes", "onlookers"], "sources": ["mark-15-29-30", "mark-15-31", "luke-23-35"], "evidence": "gospel-text", "note": "Composite of distinct groups; tagged individually in the scene." },
-    { "id": "soldiers", "label": "The execution detail", "stress": "high", "actors": ["soldiers"], "sources": ["luke-23-34", "luke-23-36"], "evidence": "gospel-text" },
-    { "id": "condemned_man", "label": "The condemned man who asks to be remembered", "stress": "medium", "actors": ["condemned_penitent"], "sources": ["luke-23-42-43"], "evidence": "gospel-text" },
-    { "id": "other_condemned", "label": "The condemned man who rails", "stress": "high", "actors": ["condemned_mocking"], "sources": ["luke-23-39"], "evidence": "gospel-text" },
-    { "id": "mary_and_disciple", "label": "His mother and the disciple", "stress": "high", "actors": ["mary_mother", "beloved_disciple", "mary_magdalene", "mary_clopas"], "sources": ["john-19-25", "john-19-26-27"], "evidence": "gospel-text" },
-    { "id": "women_at_distance", "label": "The women watching from afar", "stress": "medium", "actors": ["women_galilee", "mary_magdalene"], "sources": ["mark-15-40"], "evidence": "gospel-text" },
-    { "id": "mourners", "label": "Those who lament", "stress": "medium", "actors": ["mourners"], "sources": ["luke-23-27", "luke-23-48"], "evidence": "gospel-text" },
-    { "id": "soldier_with_sponge", "label": "The man with the sponge", "stress": "medium", "actors": ["soldiers"], "sources": ["mark-15-36", "john-19-29"], "evidence": "historical-inference", "note": "John leaves the giver unnamed; Mark says 'one ran'. A soldier is inferred from Luke 23:36." },
+    {
+      "id": "crowd",
+      "label": "The crowd below",
+      "stress": "high",
+      "actors": ["passersby", "chief_priests_and_scribes", "onlookers"],
+      "sources": ["mark-15-29-30", "mark-15-31", "luke-23-35"],
+      "evidence": "gospel-text",
+      "note": "Composite of distinct groups; tagged individually in the scene."
+    },
+    {
+      "id": "soldiers",
+      "label": "The execution detail",
+      "stress": "high",
+      "actors": ["soldiers"],
+      "sources": ["luke-23-34", "luke-23-36"],
+      "evidence": "gospel-text"
+    },
+    {
+      "id": "condemned_man",
+      "label": "The condemned man who asks to be remembered",
+      "stress": "medium",
+      "actors": ["condemned_penitent"],
+      "sources": ["luke-23-42-43"],
+      "evidence": "gospel-text"
+    },
+    {
+      "id": "other_condemned",
+      "label": "The condemned man who rails",
+      "stress": "high",
+      "actors": ["condemned_mocking"],
+      "sources": ["luke-23-39"],
+      "evidence": "gospel-text"
+    },
+    {
+      "id": "mary_and_disciple",
+      "label": "His mother and the disciple",
+      "stress": "high",
+      "actors": ["mary_mother", "beloved_disciple", "mary_magdalene", "mary_clopas"],
+      "sources": ["john-19-25", "john-19-26-27"],
+      "evidence": "gospel-text"
+    },
+    {
+      "id": "women_at_distance",
+      "label": "The women watching from afar",
+      "stress": "medium",
+      "actors": ["women_galilee", "mary_magdalene"],
+      "sources": ["mark-15-40"],
+      "evidence": "gospel-text"
+    },
+    {
+      "id": "mourners",
+      "label": "Those who lament",
+      "stress": "medium",
+      "actors": ["mourners"],
+      "sources": ["luke-23-27", "luke-23-48"],
+      "evidence": "gospel-text"
+    },
+    {
+      "id": "soldier_with_sponge",
+      "label": "The man with the sponge",
+      "stress": "medium",
+      "actors": ["soldiers"],
+      "sources": ["mark-15-36", "john-19-29"],
+      "evidence": "historical-inference",
+      "note": "John leaves the giver unnamed; Mark says 'one ran'. A soldier is inferred from Luke 23:36."
+    },
     { "id": "centurion", "label": "The centurion", "stress": "medium", "actors": ["centurion"], "sources": ["mark-15-39"], "evidence": "gospel-text" },
     { "id": "titulus", "label": "The title above", "stress": "medium", "actors": [], "sources": ["john-19-19-20"], "evidence": "gospel-text" },
-    { "id": "sky", "label": "The sky", "stress": "low", "actors": [], "sources": ["mark-15-33", "luke-23-44-45"], "evidence": "gospel-text", "note": "Low by default; overridden to extreme during abandonment." },
+    {
+      "id": "sky",
+      "label": "The sky",
+      "stress": "low",
+      "actors": [],
+      "sources": ["mark-15-33", "luke-23-44-45"],
+      "evidence": "gospel-text",
+      "note": "Low by default; overridden to extreme during abandonment."
+    },
     { "id": "horizon", "label": "The distant horizon", "stress": "low", "actors": [], "sources": [], "evidence": "artistic-interpretation" },
-    { "id": "own_hands", "label": "His own hands", "stress": "low", "actors": ["jesus"], "sources": [], "evidence": "artistic-interpretation", "note": "Per spec, low stress. Designer-tunable." },
-    { "id": "ground_below", "label": "The ground", "stress": "high", "actors": [], "sources": [], "evidence": "historical-inference", "note": "Close, not far. See setting notes on cross height." }
+    {
+      "id": "own_hands",
+      "label": "His own hands",
+      "stress": "low",
+      "actors": ["jesus"],
+      "sources": [],
+      "evidence": "artistic-interpretation",
+      "note": "Per spec, low stress. Designer-tunable."
+    },
+    {
+      "id": "ground_below",
+      "label": "The ground",
+      "stress": "high",
+      "actors": [],
+      "sources": [],
+      "evidence": "historical-inference",
+      "note": "Close, not far. See setting notes on cross height."
+    }
   ],
   "witnessVantages": [
     { "id": "centurion", "castId": "centurion", "sourceIds": ["mark-15-39"], "evidence": "gospel-text" },
@@ -136,130 +558,539 @@
     "disclosure": "The Gospels do not record his inner thoughts. Every internal voice in this experience is artistic interpretation. Where a fragment echoes scripture, the overlay names the passage; the echoing itself is invented."
   },
   "fragments": [
-    { "id": "hammer", "kind": "sonic", "category": "sensory-intrusion", "cueId": "sfx.internal.hammer_echo", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0, "durationMs": 2500, "weight": 3, "states": ["elevation", "forgiveness", "paradise"], "targetAffinity": ["soldiers", "own_hands"] },
-    { "id": "weight", "kind": "verbal", "category": "dread", "textKey": "rt.weight", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.1, "durationMs": 2200, "weight": 2, "states": ["elevation", "forgiveness", "paradise", "mother"], "targetAffinity": ["own_hands", "ground_below"] },
-    { "id": "not_yet", "kind": "verbal", "category": "dread", "textKey": "rt.not_yet", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0, "durationMs": 1600, "weight": 1, "states": "*", "targetAffinity": [] },
-    { "id": "next_breath", "kind": "verbal", "category": "dread", "textKey": "rt.next_breath", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.2, "durationMs": 2400, "weight": 1.5, "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"], "targetAffinity": ["sky"] },
-    { "id": "father_collapse", "kind": "verbal", "category": "prayer-collapse", "textKey": "rt.father_collapse", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.2, "durationMs": 1800, "weight": 1.5, "states": "*", "targetAffinity": ["sky"] },
-    { "id": "saved_others", "kind": "verbal", "category": "crowd-echo", "textKey": "rt.saved_others", "evidence": "artistic-interpretation", "anchors": ["mark-15-31", "luke-23-35"], "minIntensity": 0.3, "durationMs": 2600, "weight": 2, "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment"], "targetAffinity": ["crowd"] },
-    { "id": "wagging", "kind": "verbal", "category": "crowd-echo", "textKey": "rt.wagging", "evidence": "artistic-interpretation", "anchors": ["mark-15-29-30"], "minIntensity": 0.35, "durationMs": 2000, "weight": 1.5, "states": ["elevation", "forgiveness", "paradise"], "targetAffinity": ["crowd"] },
-    { "id": "come_down", "kind": "verbal", "category": "accusation", "textKey": "rt.come_down", "evidence": "artistic-interpretation", "anchors": ["matt-27-40", "matt-4-3"], "minIntensity": 0.45, "durationMs": 3000, "weight": 2, "states": ["forgiveness", "paradise", "mother", "abandonment"], "targetAffinity": ["crowd", "soldiers"] },
-    { "id": "laugh_scorn", "kind": "verbal", "category": "scriptural-echo", "textKey": "rt.laugh_scorn", "evidence": "artistic-interpretation", "anchors": ["psalm-22-7"], "minIntensity": 0.4, "durationMs": 2600, "weight": 1.5, "states": ["elevation", "forgiveness", "paradise", "abandonment"], "targetAffinity": ["crowd"] },
-    { "id": "faces", "kind": "verbal", "category": "dread", "textKey": "rt.faces", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.3, "durationMs": 2200, "weight": 1.5, "states": ["elevation", "forgiveness", "paradise", "mother"], "targetAffinity": ["crowd", "mourners"] },
-    { "id": "crowd_internal", "kind": "sonic", "category": "sensory-intrusion", "cueId": "sfx.internal.crowd_smear", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.6, "durationMs": 4000, "weight": 1, "states": ["elevation", "forgiveness", "paradise", "abandonment"], "targetAffinity": ["crowd"] },
-    { "id": "cup", "kind": "verbal", "category": "memory-flash", "textKey": "rt.cup", "evidence": "artistic-interpretation", "anchors": ["mark-14-36"], "minIntensity": 0.25, "durationMs": 2600, "weight": 1, "states": ["elevation", "forgiveness", "mother", "abandonment"], "targetAffinity": ["sky"] },
-    { "id": "fled", "kind": "verbal", "category": "memory-flash", "textKey": "rt.fled", "evidence": "artistic-interpretation", "anchors": ["mark-14-50"], "minIntensity": 0.3, "durationMs": 2000, "weight": 1, "states": ["forgiveness", "mother", "abandonment"], "targetAffinity": ["crowd", "women_at_distance"] },
-    { "id": "workshop", "kind": "verbal", "category": "memory-flash", "textKey": "rt.workshop", "evidence": "artistic-interpretation", "anchors": ["mark-6-3"], "minIntensity": 0.15, "durationMs": 2800, "weight": 1, "states": ["elevation", "forgiveness", "paradise", "completion"], "targetAffinity": ["own_hands"] },
-    { "id": "ground_close", "kind": "verbal", "category": "dread", "textKey": "rt.ground_close", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.3, "durationMs": 2000, "weight": 1, "states": ["elevation", "forgiveness", "paradise"], "targetAffinity": ["ground_below"] },
-    { "id": "poured_out", "kind": "verbal", "category": "scriptural-echo", "textKey": "rt.poured_out", "evidence": "artistic-interpretation", "anchors": ["psalm-22-14"], "minIntensity": 0.5, "durationMs": 2600, "weight": 1, "states": ["forgiveness", "mother", "abandonment", "thirst", "surrender"], "targetAffinity": [] },
-    { "id": "remember_me", "kind": "verbal", "category": "crowd-echo", "textKey": "rt.remember_me", "evidence": "artistic-interpretation", "anchors": ["luke-23-42-43"], "minIntensity": 0.1, "durationMs": 2600, "weight": 2, "states": ["paradise"], "targetAffinity": ["condemned_man"] },
-    { "id": "save_us", "kind": "verbal", "category": "accusation", "textKey": "rt.save_us", "evidence": "artistic-interpretation", "anchors": ["luke-23-39"], "minIntensity": 0.35, "durationMs": 2200, "weight": 1.5, "states": ["forgiveness", "paradise"], "targetAffinity": ["other_condemned"] },
-    { "id": "her_face", "kind": "verbal", "category": "dread", "textKey": "rt.her_face", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.4, "durationMs": 2000, "weight": 2.5, "states": ["mother"], "targetAffinity": ["mary_and_disciple"] },
-    { "id": "where_are_you", "kind": "verbal", "category": "prayer-collapse", "textKey": "rt.where_are_you", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.5, "durationMs": 2000, "weight": 2.5, "states": ["mother", "abandonment", "thirst"], "targetAffinity": ["sky"] },
-    { "id": "how_long", "kind": "verbal", "category": "scriptural-echo", "textKey": "rt.how_long", "evidence": "artistic-interpretation", "anchors": ["psalm-13-1"], "minIntensity": 0.4, "durationMs": 2600, "weight": 2, "states": ["abandonment"], "targetAffinity": ["sky"] },
-    { "id": "dark_coming", "kind": "verbal", "category": "dread", "textKey": "rt.dark_coming", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.3, "durationMs": 2200, "weight": 2, "states": ["mother", "abandonment"], "targetAffinity": ["sky", "horizon"] },
-    { "id": "tongue", "kind": "verbal", "category": "scriptural-echo", "textKey": "rt.tongue", "evidence": "artistic-interpretation", "anchors": ["psalm-22-15"], "minIntensity": 0.3, "durationMs": 2600, "weight": 2, "states": ["abandonment", "thirst"], "targetAffinity": ["soldier_with_sponge"] },
-    { "id": "heartbeat", "kind": "sonic", "category": "sensory-intrusion", "cueId": "sfx.internal.heartbeat", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0.55, "durationMs": 3000, "weight": 1, "states": "*", "targetAffinity": [] },
-    { "id": "quiet_now", "kind": "verbal", "category": "dread", "textKey": "rt.quiet_now", "evidence": "artistic-interpretation", "anchors": [], "minIntensity": 0, "durationMs": 2400, "weight": 2, "states": ["completion", "surrender", "release"], "targetAffinity": ["horizon", "sky"] }
+    {
+      "id": "hammer",
+      "kind": "sonic",
+      "category": "sensory-intrusion",
+      "cueId": "sfx.internal.hammer_echo",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 2500,
+      "weight": 3,
+      "states": ["elevation", "forgiveness", "paradise"],
+      "targetAffinity": ["soldiers", "own_hands"]
+    },
+    {
+      "id": "weight",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.weight",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.1,
+      "durationMs": 2200,
+      "weight": 2,
+      "states": ["elevation", "forgiveness", "paradise", "mother"],
+      "targetAffinity": ["own_hands", "ground_below"]
+    },
+    {
+      "id": "not_yet",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.not_yet",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 1600,
+      "weight": 1,
+      "states": "*",
+      "targetAffinity": []
+    },
+    {
+      "id": "next_breath",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.next_breath",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.2,
+      "durationMs": 2400,
+      "weight": 1.5,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment", "thirst", "completion", "surrender"],
+      "targetAffinity": ["sky"]
+    },
+    {
+      "id": "father_collapse",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.father_collapse",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.2,
+      "durationMs": 1800,
+      "weight": 1.5,
+      "states": "*",
+      "targetAffinity": ["sky"]
+    },
+    {
+      "id": "saved_others",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.saved_others",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-31", "luke-23-35"],
+      "minIntensity": 0.3,
+      "durationMs": 2600,
+      "weight": 2,
+      "states": ["elevation", "forgiveness", "paradise", "mother", "abandonment"],
+      "targetAffinity": ["crowd"]
+    },
+    {
+      "id": "wagging",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.wagging",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-15-29-30"],
+      "minIntensity": 0.35,
+      "durationMs": 2000,
+      "weight": 1.5,
+      "states": ["elevation", "forgiveness", "paradise"],
+      "targetAffinity": ["crowd"]
+    },
+    {
+      "id": "come_down",
+      "kind": "verbal",
+      "category": "accusation",
+      "textKey": "rt.come_down",
+      "evidence": "artistic-interpretation",
+      "anchors": ["matt-27-40", "matt-4-3"],
+      "minIntensity": 0.45,
+      "durationMs": 3000,
+      "weight": 2,
+      "states": ["forgiveness", "paradise", "mother", "abandonment"],
+      "targetAffinity": ["crowd", "soldiers"]
+    },
+    {
+      "id": "laugh_scorn",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.laugh_scorn",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-7"],
+      "minIntensity": 0.4,
+      "durationMs": 2600,
+      "weight": 1.5,
+      "states": ["elevation", "forgiveness", "paradise", "abandonment"],
+      "targetAffinity": ["crowd"]
+    },
+    {
+      "id": "faces",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.faces",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.3,
+      "durationMs": 2200,
+      "weight": 1.5,
+      "states": ["elevation", "forgiveness", "paradise", "mother"],
+      "targetAffinity": ["crowd", "mourners"]
+    },
+    {
+      "id": "crowd_internal",
+      "kind": "sonic",
+      "category": "sensory-intrusion",
+      "cueId": "sfx.internal.crowd_smear",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.6,
+      "durationMs": 4000,
+      "weight": 1,
+      "states": ["elevation", "forgiveness", "paradise", "abandonment"],
+      "targetAffinity": ["crowd"]
+    },
+    {
+      "id": "cup",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.cup",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-14-36"],
+      "minIntensity": 0.25,
+      "durationMs": 2600,
+      "weight": 1,
+      "states": ["elevation", "forgiveness", "mother", "abandonment"],
+      "targetAffinity": ["sky"]
+    },
+    {
+      "id": "fled",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.fled",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-14-50"],
+      "minIntensity": 0.3,
+      "durationMs": 2000,
+      "weight": 1,
+      "states": ["forgiveness", "mother", "abandonment"],
+      "targetAffinity": ["crowd", "women_at_distance"]
+    },
+    {
+      "id": "workshop",
+      "kind": "verbal",
+      "category": "memory-flash",
+      "textKey": "rt.workshop",
+      "evidence": "artistic-interpretation",
+      "anchors": ["mark-6-3"],
+      "minIntensity": 0.15,
+      "durationMs": 2800,
+      "weight": 1,
+      "states": ["elevation", "forgiveness", "paradise", "completion"],
+      "targetAffinity": ["own_hands"]
+    },
+    {
+      "id": "ground_close",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.ground_close",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.3,
+      "durationMs": 2000,
+      "weight": 1,
+      "states": ["elevation", "forgiveness", "paradise"],
+      "targetAffinity": ["ground_below"]
+    },
+    {
+      "id": "poured_out",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.poured_out",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-14"],
+      "minIntensity": 0.5,
+      "durationMs": 2600,
+      "weight": 1,
+      "states": ["forgiveness", "mother", "abandonment", "thirst", "surrender"],
+      "targetAffinity": []
+    },
+    {
+      "id": "remember_me",
+      "kind": "verbal",
+      "category": "crowd-echo",
+      "textKey": "rt.remember_me",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-42-43"],
+      "minIntensity": 0.1,
+      "durationMs": 2600,
+      "weight": 2,
+      "states": ["paradise"],
+      "targetAffinity": ["condemned_man"]
+    },
+    {
+      "id": "save_us",
+      "kind": "verbal",
+      "category": "accusation",
+      "textKey": "rt.save_us",
+      "evidence": "artistic-interpretation",
+      "anchors": ["luke-23-39"],
+      "minIntensity": 0.35,
+      "durationMs": 2200,
+      "weight": 1.5,
+      "states": ["forgiveness", "paradise"],
+      "targetAffinity": ["other_condemned"]
+    },
+    {
+      "id": "her_face",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.her_face",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.4,
+      "durationMs": 2000,
+      "weight": 2.5,
+      "states": ["mother"],
+      "targetAffinity": ["mary_and_disciple"]
+    },
+    {
+      "id": "where_are_you",
+      "kind": "verbal",
+      "category": "prayer-collapse",
+      "textKey": "rt.where_are_you",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.5,
+      "durationMs": 2000,
+      "weight": 2.5,
+      "states": ["mother", "abandonment", "thirst"],
+      "targetAffinity": ["sky"]
+    },
+    {
+      "id": "how_long",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.how_long",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-13-1"],
+      "minIntensity": 0.4,
+      "durationMs": 2600,
+      "weight": 2,
+      "states": ["abandonment"],
+      "targetAffinity": ["sky"]
+    },
+    {
+      "id": "dark_coming",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.dark_coming",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.3,
+      "durationMs": 2200,
+      "weight": 2,
+      "states": ["mother", "abandonment"],
+      "targetAffinity": ["sky", "horizon"]
+    },
+    {
+      "id": "tongue",
+      "kind": "verbal",
+      "category": "scriptural-echo",
+      "textKey": "rt.tongue",
+      "evidence": "artistic-interpretation",
+      "anchors": ["psalm-22-15"],
+      "minIntensity": 0.3,
+      "durationMs": 2600,
+      "weight": 2,
+      "states": ["abandonment", "thirst"],
+      "targetAffinity": ["soldier_with_sponge"]
+    },
+    {
+      "id": "heartbeat",
+      "kind": "sonic",
+      "category": "sensory-intrusion",
+      "cueId": "sfx.internal.heartbeat",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0.55,
+      "durationMs": 3000,
+      "weight": 1,
+      "states": "*",
+      "targetAffinity": []
+    },
+    {
+      "id": "quiet_now",
+      "kind": "verbal",
+      "category": "dread",
+      "textKey": "rt.quiet_now",
+      "evidence": "artistic-interpretation",
+      "anchors": [],
+      "minIntensity": 0,
+      "durationMs": 2400,
+      "weight": 2,
+      "states": ["completion", "surrender", "release"],
+      "targetAffinity": ["horizon", "sky"]
+    }
   ],
   "timeline": [
     {
-      "id": "threshold", "kind": "gate", "label": "Threshold", "sourceIds": [], "evidence": "artistic-interpretation",
+      "id": "threshold",
+      "kind": "gate",
+      "label": "Threshold",
+      "sourceIds": [],
+      "evidence": "artistic-interpretation",
       "timing": {},
       "rt": { "floor": 0, "ceiling": 0, "tauUpMs": 1000, "tauDownMs": 1000, "utteranceDuck": 1, "postUtteranceFloorBoost": 0, "entryImpulse": 0 },
-      "stressOverrides": {}, "allowEmbodiment": true,
-      "notes": ["Informed consent gate: content advisory, intensity ceiling, comfort and exit controls, internal-monologue disclosure. The only state that waits on the player."]
+      "stressOverrides": {},
+      "allowEmbodiment": true,
+      "notes": [
+        "Informed consent gate: content advisory, intensity ceiling, comfort and exit controls, internal-monologue disclosure. The only state that waits on the player."
+      ]
     },
     {
-      "id": "elevation", "kind": "elevation", "label": "Elevation", "sourceIds": ["mark-15-25", "luke-23-34"], "evidence": "historical-inference",
+      "id": "elevation",
+      "kind": "elevation",
+      "label": "Elevation",
+      "sourceIds": ["mark-15-25", "luke-23-34"],
+      "evidence": "historical-inference",
       "timing": { "raisingMs": 9000, "settledMs": 12000 },
       "rt": { "floor": 0.3, "ceiling": 0.9, "tauUpMs": 1500, "tauDownMs": 7000, "utteranceDuck": 1, "postUtteranceFloorBoost": 0, "entryImpulse": 0.65 },
-      "stressOverrides": {}, "allowEmbodiment": true,
-      "atmosphere": { "sunIlluminanceLux": 55000, "skyCctK": 5200, "aerosolOpticalDepth": 0.25, "evidence": "historical-inference", "note": "Third hour (c. 09:00) per Mark 15:25." },
-      "notes": ["The raising itself is not narrated in the Gospels; staging is historical inference.", "Camera never rotates the player's view in Comfort or Reduced Effects; the world tilt is replaced by a fade-through and settle."]
+      "stressOverrides": {},
+      "allowEmbodiment": true,
+      "atmosphere": {
+        "sunIlluminanceLux": 55000,
+        "skyCctK": 5200,
+        "aerosolOpticalDepth": 0.25,
+        "evidence": "historical-inference",
+        "note": "Third hour (c. 09:00) per Mark 15:25."
+      },
+      "notes": [
+        "The raising itself is not narrated in the Gospels; staging is historical inference.",
+        "Camera never rotates the player's view in Comfort or Reduced Effects; the world tilt is replaced by a fade-through and settle."
+      ]
     },
     {
-      "id": "forgiveness", "kind": "saying", "label": "Forgiveness", "sourceIds": ["luke-23-34"], "evidence": "textual-variant",
+      "id": "forgiveness",
+      "kind": "saying",
+      "label": "Forgiveness",
+      "sourceIds": ["luke-23-34"],
+      "evidence": "textual-variant",
       "timing": { "approachMinMs": 8000, "approachAutoMs": 45000, "utteranceMs": 6000, "resonanceMs": 12000 },
       "rt": { "floor": 0.3, "ceiling": 0.95, "tauUpMs": 1400, "tauDownMs": 8000, "utteranceDuck": 0.6, "postUtteranceFloorBoost": 0.05, "entryImpulse": 0 },
-      "stressOverrides": { "crowd": "high" }, "allowEmbodiment": true,
+      "stressOverrides": { "crowd": "high" },
+      "allowEmbodiment": true,
       "atmosphere": { "sunIlluminanceLux": 70000, "skyCctK": 5400, "aerosolOpticalDepth": 0.25, "evidence": "artistic-interpretation" },
       "saying": {
-        "id": "forgiveness", "theme": "Mercy offered through fracture",
-        "sources": ["Luke 23:34"], "sourceIds": ["luke-23-34"], "evidence": "textual-variant",
-        "dialogueKey": "passion.forgiveness", "gazeTarget": "crowd", "stressLevel": "high",
+        "id": "forgiveness",
+        "theme": "Mercy offered through fracture",
+        "sources": ["Luke 23:34"],
+        "sourceIds": ["luke-23-34"],
+        "evidence": "textual-variant",
+        "dialogueKey": "passion.forgiveness",
+        "gazeTarget": "crowd",
+        "stressLevel": "high",
         "historicalCue": "Soldiers and spectators below; the soldiers divide the garments (Luke 23:34b)",
         "theologicalCue": "Cold light connecting separated figures",
         "sourceNote": "Absent from some early manuscripts (P75, Codex Vaticanus); bracketed in critical editions",
         "psychologicalNote": "Gaze on the crowd spikes the internal storm. The words of forgiveness arrive as if dissociated from it; the line is ducked against the noise but never fully clear of it.",
-        "pronunciation": { "greek": "Πάτερ, ἄφες αὐτοῖς, οὐ γὰρ οἴδασιν τί ποιοῦσιν.", "greekTranslit": "Páter, áphes autoîs; ou gàr oídasin tí poioûsin.", "evidence": "historical-inference", "note": "Luke preserves Greek. Jesus most likely spoke Aramaic; no Aramaic form is recorded for this saying." },
+        "pronunciation": {
+          "greek": "Πάτερ, ἄφες αὐτοῖς, οὐ γὰρ οἴδασιν τί ποιοῦσιν.",
+          "greekTranslit": "Páter, áphes autoîs; ou gàr oídasin tí poioûsin.",
+          "evidence": "historical-inference",
+          "note": "Luke preserves Greek. Jesus most likely spoke Aramaic; no Aramaic form is recorded for this saying."
+        },
         "attestation": "Luke only."
       }
     },
     {
-      "id": "paradise", "kind": "saying", "label": "Paradise", "sourceIds": ["luke-23-39", "luke-23-42-43"], "evidence": "gospel-text",
+      "id": "paradise",
+      "kind": "saying",
+      "label": "Paradise",
+      "sourceIds": ["luke-23-39", "luke-23-42-43"],
+      "evidence": "gospel-text",
       "timing": { "approachMinMs": 8000, "approachAutoMs": 45000, "utteranceMs": 6000, "resonanceMs": 12000 },
       "rt": { "floor": 0.28, "ceiling": 0.85, "tauUpMs": 1500, "tauDownMs": 7000, "utteranceDuck": 0.6, "postUtteranceFloorBoost": 0.05, "entryImpulse": 0 },
-      "stressOverrides": { "condemned_man": "relief" }, "allowEmbodiment": true,
-      "atmosphere": { "sunIlluminanceLux": 80000, "skyCctK": 5500, "aerosolOpticalDepth": 0.3, "evidence": "artistic-interpretation", "note": "Luke places this before the darkness (23:44)." },
+      "stressOverrides": { "condemned_man": "relief" },
+      "allowEmbodiment": true,
+      "atmosphere": {
+        "sunIlluminanceLux": 80000,
+        "skyCctK": 5500,
+        "aerosolOpticalDepth": 0.3,
+        "evidence": "artistic-interpretation",
+        "note": "Luke places this before the darkness (23:44)."
+      },
       "saying": {
-        "id": "paradise", "theme": "A desperate offer of company in the dark",
-        "sources": ["Luke 23:43"], "sourceIds": ["luke-23-42-43"], "evidence": "gospel-text",
-        "dialogueKey": "passion.paradise", "gazeTarget": "condemned_man", "stressLevel": "relief",
+        "id": "paradise",
+        "theme": "A desperate offer of company in the dark",
+        "sources": ["Luke 23:43"],
+        "sourceIds": ["luke-23-42-43"],
+        "evidence": "gospel-text",
+        "dialogueKey": "passion.paradise",
+        "gazeTarget": "condemned_man",
+        "stressLevel": "relief",
         "historicalCue": "Two condemned men, one railing (23:39), one asking to be remembered (23:42)",
         "theologicalCue": "A single thread of light between two crosses",
         "sourceNote": "Unpunctuated manuscripts: the placement of 'today' is editorial",
         "psychologicalNote": "Sustained gaze on the penitent condemned man lowers the storm: a fragile moment of shared fate. Looking at the railing man raises it.",
-        "pronunciation": { "greek": "Ἀμήν σοι λέγω, σήμερον μετ᾽ ἐμοῦ ἔσῃ ἐν τῷ παραδείσῳ.", "greekTranslit": "Amḗn soi légō, sḗmeron met' emoû ésē en tō paradeísō.", "evidence": "historical-inference" },
+        "pronunciation": {
+          "greek": "Ἀμήν σοι λέγω, σήμερον μετ᾽ ἐμοῦ ἔσῃ ἐν τῷ παραδείσῳ.",
+          "greekTranslit": "Amḗn soi légō, sḗmeron met' emoû ésē en tō paradeísō.",
+          "evidence": "historical-inference"
+        },
         "attestation": "Luke only."
       }
     },
     {
-      "id": "mother", "kind": "saying", "label": "Mother", "sourceIds": ["john-19-25", "john-19-26-27"], "evidence": "gospel-text",
+      "id": "mother",
+      "kind": "saying",
+      "label": "Mother",
+      "sourceIds": ["john-19-25", "john-19-26-27"],
+      "evidence": "gospel-text",
       "timing": { "approachMinMs": 8000, "approachAutoMs": 45000, "utteranceMs": 7000, "resonanceMs": 14000 },
       "rt": { "floor": 0.35, "ceiling": 1, "tauUpMs": 1200, "tauDownMs": 9000, "utteranceDuck": 0.55, "postUtteranceFloorBoost": 0.1, "entryImpulse": 0 },
-      "stressOverrides": { "mary_and_disciple": "extreme" }, "allowEmbodiment": true,
-      "atmosphere": { "sunIlluminanceLux": 30000, "skyCctK": 4800, "aerosolOpticalDepth": 1.2, "evidence": "artistic-interpretation", "note": "Onset of darkness at the sixth hour (Mark 15:33). John does not time this saying." },
+      "stressOverrides": { "mary_and_disciple": "extreme" },
+      "allowEmbodiment": true,
+      "atmosphere": {
+        "sunIlluminanceLux": 30000,
+        "skyCctK": 4800,
+        "aerosolOpticalDepth": 1.2,
+        "evidence": "artistic-interpretation",
+        "note": "Onset of darkness at the sixth hour (Mark 15:33). John does not time this saying."
+      },
       "saying": {
-        "id": "mother", "theme": "The unbearable weight of being seen by the people who love you",
-        "sources": ["John 19:26-27"], "sourceIds": ["john-19-26-27"], "evidence": "gospel-text",
-        "dialogueKey": "passion.mother", "gazeTarget": "mary_and_disciple", "stressLevel": "extreme",
+        "id": "mother",
+        "theme": "The unbearable weight of being seen by the people who love you",
+        "sources": ["John 19:26-27"],
+        "sourceIds": ["john-19-26-27"],
+        "evidence": "gospel-text",
+        "dialogueKey": "passion.mother",
+        "gazeTarget": "mary_and_disciple",
+        "stressLevel": "extreme",
         "historicalCue": "His mother, her sister, Mary of Clopas and Mary Magdalene stand by the cross (John 19:25)",
         "theologicalCue": "A bond handed across, light passing from one figure to the other",
         "sourceNote": "John places the women by the cross; Mark places them afar off",
         "psychologicalNote": "Looking at Mary produces the most intimate and devastating fragments in the episode.",
-        "pronunciation": { "greek": "Γύναι, ἴδε ὁ υἱός σου. ... Ἴδε ἡ μήτηρ σου.", "greekTranslit": "Gýnai, íde ho huiós sou. ... Íde hē mḗtēr sou.", "evidence": "historical-inference" },
+        "pronunciation": {
+          "greek": "Γύναι, ἴδε ὁ υἱός σου. ... Ἴδε ἡ μήτηρ σου.",
+          "greekTranslit": "Gýnai, íde ho huiós sou. ... Íde hē mḗtēr sou.",
+          "evidence": "historical-inference"
+        },
         "attestation": "John only."
       }
     },
     {
-      "id": "abandonment", "kind": "saying", "label": "Abandonment", "sourceIds": ["mark-15-33", "mark-15-34", "matt-27-46", "mark-15-35", "psalm-22-1"], "evidence": "gospel-text",
+      "id": "abandonment",
+      "kind": "saying",
+      "label": "Abandonment",
+      "sourceIds": ["mark-15-33", "mark-15-34", "matt-27-46", "mark-15-35", "psalm-22-1"],
+      "evidence": "gospel-text",
       "timing": { "approachMinMs": 8000, "approachAutoMs": 45000, "utteranceMs": 7000, "resonanceMs": 15000 },
       "rt": { "floor": 0.55, "ceiling": 1, "tauUpMs": 900, "tauDownMs": 10000, "utteranceDuck": 0.75, "postUtteranceFloorBoost": 0.1, "entryImpulse": 0.7 },
-      "stressOverrides": { "sky": "extreme" }, "allowEmbodiment": true,
-      "atmosphere": { "sunIlluminanceLux": 400, "skyCctK": 3600, "aerosolOpticalDepth": 4.0, "evidence": "artistic-interpretation", "note": "Deepest darkness; the cry is at the ninth hour. Rendered as scattering and extinction, never a fade to black." },
+      "stressOverrides": { "sky": "extreme" },
+      "allowEmbodiment": true,
+      "atmosphere": {
+        "sunIlluminanceLux": 400,
+        "skyCctK": 3600,
+        "aerosolOpticalDepth": 4,
+        "evidence": "artistic-interpretation",
+        "note": "Deepest darkness; the cry is at the ninth hour. Rendered as scattering and extinction, never a fade to black."
+      },
       "saying": {
-        "id": "abandonment", "theme": "The terror that the Father has left",
-        "sources": ["Matthew 27:46", "Mark 15:34"], "sourceIds": ["matt-27-46", "mark-15-34"], "evidence": "gospel-text",
-        "dialogueKey": "passion.abandonment", "gazeTarget": "sky", "stressLevel": "extreme",
+        "id": "abandonment",
+        "theme": "The terror that the Father has left",
+        "sources": ["Matthew 27:46", "Mark 15:34"],
+        "sourceIds": ["matt-27-46", "mark-15-34"],
+        "evidence": "gospel-text",
+        "dialogueKey": "passion.abandonment",
+        "gazeTarget": "sky",
+        "stressLevel": "extreme",
         "historicalCue": "Bystanders mishear the cry as a call to Elijah (Mark 15:35)",
         "theologicalCue": "Sensory reduction: the light structure withdraws, leaving vast cold space",
         "sourceNote": "A quotation of Psalm 22:1; Matthew reads 'Eli', Mark 'Eloi'",
         "psychologicalNote": "Peak intensity. The darkness outside mirrors the noise inside. The cry is spoken through the storm, barely ducked.",
-        "pronunciation": { "greek": "Ελωι ελωι λεμα σαβαχθανι;", "greekTranslit": "Elōi elōi lema sabachthani", "aramaicReconstruction": "אֱלָהִי אֱלָהִי לְמָה שְׁבַקְתַּנִי", "aramaicTranslit": "Elahi, Elahi, lema shevaqtani", "evidence": "historical-inference", "note": "The only saying the Gospels preserve in Aramaic. Mark's Greek transliterates Aramaic; Matthew's 'Eli' is closer to Hebrew. Vowel reconstruction is approximate." },
+        "pronunciation": {
+          "greek": "Ελωι ελωι λεμα σαβαχθανι;",
+          "greekTranslit": "Elōi elōi lema sabachthani",
+          "aramaicReconstruction": "אֱלָהִי אֱלָהִי לְמָה שְׁבַקְתַּנִי",
+          "aramaicTranslit": "Elahi, Elahi, lema shevaqtani",
+          "evidence": "historical-inference",
+          "note": "The only saying the Gospels preserve in Aramaic. Mark's Greek transliterates Aramaic; Matthew's 'Eli' is closer to Hebrew. Vowel reconstruction is approximate."
+        },
         "attestation": "Mark and Matthew (their only recorded saying from the cross)."
       }
     },
     {
-      "id": "thirst", "kind": "saying", "label": "Thirst", "sourceIds": ["john-19-28", "john-19-29", "mark-15-36", "psalm-22-15"], "evidence": "gospel-text",
+      "id": "thirst",
+      "kind": "saying",
+      "label": "Thirst",
+      "sourceIds": ["john-19-28", "john-19-29", "mark-15-36", "psalm-22-15"],
+      "evidence": "gospel-text",
       "timing": { "approachMinMs": 6000, "approachAutoMs": 35000, "utteranceMs": 3000, "resonanceMs": 10000 },
       "rt": { "floor": 0.4, "ceiling": 0.9, "tauUpMs": 1200, "tauDownMs": 8000, "utteranceDuck": 0.12, "postUtteranceFloorBoost": 0.2, "entryImpulse": 0 },
-      "stressOverrides": { "soldier_with_sponge": "medium" }, "allowEmbodiment": true,
-      "atmosphere": { "sunIlluminanceLux": 1500, "skyCctK": 3900, "aerosolOpticalDepth": 3.0, "evidence": "artistic-interpretation" },
+      "stressOverrides": { "soldier_with_sponge": "medium" },
+      "allowEmbodiment": true,
+      "atmosphere": { "sunIlluminanceLux": 1500, "skyCctK": 3900, "aerosolOpticalDepth": 3, "evidence": "artistic-interpretation" },
       "saying": {
-        "id": "thirst", "theme": "The body asserting itself with humiliating urgency",
-        "sources": ["John 19:28"], "sourceIds": ["john-19-28"], "evidence": "gospel-text",
-        "dialogueKey": "passion.thirst", "gazeTarget": "soldier_with_sponge", "stressLevel": "medium",
+        "id": "thirst",
+        "theme": "The body asserting itself with humiliating urgency",
+        "sources": ["John 19:28"],
+        "sourceIds": ["john-19-28"],
+        "evidence": "gospel-text",
+        "dialogueKey": "passion.thirst",
+        "gazeTarget": "soldier_with_sponge",
+        "stressLevel": "medium",
         "historicalCue": "Sour wine (oxos) on a sponge, raised on hyssop (John) or a reed (Mark)",
         "theologicalCue": "A single point of contact, cold and precise",
         "sourceNote": "John frames the saying as fulfilling scripture (cf. Psalm 22:15, 69:21)",
@@ -269,15 +1100,25 @@
       }
     },
     {
-      "id": "completion", "kind": "saying", "label": "Completion", "sourceIds": ["john-19-30"], "evidence": "gospel-text",
+      "id": "completion",
+      "kind": "saying",
+      "label": "Completion",
+      "sourceIds": ["john-19-30"],
+      "evidence": "gospel-text",
       "timing": { "approachMinMs": 6000, "approachAutoMs": 35000, "utteranceMs": 3000, "resonanceMs": 12000 },
       "rt": { "floor": 0.2, "ceiling": 0.55, "tauUpMs": 3000, "tauDownMs": 5000, "utteranceDuck": 0.3, "postUtteranceFloorBoost": 0, "entryImpulse": 0 },
-      "stressOverrides": { "horizon": "low" }, "allowEmbodiment": true,
+      "stressOverrides": { "horizon": "low" },
+      "allowEmbodiment": true,
       "atmosphere": { "sunIlluminanceLux": 4000, "skyCctK": 4200, "aerosolOpticalDepth": 2.2, "evidence": "artistic-interpretation" },
       "saying": {
-        "id": "completion", "theme": "A final statement made through the storm",
-        "sources": ["John 19:30"], "sourceIds": ["john-19-30"], "evidence": "gospel-text",
-        "dialogueKey": "passion.completion", "gazeTarget": "horizon", "stressLevel": "low",
+        "id": "completion",
+        "theme": "A final statement made through the storm",
+        "sources": ["John 19:30"],
+        "sourceIds": ["john-19-30"],
+        "evidence": "gospel-text",
+        "dialogueKey": "passion.completion",
+        "gazeTarget": "horizon",
+        "stressLevel": "low",
         "historicalCue": "In John, this is the last word before death",
         "theologicalCue": "Geometry resolving: open intervals closing",
         "sourceNote": "In John this is the final saying; the traditional order places Luke's surrender after it",
@@ -287,44 +1128,97 @@
       }
     },
     {
-      "id": "surrender", "kind": "saying", "label": "Surrender", "sourceIds": ["luke-23-46", "psalm-31-5"], "evidence": "gospel-text",
+      "id": "surrender",
+      "kind": "saying",
+      "label": "Surrender",
+      "sourceIds": ["luke-23-46", "psalm-31-5"],
+      "evidence": "gospel-text",
       "timing": { "approachMinMs": 6000, "approachAutoMs": 35000, "utteranceMs": 6000, "resonanceMs": 20000 },
-      "rt": { "floor": 0.3, "ceiling": 0.8, "ceilingEnd": 0.05, "tauUpMs": 1500, "tauDownMs": 6000, "utteranceDuck": 0.5, "postUtteranceFloorBoost": 0, "entryImpulse": 0 },
-      "stressOverrides": { "sky": "medium" }, "allowEmbodiment": true,
+      "rt": {
+        "floor": 0.3,
+        "ceiling": 0.8,
+        "ceilingEnd": 0.05,
+        "tauUpMs": 1500,
+        "tauDownMs": 6000,
+        "utteranceDuck": 0.5,
+        "postUtteranceFloorBoost": 0,
+        "entryImpulse": 0
+      },
+      "stressOverrides": { "sky": "medium" },
+      "allowEmbodiment": true,
       "atmosphere": { "sunIlluminanceLux": 2500, "skyCctK": 4000, "aerosolOpticalDepth": 2.6, "evidence": "artistic-interpretation" },
       "saying": {
-        "id": "surrender", "theme": "Letting go while the mind is still screaming",
-        "sources": ["Luke 23:46"], "sourceIds": ["luke-23-46"], "evidence": "gospel-text",
-        "dialogueKey": "passion.surrender", "gazeTarget": "sky", "stressLevel": "medium",
+        "id": "surrender",
+        "theme": "Letting go while the mind is still screaming",
+        "sources": ["Luke 23:46"],
+        "sourceIds": ["luke-23-46"],
+        "evidence": "gospel-text",
+        "dialogueKey": "passion.surrender",
+        "gazeTarget": "sky",
+        "stressLevel": "medium",
         "historicalCue": "In Luke, the final words; the centurion's response follows (Mark 15:39, Luke 23:47)",
         "theologicalCue": "Release: structure dissolving into an indifferent, enormous quiet",
         "sourceNote": "A quotation of Psalm 31:5",
         "psychologicalNote": "The monologue does not go quiet gracefully. The ceiling falls across the state; fragments fray, thin, and end in a silence that should feel shocking.",
-        "pronunciation": { "greek": "Πάτερ, εἰς χεῖράς σου παρατίθεμαι τὸ πνεῦμά μου.", "greekTranslit": "Páter, eis cheîrás sou paratíthemai tò pneûmá mou.", "evidence": "historical-inference" },
+        "pronunciation": {
+          "greek": "Πάτερ, εἰς χεῖράς σου παρατίθεμαι τὸ πνεῦμά μου.",
+          "greekTranslit": "Páter, eis cheîrás sou paratíthemai tò pneûmá mou.",
+          "evidence": "historical-inference"
+        },
         "attestation": "Luke only."
       }
     },
     {
-      "id": "release", "kind": "timed", "label": "Release", "sourceIds": ["luke-23-46", "john-19-30", "mark-15-39"], "evidence": "artistic-interpretation",
+      "id": "release",
+      "kind": "timed",
+      "label": "Release",
+      "sourceIds": ["luke-23-46", "john-19-30", "mark-15-39"],
+      "evidence": "artistic-interpretation",
       "timing": { "runningMs": 15000 },
-      "rt": { "floor": 0, "ceiling": 0.25, "ceilingEnd": 0, "tauUpMs": 2000, "tauDownMs": 3000, "utteranceDuck": 1, "postUtteranceFloorBoost": 0, "entryImpulse": 0 },
-      "stressOverrides": {}, "allowEmbodiment": false, "forcedMode": "witness",
+      "rt": {
+        "floor": 0,
+        "ceiling": 0.25,
+        "ceilingEnd": 0,
+        "tauUpMs": 2000,
+        "tauDownMs": 3000,
+        "utteranceDuck": 1,
+        "postUtteranceFloorBoost": 0,
+        "entryImpulse": 0
+      },
+      "stressOverrides": {},
+      "allowEmbodiment": false,
+      "forcedMode": "witness",
       "atmosphere": { "sunIlluminanceLux": 3000, "skyCctK": 4100, "aerosolOpticalDepth": 2.4, "evidence": "artistic-interpretation" },
-      "notes": ["Death has occurred. The embodied view fades out and the player is moved to Witness. Any residual echo is the player's own mind catching up, never a depicted post-death sensation."]
+      "notes": [
+        "Death has occurred. The embodied view fades out and the player is moved to Witness. Any residual echo is the player's own mind catching up, never a depicted post-death sensation."
+      ]
     },
     {
-      "id": "spear", "kind": "timed", "label": "The Spear", "sourceIds": ["john-19-33-34", "john-19-35"], "evidence": "gospel-text",
+      "id": "spear",
+      "kind": "timed",
+      "label": "The Spear",
+      "sourceIds": ["john-19-33-34", "john-19-35"],
+      "evidence": "gospel-text",
       "timing": { "runningMs": 25000 },
       "rt": { "floor": 0, "ceiling": 0, "tauUpMs": 1000, "tauDownMs": 2000, "utteranceDuck": 1, "postUtteranceFloorBoost": 0, "entryImpulse": 0 },
-      "stressOverrides": {}, "allowEmbodiment": false, "forcedMode": "witness", "forcedVantage": "beloved_disciple",
+      "stressOverrides": {},
+      "allowEmbodiment": false,
+      "forcedMode": "witness",
+      "forcedVantage": "beloved_disciple",
       "atmosphere": { "sunIlluminanceLux": 8000, "skyCctK": 4500, "aerosolOpticalDepth": 1.6, "evidence": "artistic-interpretation" },
       "notes": ["Witnessed from the beloved disciple's vantage, matching John 19:35. Shown at a distance; no wound close-up."]
     },
     {
-      "id": "contemplation", "kind": "terminal", "label": "Contemplation", "sourceIds": [], "evidence": "artistic-interpretation",
+      "id": "contemplation",
+      "kind": "terminal",
+      "label": "Contemplation",
+      "sourceIds": [],
+      "evidence": "artistic-interpretation",
       "timing": {},
       "rt": { "floor": 0, "ceiling": 0, "tauUpMs": 1000, "tauDownMs": 2000, "utteranceDuck": 1, "postUtteranceFloorBoost": 0, "entryImpulse": 0 },
-      "stressOverrides": {}, "allowEmbodiment": false, "forcedMode": "witness",
+      "stressOverrides": {},
+      "allowEmbodiment": false,
+      "forcedMode": "witness",
       "atmosphere": { "sunIlluminanceLux": 12000, "skyCctK": 4700, "aerosolOpticalDepth": 1.2, "evidence": "artistic-interpretation" },
       "notes": ["Open-ended quiet. Player may stay, change vantage, open the evidence archive, or exit."]
     }

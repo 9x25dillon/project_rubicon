@@ -6,7 +6,6 @@
   "passion.thirst": "I thirst.",
   "passion.completion": "It is finished.",
   "passion.surrender": "Father, into thy hands I commend my spirit.",
-
   "rt.weight": "the weight. all of it, on the hands.",
   "rt.not_yet": "not yet. not yet.",
   "rt.next_breath": "the next breath. then the one after that.",
@@ -29,15 +28,12 @@
   "rt.dark_coming": "the dark is coming in.",
   "rt.tongue": "my tongue cleaveth to my jaws.",
   "rt.quiet_now": "quiet now. almost.",
-
   "ui.advisory.title": "Before you begin",
   "ui.advisory.body": "This experience places you in the first-person perspective of Jesus during the crucifixion. It depicts public execution and includes an intrusive internal-voice system designed to simulate a mind under extreme duress. Physical harm is suggested, never shown in graphic detail, and nothing here uses pain haptics. Every internal voice is artistic interpretation; the Gospels do not record his thoughts. At any moment you can Pause, Exit, turn on Comfort Mode (the internal voices drop to near silence), or step into Witness Mode and stand a few feet away. You can set a ceiling on the internal-voice intensity now and change it at any time.",
-
   "ui.evidence.gospel-text": "Gospel text",
   "ui.evidence.textual-variant": "Textual variant",
   "ui.evidence.historical-inference": "Historical inference",
   "ui.evidence.artistic-interpretation": "Artistic interpretation",
-
   "ui.mode.embodiment": "Embodiment",
   "ui.mode.witness": "Witness",
   "ui.layer.historical": "Historical reconstruction",
